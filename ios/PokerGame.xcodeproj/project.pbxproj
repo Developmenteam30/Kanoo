@@ -11,9 +11,15 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		1ED816531BD64A3D8470F305 /* roboto-300.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 110C9BF37E31416FBC79C2C8 /* roboto-300.ttf */; };
 		24CF26244246A53ED694EA07 /* libPods-PokerGame.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F343442DDC34474570715EA4 /* libPods-PokerGame.a */; };
+		42287A18B8FD41B3B9655D5D /* roboto-100.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CBBD43B6BA654241886E608D /* roboto-100.ttf */; };
+		660944D2ED53453E911DB71A /* roboto-regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8BA237F8FC1B47429CA7D2D3 /* roboto-regular.ttf */; };
+		748EC5B8D11B4618B5E73C79 /* roboto-900.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6F268E84542A469C9579BD5E /* roboto-900.ttf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		9F88853E770B443388B9CC4E /* roboto-700.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 95BE9F75778942AAB0222BDB /* roboto-700.ttf */; };
 		E4153938DBC9798AE5943BB7 /* libPods-PokerGame-PokerGameTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5786A3DE4F4ECA567E854E52 /* libPods-PokerGame-PokerGameTests.a */; };
+		E5B90726720B40ED8003FC1D /* roboto-500.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8D90997703B1412384A655AE /* roboto-500.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,19 +37,41 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* PokerGameTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PokerGameTests.m; sourceTree = "<group>"; };
 		072AAEBA7F0B50E80C45DC4B /* Pods-PokerGame.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PokerGame.release.xcconfig"; path = "Target Support Files/Pods-PokerGame/Pods-PokerGame.release.xcconfig"; sourceTree = "<group>"; };
+		07CBCF98175544B48C315BB0 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
+		110C9BF37E31416FBC79C2C8 /* roboto-300.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "roboto-300.ttf"; path = "../src/assets/fonts/roboto-300.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* PokerGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PokerGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = PokerGame/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = PokerGame/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = PokerGame/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = PokerGame/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = PokerGame/main.m; sourceTree = "<group>"; };
+		1B2B136A8F3443D288DED482 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
+		1B82BA0F8EC44AF19D6A6197 /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
 		3C41FC563A446107CFDE8FC2 /* Pods-PokerGame-PokerGameTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PokerGame-PokerGameTests.debug.xcconfig"; path = "Target Support Files/Pods-PokerGame-PokerGameTests/Pods-PokerGame-PokerGameTests.debug.xcconfig"; sourceTree = "<group>"; };
+		4AB0F56A83C343C8BE2A70F7 /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
 		5786A3DE4F4ECA567E854E52 /* libPods-PokerGame-PokerGameTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PokerGame-PokerGameTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6F268E84542A469C9579BD5E /* roboto-900.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "roboto-900.ttf"; path = "../src/assets/fonts/roboto-900.ttf"; sourceTree = "<group>"; };
+		797FF819D9E946289BDB2D37 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = PokerGame/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		8BA237F8FC1B47429CA7D2D3 /* roboto-regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "roboto-regular.ttf"; path = "../src/assets/fonts/roboto-regular.ttf"; sourceTree = "<group>"; };
+		8D90997703B1412384A655AE /* roboto-500.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "roboto-500.ttf"; path = "../src/assets/fonts/roboto-500.ttf"; sourceTree = "<group>"; };
 		936E22D646D8DB7CD07E2AD9 /* Pods-PokerGame.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PokerGame.debug.xcconfig"; path = "Target Support Files/Pods-PokerGame/Pods-PokerGame.debug.xcconfig"; sourceTree = "<group>"; };
+		95BE9F75778942AAB0222BDB /* roboto-700.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "roboto-700.ttf"; path = "../src/assets/fonts/roboto-700.ttf"; sourceTree = "<group>"; };
 		A938FE5C1F371ED3D0F38638 /* Pods-PokerGame-PokerGameTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PokerGame-PokerGameTests.release.xcconfig"; path = "Target Support Files/Pods-PokerGame-PokerGameTests/Pods-PokerGame-PokerGameTests.release.xcconfig"; sourceTree = "<group>"; };
+		B26F1C8C930C46AEA60F70D4 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
+		B5FC3300FBB6417E86EEFDAE /* Fontisto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Fontisto.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; };
+		BED970F550B74826841D8C78 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
+		BF5573076CA944C79E9F5AF5 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
+		C38AE1F2657044A0BBD63BEE /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
+		CBBD43B6BA654241886E608D /* roboto-100.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "roboto-100.ttf"; path = "../src/assets/fonts/roboto-100.ttf"; sourceTree = "<group>"; };
+		D6E0E2C0A7BB4EA79A63B9C0 /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
+		DFD6319C35A2473FBEE08CF1 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
+		E89C9ED37C664FEABBF4829A /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F343442DDC34474570715EA4 /* libPods-PokerGame.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PokerGame.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F6CAF2904783494BA8D4FE06 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
+		FB132ADBD4BD4655A1644CD7 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
+		FF0CE35AC8174932AAF2B18A /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,16 +174,36 @@
 				3C41FC563A446107CFDE8FC2 /* Pods-PokerGame-PokerGameTests.debug.xcconfig */,
 				A938FE5C1F371ED3D0F38638 /* Pods-PokerGame-PokerGameTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
 		FC57821538B54BD4A8008C73 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				CBBD43B6BA654241886E608D /* roboto-100.ttf */,
+				110C9BF37E31416FBC79C2C8 /* roboto-300.ttf */,
+				8D90997703B1412384A655AE /* roboto-500.ttf */,
+				95BE9F75778942AAB0222BDB /* roboto-700.ttf */,
+				6F268E84542A469C9579BD5E /* roboto-900.ttf */,
+				8BA237F8FC1B47429CA7D2D3 /* roboto-regular.ttf */,
+				FF0CE35AC8174932AAF2B18A /* AntDesign.ttf */,
+				797FF819D9E946289BDB2D37 /* Entypo.ttf */,
+				F6CAF2904783494BA8D4FE06 /* EvilIcons.ttf */,
+				FB132ADBD4BD4655A1644CD7 /* Feather.ttf */,
+				1B2B136A8F3443D288DED482 /* FontAwesome.ttf */,
+				4AB0F56A83C343C8BE2A70F7 /* FontAwesome5_Brands.ttf */,
+				D6E0E2C0A7BB4EA79A63B9C0 /* FontAwesome5_Regular.ttf */,
+				1B82BA0F8EC44AF19D6A6197 /* FontAwesome5_Solid.ttf */,
+				B5FC3300FBB6417E86EEFDAE /* Fontisto.ttf */,
+				BED970F550B74826841D8C78 /* Foundation.ttf */,
+				B26F1C8C930C46AEA60F70D4 /* Ionicons.ttf */,
+				DFD6319C35A2473FBEE08CF1 /* MaterialCommunityIcons.ttf */,
+				07CBCF98175544B48C315BB0 /* MaterialIcons.ttf */,
+				C38AE1F2657044A0BBD63BEE /* Octicons.ttf */,
+				BF5573076CA944C79E9F5AF5 /* SimpleLineIcons.ttf */,
+				E89C9ED37C664FEABBF4829A /* Zocial.ttf */,
 			);
 			name = Resources;
-			path = "";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -254,6 +302,12 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				42287A18B8FD41B3B9655D5D /* roboto-100.ttf in Resources */,
+				1ED816531BD64A3D8470F305 /* roboto-300.ttf in Resources */,
+				E5B90726720B40ED8003FC1D /* roboto-500.ttf in Resources */,
+				9F88853E770B443388B9CC4E /* roboto-700.ttf in Resources */,
+				748EC5B8D11B4618B5E73C79 /* roboto-900.ttf in Resources */,
+				660944D2ED53453E911DB71A /* roboto-regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -493,22 +547,28 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1.0.3;
+				DEVELOPMENT_TEAM = J497DX6ZF8;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = PokerGame/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.redxam.americafoundation;
 				PRODUCT_NAME = PokerGame;
+				PROVISIONING_PROFILE_SPECIFIER = India;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -519,20 +579,26 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1.0.3;
+				DEVELOPMENT_TEAM = J497DX6ZF8;
 				INFOPLIST_FILE = PokerGame/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.redxam.americafoundation;
 				PRODUCT_NAME = PokerGame;
+				PROVISIONING_PROFILE_SPECIFIER = India;
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

@@ -1,91 +1,125 @@
-import {StyleSheet} from 'react-native';
-import {colors, fontSizes} from '../utils/Variables';
-
+import {Dimensions, StyleSheet} from 'react-native';
 const styles = StyleSheet.create({
-  mainContainer: {
+  container: {
+    backgroundColor: 'rgba(255,255,255,1)',
+  },
+  keyboardstyle: {},
+  welcometext: {
+    width: '100%',
+    textAlign: 'center',
+    fontSize: 45,
+  },
+  detail: {
+    height: 60,
+    marginLeft: 20,
+    marginRight: 20,
+    marginBottom: 20,
+  },
+  textinput: {
+    flex: 1,
+    paddingLeft: 20,
+    color: '#000',
+    fontSize: 20,
+    backgroundColor: '#fff',
+    height: 50,
+    borderRadius: 50,
+    borderColor: 'grey',
+    borderWidth: 1,
+  },
+  mapAll2: {},
+  map: {
+    backgroundColor: 'transparent',
+  },
+  map_imageStyle: {},
+  ellipse: {
+    position: 'absolute',
+    height: 64,
+    width: 64,
+    top: 0,
+    left: 0,
+    backgroundColor: 'transparent',
+    borderColor: 'transparent',
+  },
+  menuIcon: {
+    position: 'absolute',
+    top: 8,
+    left: 8,
+    height: 48,
+    width: 48,
+    backgroundColor: 'transparent',
+  },
+  ellipseStack: {
+    width: '100%',
+    marginTop: 85,
+  },
+  rectangle: {
+    top: 0,
+    left: 0,
+    height: 64,
+    width: '44%',
+    borderTopLeftRadius: 32,
+    borderTopRightRadius: 32,
+    borderBottomRightRadius: 32,
+    borderBottomLeftRadius: 32,
+    shadowColor: 'rgba(100,100,100,0.49803922)',
+    shadowOffset: {
+      height: 0,
+      width: 0,
+    },
+    shadowRadius: 10,
+    shadowOpacity: 1,
+    backgroundColor: 'rgba(9,24,43,1)',
+    justifyContent: 'center',
+  },
+  group: {
+    width: Dimensions.get('window').width,
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  conduiteLibre: {
+    backgroundColor: 'transparent',
+    textAlign: 'center',
+    color: 'rgba(255,255,255,1)',
+    fontSize: 20,
+    width: '100%',
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+  rectangle2: {
+    height: 64,
+    width: '44%',
+    borderTopLeftRadius: 32,
+    borderTopRightRadius: 32,
+    borderBottomRightRadius: 32,
+    borderBottomLeftRadius: 32,
+    shadowColor: 'rgba(100,100,100,0.49803922)',
+    shadowOffset: {
+      height: 0,
+      width: 0,
+    },
+    shadowRadius: 10,
+    shadowOpacity: 1,
+    backgroundColor: 'rgba(46,231,62,1)',
+    marginLeft: 10,
+    justifyContent: 'center',
+  },
+  itineraires: {
+    width: '100%',
+    backgroundColor: 'transparent',
+    textAlign: 'center',
+    color: 'rgba(255,255,255,1)',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  conduiteLibreRow: {
+    height: 64,
+    flexDirection: 'row',
     flex: 1,
   },
-  allPickerMainContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    zIndex: 1,
-    marginBottom: '2%',
-  },
-  dropdownWidth: {
-    width: '22%',
-  },
-  headingTxt: {
-    fontSize: fontSizes.small,
-    fontWeight: 'bold',
-    marginVertical: 5,
-    color: colors.black,
-  },
-  leftTextView: {
-    borderWidth: 1,
-    backgroundColor: colors.black,
+  rectangleStack: {
     width: '100%',
-    marginTop: 2,
-  },
-  leftText: {
-    fontWeight: 'bold',
-    fontSize: fontSizes.small,
-    color: colors.white,
-    padding: 10,
-  },
-  selectListView: {
-    flexDirection: 'row',
-  },
-  rightSelectView: {
-    marginLeft: '2%',
-  },
-  positionHeadingText: {
-    fontWeight: 'bold',
-    fontSize: fontSizes.medium,
-    color: colors.black,
-  },
-  urPositionItemView: {
-    backgroundColor: colors.gray,
-    marginRight: 10,
-    marginVertical: 10,
-    borderRadius: 5,
-  },
-  urPositionItem: {
-    color: colors.white,
-    padding: 10,
-    fontWeight: 'bold',
-  },
-  anotherPlayerBtn: {
-    backgroundColor: colors.red,
-    borderRadius: 5,
-    width: '60%',
-    marginVertical: 10,
-  },
-  anotherPlayer: {
-    fontWeight: 'bold',
-    fontSize: fontSizes.small,
-    padding: 10,
-    alignSelf: 'center',
-    color: colors.white,
-  },
-  bottomBtn: {
-    marginTop: '2%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '30%',
-  },
-  sbBtn: {
-    padding: 10,
-    backgroundColor: colors.red,
-    borderRadius: 5,
-  },
-  btn: {
-    padding: 10,
-    backgroundColor: colors.gray,
-    borderRadius: 5,
-  },
-  bottomBtnTxt: {
-    color: colors.white,
-    fontWeight: 'bold',
+    marginTop: Dimensions.get('window').height * 0.4,
+    marginLeft: 0,
   },
 });
 export default styles;

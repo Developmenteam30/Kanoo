@@ -1,15 +1,126 @@
 import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
-  mainContainer: {
+  container: {
+    backgroundColor: 'rgba(9,24,43,1)',
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
-  logoStyle: {
-    top: -50,
-    height: 300,
-    width: '80%',
+  rectangle: {
+    position: 'absolute',
+    top: 0,
+    left: 10,
+    height: 845,
+    width: 400,
+    backgroundColor: 'rgba(9,24,43,1)',
+  },
+  icon: {
+    height: 86,
+    width: 58,
+    marginTop: 301,
+    marginLeft: 161,
+  },
+  background: {
+    height: 86,
+    width: 58,
+    overflow: 'hidden',
+    backgroundColor: 'transparent',
+  },
+  shapePath: {
+    height: 86,
+    width: 58,
+    backgroundColor: 'transparent',
+    borderColor: 'transparent',
+  },
+  mainLogo: {
+    height: 29,
+    width: 156,
+    marginTop: 35,
+    marginLeft: 112,
+  },
+  background1: {
+    height: 29,
+    width: 156,
+    overflow: 'hidden',
+    backgroundColor: 'transparent',
+    flexDirection: 'row',
+  },
+  shape3: {
+    height: 28,
+    width: 24,
+    backgroundColor: 'transparent',
+    borderColor: 'transparent',
+  },
+  shapePath3: {
+    height: 29,
+    width: 21,
+    backgroundColor: 'transparent',
+    borderColor: 'transparent',
+    marginLeft: 4,
+  },
+  shapePath1: {
+    height: 28,
+    width: 22,
+    backgroundColor: 'transparent',
+    borderColor: 'transparent',
+    marginLeft: 2,
+    marginTop: 1,
+  },
+  shapePath2: {
+    height: 28,
+    width: 22,
+    backgroundColor: 'transparent',
+    borderColor: 'transparent',
+    marginTop: 1,
+  },
+  shape: {
+    height: 28,
+    width: 12,
+    backgroundColor: 'transparent',
+    borderColor: 'transparent',
+    marginLeft: 3,
+    marginTop: 1,
+  },
+  shape1: {
+    height: 28,
+    width: 21,
+    backgroundColor: 'transparent',
+    borderColor: 'transparent',
+    marginLeft: 2,
+    marginTop: 1,
+  },
+  shape2: {
+    height: 28,
+    width: 18,
+    backgroundColor: 'transparent',
+    borderColor: 'transparent',
+    marginTop: 1,
+  },
+  circle: {
+    height: 5,
+    width: 5,
+    backgroundColor: 'transparent',
+    borderColor: 'transparent',
+    marginTop: 24,
+  },
+  shape3Row: {
+    height: 29,
+    flexDirection: 'row',
+    flex: 1,
+  },
+  barsStatusBarIPhoneDark: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    height: 38,
+    width: 390,
+    backgroundColor: 'transparent',
+  },
+  rectangleStack: {
+    width: 390,
+    height: 845,
+    marginTop: -1,
+    marginLeft: -10,
   },
 });
+
 export default styles;
