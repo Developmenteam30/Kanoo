@@ -1,4 +1,5 @@
 import {StyleSheet, Dimensions} from 'react-native';
+import {withTheme} from 'react-native-elements';
 const {width, height} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
@@ -31,8 +32,7 @@ const styles = StyleSheet.create({
   },
   mainimageStyle: {
     width: '100%',
-    borderRadius: 15
-    // resizeMode: 'contain',
+    height: 120,
   },
   backStyle: {
     height: 30,
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     color: '#FFFFFF',
-    paddingVertical: 15
+    paddingVertical: 15,
   },
   logofonts: {
     fontSize: 24,
@@ -56,10 +56,14 @@ const styles = StyleSheet.create({
     color: '#229A71',
   },
   innercontent: {
-    padding: 15
+    padding: 15,
   },
   inputSpan: {
-    marginTop: 30, marginBottom: 10, fontSize: 12, fontWeight: '400', color: '#FFFFFF'
+    marginTop: 30,
+    marginBottom: 10,
+    fontSize: 12,
+    fontWeight: '400',
+    color: '#FFFFFF',
   },
   searchSection: {
     flexDirection: 'row',
@@ -68,7 +72,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     borderWidth: 1,
     borderColor: '#fff',
-    borderRadius: 10
+    borderRadius: 10,
   },
   searchSections: {
     flexDirection: 'row',
@@ -79,7 +83,7 @@ const styles = StyleSheet.create({
     borderColor: '#fff',
     borderRadius: 10,
     padding: 10,
-    paddingHorizontal: 15
+    paddingHorizontal: 15,
   },
   searchIcon: {
     padding: 5,
@@ -87,7 +91,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     marginHorizontal: 15,
     marginVertical: 8,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
   baseIcon: {
     padding: 5,
@@ -95,6 +99,12 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     marginHorizontal: 10,
     marginVertical: 8,
+  },
+  amount: {
+    color: 'white',
+    fontSize: 24,
+    marginTop: 30,
+    marginLeft: '2%',
   },
   input: {
     flex: 1,
@@ -107,19 +117,19 @@ const styles = StyleSheet.create({
     color: '#FFF',
   },
   placeholder: {
-    color: 'white'
+    color: 'white',
   },
   buttontext: {
     color: 'white',
     fontSize: 14,
-    fontWeight: '600'
+    fontWeight: '600',
   },
   button: {
     padding: 20,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 12,
-    minHeight: 56
-  }
+    minHeight: 56,
+  },
 });
 export default styles;

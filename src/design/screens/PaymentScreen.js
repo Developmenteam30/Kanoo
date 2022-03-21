@@ -14,6 +14,7 @@ import {Icon} from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
 import styles from '../styles/SplashScreenStyle';
 import stripe from 'react-native-stripe-payments';
+import {BackgroundImage} from 'react-native-elements/dist/config';
 
 const {width, height} = Dimensions.get('window');
 const PaymentScreen = props => {
@@ -81,13 +82,15 @@ const PaymentScreen = props => {
             style={styles.backStyle}
           />
         </TouchableOpacity>
-
-        <TouchableOpacity>
-          <Image
-            source={require('../assets/amountcard.png')}
-            style={styles.mainimageStyle}
-          />
-        </TouchableOpacity>
+        <View>
+          <BackgroundImage
+            source={require('../assets/card.png')}
+            style={styles.mainimageStyle}>
+            <View style={{}}>
+              <Text style={styles.amount}>$1000</Text>
+            </View>
+          </BackgroundImage>
+        </View>
 
         <Text style={styles.inputSpan}>Credit Card Number</Text>
         <View style={styles.searchSections}>

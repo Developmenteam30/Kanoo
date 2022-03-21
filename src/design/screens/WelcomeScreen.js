@@ -27,12 +27,12 @@ const WelcomeScreen = props => {
         <Text style={styles.logofonts}>America Foundation</Text>
         <Text style={styles.inputSpan}>Enter Amount</Text>
         <View style={styles.searchSection}>
-          <Icon
-            style={styles.searchIcon}
-            type="foundation"
-            name="dollar"
-            size={20}
-            color="#000"
+          <Image
+            style={{
+              width: '15%',
+              resizeMode: 'contain',
+            }}
+            source={require('../assets/dollar.png')}
           />
           <TextInput
             style={styles.input}
