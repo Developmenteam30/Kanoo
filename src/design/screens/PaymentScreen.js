@@ -86,8 +86,8 @@ const PaymentScreen = props => {
           <BackgroundImage
             source={require('../assets/card.png')}
             style={styles.mainimageStyle}>
-            <View style={{}}>
-              <Text style={styles.amount}>$1000</Text>
+            <View style={{paddingBottom: 50}}>
+              <Text style={styles.amount}>${global.amount}</Text>
             </View>
           </BackgroundImage>
         </View>

@@ -52,7 +52,7 @@ const WelcomeScreen = props => {
             ]}
             onPress={() => {
               if (amount > 0) {
-                global.amount = amount;
+                global.amount = parseFloat(amount).toFixed(2);
                 props.navigation.navigate('PaymentScreen');
               } else {
                 alert('Please enter correct amount.');

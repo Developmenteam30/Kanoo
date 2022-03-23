@@ -33,6 +33,10 @@ const styles = StyleSheet.create({
   mainimageStyle: {
     width: '100%',
     height: 120,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+    overflow: 'hidden',
   },
   backStyle: {
     height: 30,
