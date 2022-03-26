@@ -38,7 +38,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Here in Redxm app we are using cmaera for uploading the image from camera and gallery.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>UIAppFonts</key>
 	<array>
 		<string>FontAwesome.ttf</string>

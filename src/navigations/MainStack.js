@@ -11,7 +11,7 @@ const Stack = createNativeStackNavigator();
 
 const MainStack = ({navigation}) => {
   return (
-    <Stack.Navigator initialRouteName="SplashAFScreen">
+    <Stack.Navigator initialRouteName="WelcomeScreen">
       <Stack.Screen
         name="SplashAFScreen"
         component={SplashAFScreen}
