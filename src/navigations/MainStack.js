@@ -1,42 +1,173 @@
 import * as React from 'react';
+import { Pressable, Image } from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import SplashAFScreen from '../design/screens/SplashAFScreen';
-import WelcomeScreen from '../design/screens/WelcomeScreen';
-import PersonalScreen from '../design/screens/PersonalScreen';
-import PaymentScreen from '../design/screens/PaymentScreen';
-import DetailsScreen from '../design/screens/DetailsScreen';
+import SplashAFScreen from '../screens/SplashAFScreen';
+import LoginScreen from '../screens/LoginScreen';
+import ForgetScreen from '../screens/ForgetScreen';
+import VerifyScreen from '../screens/VerifyScreen';
+import ChangePasswordScreen from '../screens/ChangePasswordScreen';
+import RegisterScreen from '../screens/RegisterScreen';
+import HomeScreen from '../tabs/HomeScreen';
+import SearchScreen from '../tabs/SearchScreen';
+import CartScreen from '../tabs/CartScreen';
+import WishlistScreen from '../tabs/WishlistScreen';
+import ProfileScreen from '../tabs/ProfileScreen';
+import ResetPasswordScreen from '../screens/ResetPasswordScreen';
+import MyOrderScreen from '../screens/MyOrderScreen';
+import MyAddressScreen from '../screens/MyAddressScreen';
+import MyAddressAddScreen from '../screens/MyAddressAddScreen';
+import ProductDetailScreen from '../screens/ProductDetailScreen';
 
+import { colors } from '../utils/Variables';
+import { Header, Icon } from 'react-native-elements';
+import { Images } from '../utils/Images';
 const Stack = createNativeStackNavigator();
-
+const Tab = createBottomTabNavigator();
+const MainDrawer = (props) => {
+  return (
+    <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
+            if (route.name === 'Home') {
+              iconName = focused
+                ? 'home'
+                : 'home';
+            } else if (route.name === 'Search') {
+              iconName = 'search'
+            } else if (route.name === 'Cart') {
+              iconName = 'shopping-cart'
+            } else if (route.name === 'Wishlist') {
+              iconName = 'heart'
+            } else if (route.name === 'Profile') {
+              iconName = 'user'
+            }
+            return <Icon type="feather" name={iconName} size={size} color={color} />;
+          },
+          tabBarActiveTintColor: colors.warning,
+          tabBarInactiveTintColor: 'gray',
+      })}
+    >
+      <Tab.Screen name="Home" component={HomeScreen} options={{ headerTransparent: true, header: (props) => <GradientHeader {...props} /> }} />
+      <Tab.Screen name="Search" component={SearchScreen} options={{ headerTransparent: true, header: (props) => <GradientHeader {...props} /> }} />
+      <Tab.Screen name="Cart" component={CartScreen} options={{ headerTransparent: true, header: (props) => <GradientHeader {...props} /> }} />
+      <Tab.Screen name="Wishlist" component={WishlistScreen} options={{ headerTransparent: true, header: (props) => <GradientHeader {...props} /> }} />
+      <Tab.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }} />
+      
+    </Tab.Navigator>
+  )
+};
+const GradientHeader = props => {
+    var pagetitle = props.route.name;
+    return (
+      <Header
+        barStyle={'light-content'}
+        statusBarProps={{ backgroundColor: colors.primary }}
+        backgroundColor={colors.primary}
+        leftComponent={
+            (<Pressable onPress={()=>props.navigation.navigate('HomeScreen')}>
+              <Image source={Images.fulllogo} style={{width: 150, height:40, padding: 10}} />
+            </Pressable>)
+        } 
+        centerComponent={{ text: '', style: { color: '#fff', paddingTop: 5, fontWeight: '700' } }} 
+        rightComponent={
+            (<Pressable onPress={()=>props.navigation.navigate('Search')}>
+                <Icon name={"search"} color='#fff' size={40} type="evilicon" style={{padding: 5}} />
+            </Pressable>)
+        }/>
+)};
 const MainStack = ({navigation}) => {
   return (
-    <Stack.Navigator initialRouteName="WelcomeScreen">
+    <Stack.Navigator initialRouteName="SplashAFScreen"
+      screenOptions={{
+        headerBackTitleVisible: false,
+        backgroundColor: colors.primary,
+      }}
+    >
       <Stack.Screen
         name="SplashAFScreen"
         component={SplashAFScreen}
         options={{headerShown: false}}
       />
       <Stack.Screen
-        name="WelcomeScreen"
-        component={WelcomeScreen}
-        options={{headerShown: false}}
+        name='LoginScreen'
+        component={LoginScreen}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="PersonalScreen"
-        component={PersonalScreen}
-        options={{headerShown: false}}
+        name='ForgetScreen'
+        component={ForgetScreen}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="PaymentScreen"
-        component={PaymentScreen}
-        options={{headerShown: false}}
+        name='VerifyScreen'
+        component={VerifyScreen}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="DetailsScreen"
-        component={DetailsScreen}
-        options={{headerShown: false}}
+        name='ChangePasswordScreen'
+        component={ChangePasswordScreen}
+        options={{ headerShown: false }}
       />
+      <Stack.Screen
+        name='RegisterScreen'
+        component={RegisterScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name='HomeScreen'
+        component={MainDrawer}
+        options={{ headerShown: false }}
+      />
+      
+      <Stack.Screen
+        name='ResetPasswordScreen'
+        component={ResetPasswordScreen}
+        options={{ title: 'Change Password', headerStyle: {
+            backgroundColor: colors.primary,
+          },
+          headerTintColor: colors.light
+        }}
+      />
+      <Stack.Screen
+        name='MyOrderScreen'
+        component={MyOrderScreen}
+        options={{ title: 'My Orders', headerStyle: {
+            backgroundColor: colors.primary,
+          },
+          headerTintColor: colors.light
+        }}
+      />
+      <Stack.Screen
+        name='MyAddressScreen'
+        component={MyAddressScreen}
+        options={{ title: 'My Address', headerStyle: {
+            backgroundColor: colors.primary,
+          },
+          headerTintColor: colors.light
+        }}
+      />
+      <Stack.Screen
+        name='MyAddressAddScreen'
+        component={MyAddressAddScreen}
+        options={{ title: 'Add Address', headerStyle: {
+            backgroundColor: colors.primary,
+          },
+          headerTintColor: colors.light
+        }}
+      />
+      <Stack.Screen
+        name='ProductDetailScreen'
+        component={ProductDetailScreen}
+        options={{ title: 'Product details', headerStyle: {
+            backgroundColor: colors.primary,
+          },
+          headerTintColor: colors.light
+        }}
+      />
+      
     </Stack.Navigator>
   );
 };

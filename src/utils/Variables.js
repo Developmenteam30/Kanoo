@@ -6,19 +6,11 @@ export const fontSizes = {
   smallest: 10,
 };
 export const colors = {
-  white: '#fff',
-  black: '#000',
+  primary: '#144581',
+  warning: '#EC7200',
+  dark: '#323232',
+  white: '#F4F4F4',
+  light: '#ffffff',
   gray: 'gray',
-  red: '#f00',
+  success: 'green',
 };
-/*
-
-primary: 'blue',
-secondary: 'lightblue',
-tertary: 'skyblue',
-success: 'green',
-info: 'yellow',
-warning: 'pink',
-danger: 'red',
-
-*/
