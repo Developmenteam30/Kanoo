@@ -4,36 +4,54 @@ import { Divider, Icon, Card } from 'react-native-elements';
 import styles from '../styles/LoginScreenStyle';
 import { Images } from '../utils/Images';
 import { colors } from '../utils/Variables';
+import api from "../utils/Api";
+import { connect } from "react-redux";
 
-const MyAddressScreen = ({navigation}) => {
+const MyAddressScreen = (props) => {
   const keyboardVerticalOffset = Platform.OS === 'ios' ? 40 : 0
-  const [address, setaddress] = useState([
-    {
-      id: 0,
-      name: 'Address 1',
-      description: 'Flat no. B 601, landmark garden society, near bishops school, near trump tower, kalyani nagar, Pune - 411006',
-      count: 4,
-    },
-    {
-      id: 1,
-      name: 'Address 2',
-      description: 'Flat no. B 601, landmark garden society, near bishops school, near trump tower, kalyani nagar, Pune - 411006',
-      count: 4,
-    },
-  ]);
-    const renderItem = ({ item, index }) => {
+  const [address, setaddress] = useState([]);
+  const [method, setmethod] = useState('address');
+  const apicall = async () => {
+    var cate = await api.getapi("getaddress");
+    if (cate && cate.status == '1') {
+      console.log('cate: ', cate);
+      setaddress(cate.data);
+    } else {
+      console.log(cate);
+    }
+  };
+
+  useEffect(() => {
+    apicall();
+    if (props.route.params && props.route.params.method) {
+      setmethod(props.route.params.method);
+    }
+    
+    return ()=>{}
+  }, [])
+
+  const renderItem = ({ item, index }) => {
         return (
+          <TouchableOpacity onPress={() => {
+            console.log(method);
+              if (method == 'checkout') {
+                props.navigation.replace('Ordersummery', {address: item});
+              }
+            }}>
             <Card>
                 <View style={[styles.cartitem]}>
                     <View style={{ flexDirection: 'row' }}>
                         <View style={{width: '65%'}}>
-                            <Text style={{ width: '100%', fontSize: 16, fontWeight: '600', lineHeight: 24, textAlign: 'left', color: colors.dark, paddingTop: 12 }}>{item.name}</Text>
+                            <Text style={{ width: '100%', fontSize: 16, fontWeight: '600', lineHeight: 24, textAlign: 'left', color: colors.dark, paddingTop: 12 }}>{item.company_name}</Text>
                         </View>
-                        <Icon name={"edit"} type={"feather"} size={15} color={colors.dark} style={{paddingTop: 15}}/>
+                        {method == 'address' && (
+                          <Icon name={"edit"} type={"feather"} size={15} color={colors.dark} style={{paddingTop: 15}}/>
+                        )}
                     </View>
-                    <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, paddingTop: 12 }}>{item.description}</Text>
+                    <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, paddingTop: 12 }}>{item.apartment+' '+item.city+' '+item.street+' '+item.city+' '+item.state+' '+item.country+' '+item.zip_code}</Text>
                 </View>
             </Card>
+          </TouchableOpacity>
         );
     }
 
@@ -47,7 +65,7 @@ const MyAddressScreen = ({navigation}) => {
                 keyExtractor={item => item.id}
                 style={{width: Dimensions.get('screen').width}}
             />
-            <TouchableOpacity style={[styles.buttonfull, {width: '90%', marginLeft: '5%'}]} onPress={()=>navigation.navigate('MyAddressAddScreen')}>
+            <TouchableOpacity style={[styles.buttonfull, {width: '90%', marginLeft: '5%'}]} onPress={()=>props.navigation.navigate('MyAddressAddScreen')}>
                 <Text style={styles.buttontext}>Add New Address</Text>
             </TouchableOpacity>
         </KeyboardAvoidingView>

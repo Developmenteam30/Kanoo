@@ -4,50 +4,47 @@ import { Divider, Input, Card } from 'react-native-elements';
 import styles from '../styles/LoginScreenStyle';
 import { Images } from '../utils/Images';
 import { colors } from '../utils/Variables';
+import api from "../utils/Api";
+import { connect } from "react-redux";
 
-const MyOrderScreen = ({navigation}) => {
+const MyOrderScreen = (props) => {
   const keyboardVerticalOffset = Platform.OS === 'ios' ? 40 : 0
-  const [products, setProducts] = useState([
-    {
-      id: 0,
-      name: 'Product Store Name',
-      price: '$101.0',
-      count: 4,
-      image: 'https://web.techinfomatic.com/kanoo/demo3/php/assets/kanoo/Images/Perkins/A001211B.jpg'
-    },
-    {
-      id: 1,
-      name: 'Product Store Name',
-      price: '$101.0',
-      count: 4,
-      image: 'https://web.techinfomatic.com/kanoo/demo3/php/assets/kanoo/Images/Bobcat/Alternator.jpg'
-    },
-    {
-      id: 2,
-      name: 'Product Store Name',
-      price: '$101.0',
-      count: 4,
-      image: 'https://web.techinfomatic.com/kanoo/demo3/php/assets/kanoo/Images/Perkins/A010164A.jpg'
-    },
-  ]);
+  const [products, setProducts] = useState();
+  const apicall = async () => {
+    var cate = await api.getapi("getorders");
+    if (cate && cate.order) {
+      setProducts(cate.order);
+    } else {
+      console.log(cate);
+    }
+  };
+
+  useEffect(() => {
+    apicall();
+    return ()=>{}
+  }, [])
     const renderItem = ({ item, index }) => {
-        return (
+      return (
+        <TouchableOpacity onPress={() => {
+          props.navigation.navigate('Ordersummery', {order: item})
+          }}>
             <Card>
                 <View style={[styles.cartitem]}>
                     <View style={{ flexDirection: 'row' }}>
                         <View style={{width: '65%'}}>
-                            <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, paddingTop: 12 }}>{item.name}</Text>
+                            <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, paddingTop: 12 }}>{item.order_items[0].product.name}</Text>
                             <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, paddingTop: 12 }}>Total Amount</Text>
-                            <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, fontWeight: '600', fontSize: 15 }}>{item.price}</Text>
+                            <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, fontWeight: '600', fontSize: 15 }}>{item.total_price}</Text>
                         </View>
                         <View style={{width: '35%'}}>
-                            <Text style={{ width: '100%', lineHeight: 24, textAlign: 'right', color: colors.dark, paddingTop: 12 }}>09-10-2021</Text>
-                            <Text style={{ width: '100%', lineHeight: 20, textAlign: 'right', color: colors.success, paddingTop: 12 }}>Delivered</Text>
+                            <Text style={{ width: '100%', lineHeight: 24, textAlign: 'right', color: colors.dark, paddingTop: 12 }}>{item.created_at}</Text>
+                            <Text style={{ width: '100%', lineHeight: 20, textAlign: 'right', color: colors.success, paddingTop: 12 }}>{item.status}</Text>
                             <Text style={{ width: '100%', lineHeight: 24, textAlign: 'center', color: colors.dark, paddingVertical: 5, marginTop: 7, borderColor: colors.dark, borderRadius: 20, borderWidth: 0.6 }}>View details</Text>
                         </View>
                     </View>
                 </View>
             </Card>
+          </TouchableOpacity>
         );
     }
 
@@ -65,4 +62,17 @@ const MyOrderScreen = ({navigation}) => {
     </SafeAreaView>
   );
 };
-export default MyOrderScreen;
+function mapStateToProps(state) {
+  return {
+    user: state.userReducer,
+    jsondata: state.jsondataReducer
+  };
+}
+function mapDispatchToProps(dispatch) {
+  return {
+      updateUser: (cart) => dispatch({ type: "UPDATE_USER", user: cart }),
+      updateJsondata: (data) => dispatch({ type: "UPDATE_jsondata", jsondata: data }),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MyOrderScreen);

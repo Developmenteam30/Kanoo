@@ -10,6 +10,21 @@ const styles = StyleSheet.create({
         backgroundColor: colors.primary,
         padding: 15,
     },
+    imagebs: {
+        width: '20%',
+        height: 60,
+        resizeMode: 'contain'
+    },
+    headertext: {
+         width: '75%', lineHeight: 24, textAlign: 'right', color: colors.dark, paddingTop: 12, fontWeight: '500'
+    },
+    headervalue: {
+         width: '25%', lineHeight: 24, textAlign: 'right', color: colors.dark, paddingTop: 12,
+    },
+    cartitems: {
+        flexDirection: 'row',
+        justifyContent: 'center'
+    },
     logoStyle: {
         margin: 50,
         height: 80,

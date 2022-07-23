@@ -4,35 +4,16 @@ import { Card, AirbnbRating, Input } from 'react-native-elements';
 import styles from '../styles/SearchScreenStyle';
 import { Images } from '../utils/Images';
 import { colors } from '../utils/Variables';
+import api from '../utils/Api';
+import { connect } from "react-redux";
 const {width, height} = Dimensions.get('window');
 
 
-const CartScreen = ({ navigation }) => {
+const CartScreen = (props) => {
+  const [count, setcount] = React.useState(0);
   const keyboardVerticalOffset = Platform.OS === 'ios' ? 40 : 0;
   var _carousel = useRef(null);
-  const [products, setProducts] = useState([
-    {
-      id: 0,
-      name: 'Product Store Name',
-      price: '$101.0',
-      count: 4,
-      image: 'https://web.techinfomatic.com/kanoo/demo3/php/assets/kanoo/Images/Perkins/A001211B.jpg'
-    },
-    {
-      id: 1,
-      name: 'Product Store Name',
-      price: '$101.0',
-      count: 4,
-      image: 'https://web.techinfomatic.com/kanoo/demo3/php/assets/kanoo/Images/Bobcat/Alternator.jpg'
-    },
-    {
-      id: 2,
-      name: 'Product Store Name',
-      price: '$101.0',
-      count: 4,
-      image: 'https://web.techinfomatic.com/kanoo/demo3/php/assets/kanoo/Images/Perkins/A010164A.jpg'
-    },
-  ]);
+  const [products, setProducts] = useState([]);
 const renderItem = ({ item, index }) => {
     return (
         <Card>
@@ -40,12 +21,31 @@ const renderItem = ({ item, index }) => {
                 <Image source={{ uri: item.image }} style={styles.imageb} />
                 <View>
                     <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, paddingTop: 12 }}>{item.name}</Text>
+                    <Text style={{ width: '100%', lineHeight: 16, textAlign: 'left', color: colors.dark, paddingTop: 2 }}>Part No.: {item.sku}</Text>
+                    <Text style={{ width: '100%', lineHeight: 16, textAlign: 'left', color: colors.dark, paddingTop: 2 }}>Category: {item.brand.name}, UOM: {props.jsondata && props.jsondata['uom'] ? props.jsondata['uom'][item.color] : item.color}</Text>
                     <View style={{ flexDirection: 'row' }}>
-                        <Text style={{ width: '50%', lineHeight: 24, textAlign: 'left', color: colors.dark, fontWeight: '600', fontSize: 15 }}>{item.price}</Text>
+                        <Text style={{ width: '40%', lineHeight: 24, textAlign: 'left', color: colors.dark, fontWeight: '600', fontSize: 15 }}>AED {item.discounted_price}</Text>
                         <View style={{flexDirection: 'row'}}>
-                            <TouchableOpacity style={styles.navbutton} onPress={() => { var i = products; i[index].count--; setProducts(i) }}><Text>-</Text></TouchableOpacity>
-                            <TouchableOpacity style={styles.navbutton}><Text>{item.count}</Text></TouchableOpacity>
-                            <TouchableOpacity style={styles.navbutton} onPress={() => { var i = products; i[index].count++; setProducts(i) }}><Text>+</Text></TouchableOpacity>
+                          <TouchableOpacity style={styles.navbutton}
+                            onPress={() => {
+                              var cart = props.cart;
+                              if(cart[index].selectedQty && cart[index].selectedQty > 1){
+                                cart[index].selectedQty--;
+                              }else{
+                                cart.splice(index, 1);
+                              }
+                              props.updateCart(cart);
+                              setcount(count+1);
+                            }}
+                          ><Text style={styles.darkcolor}>-</Text></TouchableOpacity>
+                                      <TouchableOpacity style={styles.navbutton}><Text style={styles.darkcolor}>{item.selectedQty}</Text></TouchableOpacity>
+                          <TouchableOpacity style={styles.navbutton}
+                            onPress={() => {
+                              var cart = props.cart;
+                              cart[index].selectedQty++;
+                              props.updateCart(cart);
+                              setcount(count+1);
+                          }}><Text style={styles.darkcolor}>+</Text></TouchableOpacity>
                         </View>
                     </View>
                 </View>
@@ -56,17 +56,24 @@ const renderItem = ({ item, index }) => {
 
   return (
     <SafeAreaView style={styles.mainContainer}>
+      {props.cart.length == 0 ? 
+        <Card>
+          <Text style={{fontSize: 15, padding: 20, color: colors.dark}}>Your cart is empty!</Text>
+        </Card> : null
+      }
       <FlatList
-        data={products}
+        data={props.cart}
         numColumns={1}
         renderItem={renderItem}
         keyExtractor={item => item.id}
         ListFooterComponent={() => {
             return (
-                <View style={{padding: 20}}>
-                    <TouchableOpacity style={styles.buttonfull} onPress={()=>navigation.navigate('Wishlist')}>
-                        <Text style={styles.buttontext}>Place order</Text>
+                <View style={{ padding: 20 }}>
+                  {props.cart.length > 0 ? (
+                    <TouchableOpacity style={styles.buttonfull} onPress={() => props.navigation.navigate('MyAddressScreen', {method: 'checkout'})}>
+                      <Text style={styles.buttontext}>Checkout</Text>
                     </TouchableOpacity>
+                  ) : null}
                 </View>
             )
         }}
@@ -75,4 +82,15 @@ const renderItem = ({ item, index }) => {
     </SafeAreaView>
   );
 };
-export default CartScreen;
+function mapStateToProps(state) {
+  return {
+    cart: state.cartReducer,
+  };
+}
+function mapDispatchToProps(dispatch) {
+  return {
+    updateCart: (cart) => dispatch({ type: "UPDATE_CART", cart: cart }),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CartScreen);

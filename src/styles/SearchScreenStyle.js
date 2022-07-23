@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
         fontWeight: '500'
     },
     imageb: {
-        width: width/3,
+        width: width/4,
         height: 80,
         resizeMode: 'contain'
     },
@@ -67,6 +67,11 @@ const styles = StyleSheet.create({
         padding: 8,
         backgroundColor: '#ECF1F8',
         color: colors.dark
+    },
+    darkcolor: {
+        color: colors.dark,
+        width: 20,
+        textAlign: 'center'
     },
     profileheader: {
         paddingTop: 20,

@@ -5,8 +5,9 @@ import {Provider} from 'react-redux';
 
 import MainStack from './src/navigations/MainStack';
 import styles from './src/styles/AppStyle';
-import {store} from './src/redux/store';
+import {store} from './src/redux/store/store';
 import SplashScreen from 'react-native-splash-screen';
+global.base_url = "https://web.techinfomatic.com/";
 
 const MyStatusBar = ({backgroundColor, ...props}) => (
   <View style={[styless.statusBar, { backgroundColor }]}>

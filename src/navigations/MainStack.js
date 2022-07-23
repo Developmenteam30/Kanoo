@@ -19,10 +19,12 @@ import MyOrderScreen from '../screens/MyOrderScreen';
 import MyAddressScreen from '../screens/MyAddressScreen';
 import MyAddressAddScreen from '../screens/MyAddressAddScreen';
 import ProductDetailScreen from '../screens/ProductDetailScreen';
+import Ordersummery from '../screens/Ordersummery';
 
 import { colors } from '../utils/Variables';
 import { Header, Icon } from 'react-native-elements';
 import { Images } from '../utils/Images';
+import Success from '../screens/Success';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const MainDrawer = (props) => {
@@ -120,6 +122,20 @@ const MainStack = ({navigation}) => {
         name='HomeScreen'
         component={MainDrawer}
         options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name='Success'
+        component={Success}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name='Ordersummery'
+        component={Ordersummery}
+        options={{ title: 'Order Summery', headerStyle: {
+            backgroundColor: colors.primary,
+          },
+          headerTintColor: colors.light
+        }}
       />
       
       <Stack.Screen

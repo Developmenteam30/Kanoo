@@ -1,13 +1,46 @@
-import React, {useEffect} from 'react';
-import {Image, ImageBackground, SafeAreaView, Text, KeyboardAvoidingView, Platform, View, ScrollView, TouchableOpacity} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Image, Alert, SafeAreaView, Text, KeyboardAvoidingView, Platform, View, ScrollView, TouchableOpacity} from 'react-native';
 import { Divider, Input } from 'react-native-elements';
 import { baseProps } from 'react-native-gesture-handler/lib/typescript/handlers/gestureHandlers';
 import styles from '../styles/LoginScreenStyle';
 import { Images } from '../utils/Images';
 import { colors } from '../utils/Variables';
+import { connect } from "react-redux";
+import api from '../utils/Api';
 
 const Editprofile = (props) => {
-  const keyboardVerticalOffset = Platform.OS === 'ios' ? 40 : 0
+    const keyboardVerticalOffset = Platform.OS === 'ios' ? 40 : 0
+    const [name, setname] = useState(null);
+    const [email, setemail] = useState(null);
+    const [phone_number, setphone_number] = useState(null);
+
+    useEffect(() => {
+        if (props.user) {
+            setname(props.user.name);
+            setemail(props.user.email);
+            setphone_number(props.user.phone_number);
+        }
+    }, [])
+    const updateuserdata = async () => {
+        console.log(global.auth);
+        var user = {
+            'name': name,
+            'email': email,
+            'phone_number': phone_number
+        }
+        var cate = await api.postapi(user, 'updateuser');
+        if (cate && cate.status && cate.status == '1') {
+            var u = props.user;
+            u.name = name;
+            u.email = email;
+            u.phone_number = phone_number;
+            Alert.alert('Details updated successfully');
+            props.updatedata(u);
+        } else {
+            console.log(cate);
+            Alert.alert('Something went wrong! Try later.');
+        }
+    }
   return (
     <SafeAreaView style={[styles.mainContainer, {backgroundColor: "rgba(0,0,0,0.5)"}]}>
         <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={keyboardVerticalOffset}>
@@ -15,31 +48,31 @@ const Editprofile = (props) => {
                 <Text style={[styles.header, {width: '100%', textAlign: 'center'}]}>Edit Details</Text>
                 <Divider width={1} color={colors.primary} />  
                 <View style={styles.form}>
-                    <Text style={styles.label}>First name</Text>
+                    <Text style={styles.label}>Full name</Text>
                     <Input
-                        placeholder='enter first Name'
+                        placeholder='enter full Name'
                         containerStyle={styles.inputcontainerstyle}
                         inputContainerStyle={styles.inputstyle}
-                    />
-                    <Text style={styles.label}>Last name</Text>
-                    <Input
-                        placeholder='enter last name'
-                        containerStyle={styles.inputcontainerstyle}
-                        inputContainerStyle={styles.inputstyle}
+                        onChangeText={text => setname(text)}
+                        value={name}
                     />
                     <Text style={styles.label}>Phone</Text>
                     <Input
                         placeholder='enter phone'
                         containerStyle={styles.inputcontainerstyle}
                         inputContainerStyle={styles.inputstyle}
+                        onChangeText={text => setphone_number(text)}
+                        value={phone_number}
                     />
                     <Text style={styles.label}>Email</Text>
                     <Input
                         placeholder='enter email'
                         containerStyle={styles.inputcontainerstyle}
                         inputContainerStyle={styles.inputstyle}
+                        onChangeText={text => setemail(text)}
+                        value={email}
                     />
-                    <TouchableOpacity style={styles.buttonfull} onPress={()=>props.close()}>
+                    <TouchableOpacity style={styles.buttonfull} onPress={()=>updateuserdata()}>
                         <Text style={styles.buttontext}>Save</Text>
                     </TouchableOpacity>
                 </View>

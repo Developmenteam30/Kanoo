@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Image, Modal, SafeAreaView, Text, KeyboardAvoidingView, Platform, View, ScrollView, TouchableOpacity, Dimensions, FlatList} from 'react-native';
+import {Image, Modal, SafeAreaView, Text, KeyboardAvoidingView, Platform, View, ScrollView, TouchableOpacity, Dimensions, Alert} from 'react-native';
 import { Card, Divider, Input, Icon, Avatar } from 'react-native-elements';
 import styles from '../styles/SearchScreenStyle';
 import { Images } from '../utils/Images';
@@ -7,10 +7,12 @@ import { colors } from '../utils/Variables';
 import Editprofile from '../component/Editprofile';
 import Changepass from '../component/Changepass';
 import Helps from '../component/Help';
+import api from "../utils/Api";
+import { connect } from "react-redux";
 const {width, height} = Dimensions.get('window');
 
 
-const ProfileScreen = ({ navigation }) => {
+const ProfileScreen = (props) => {
   const keyboardVerticalOffset = Platform.OS === 'ios' ? 40 : 0;
   const [modalVisible, setModalVisible] = useState(false);
   const [Help, setHelp] = useState(false);
@@ -23,8 +25,16 @@ const ProfileScreen = ({ navigation }) => {
   }
   const closed = () => {
     close();
-    navigation.navigate('ResetPasswordScreen');
+    props.navigation.navigate('ResetPasswordScreen');
   }
+  const updatedata = async (u) => {
+    props.updateUser(u);
+    await api.storedata(props.user, '@user');
+    close();
+  }
+  useEffect(() => {
+
+  }, [])
   return (
     <View style={[styles.mainContainer, {marginTop: 0, padding: 0, backgroundColor: colors.light}]}>
       <Modal
@@ -32,12 +42,11 @@ const ProfileScreen = ({ navigation }) => {
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
           setModalVisible(!modalVisible);
         }}
       >
         <View style={styles.centeredView}>
-          <Editprofile close={close} />
+          <Editprofile close={close} user={props.user} updatedata={updatedata} />
         </View>
       </Modal>
       <Modal
@@ -50,7 +59,7 @@ const ProfileScreen = ({ navigation }) => {
         }}
       >
         <View style={styles.centeredView}>
-          <Changepass close={closed} navigation={navigation} />
+          <Changepass close={closed} navigation={props.navigation} />
         </View>
       </Modal>
       <Modal
@@ -63,7 +72,7 @@ const ProfileScreen = ({ navigation }) => {
         }}
       >
         <View style={styles.centeredView}>
-          <Helps close={close} navigation={navigation} />
+          <Helps close={close} navigation={props.navigation} />
         </View>
       </Modal>
       <View style={styles.profileheader}>
@@ -75,26 +84,26 @@ const ProfileScreen = ({ navigation }) => {
               key={1}
           />
           <View style={{padding: 10, width: '62%'}}>
-            <Text style={styles.username}>John Smith</Text>
+            <Text style={styles.username}>{props.user.name}</Text>
             <TouchableOpacity style={{ flexDirection: 'row' }}>
               <Icon name="phone" type="font-awesome" size={16} style={{padding: 4}} color={colors.white} />
-              <Text style={styles.othertext}>999-855-2525</Text>
+              <Text style={styles.othertext}>{props.user.phone_number}</Text>
             </TouchableOpacity>
           </View>
           <TouchableOpacity onPress={()=>setModalVisible(!modalVisible)} style={{backgroundColor: "rgba(255,255,255,0.2)", marginVertical: 15, padding: 5, borderRadius: 5}}>
             <Icon name="edit" size={26} style={{padding: 4}} color={colors.white} />
           </TouchableOpacity>
         </View>
-        <Text style={[styles.othertext, {paddingLeft: 20, paddingBottom: 15}]}>Email : johnsmith@example.com</Text>
+        <Text style={[styles.othertext, {paddingLeft: 20, paddingBottom: 15}]}>Email : {props.user.email}</Text>
 
       </View>
       <View style={{paddingHorizontal: 15}}>
-        <TouchableOpacity key={0} style={styles.listitems} onPress={()=>navigation.navigate('MyOrderScreen')}>
+        <TouchableOpacity key={0} style={styles.listitems} onPress={()=>props.navigation.navigate('MyOrderScreen')}>
           <Icon name={'cube-outline'} type="ionicon" style={styles.listicon} />
           <Text style={styles.listtitle}>My Orders</Text>
         </TouchableOpacity>
         <Divider width={0.3} color={colors.gray} />  
-        <TouchableOpacity key={0} style={styles.listitems} onPress={()=>navigation.navigate('MyAddressScreen')}>
+        <TouchableOpacity key={0} style={styles.listitems} onPress={()=>props.navigation.navigate('MyAddressScreen')}>
           <Icon name={'location'} type="evilicon" style={styles.listicon} />
           <Text style={styles.listtitle}>My Addresses</Text>
         </TouchableOpacity>
@@ -117,4 +126,17 @@ const ProfileScreen = ({ navigation }) => {
     </View>
   );
 };
-export default ProfileScreen;
+function mapStateToProps(state) {
+  return {
+    user: state.userReducer,
+    jsondata: state.jsondataReducer
+  };
+}
+function mapDispatchToProps(dispatch) {
+  return {
+      updateUser: (cart) => dispatch({ type: "UPDATE_USER", user: cart }),
+      updateJsondata: (data) => dispatch({ type: "UPDATE_jsondata", jsondata: data }),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen);

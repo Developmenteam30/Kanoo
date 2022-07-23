@@ -6,18 +6,13 @@ import { Images } from '../utils/Images';
 import { colors } from '../utils/Variables';
 import Carousel from 'react-native-snap-carousel';
 import { Pagination } from 'react-native-snap-carousel';
+import api from "../utils/Api";
+import { connect } from "react-redux";
 const {width, height} = Dimensions.get('window');
 
-const _renderItem = ({ item, index }) => {
-      return (
-        <Card style={styles.slide}>
-          <Image source={{ uri: item.image }} style={styles.banner}/>
-        </Card>
-      );
-}
 
 
-const SearchScreen = ({ navigation }) => {
+const SearchScreen = (props) => {
   const keyboardVerticalOffset = Platform.OS === 'ios' ? 40 : 0;
   var _carousel = useRef(null);
   const [products, setproducts] = useState([
@@ -28,127 +23,40 @@ const SearchScreen = ({ navigation }) => {
       rating: 4,
       image: 'https://web.techinfomatic.com/kanoo/demo3/php/assets/kanoo/Images/Perkins/A001211B.jpg'
     },
-    {
-      id: 1,
-      name: 'Product Store Name',
-      price: '$101.0-$102.5',
-      rating: 4,
-      image: 'https://web.techinfomatic.com/kanoo/demo3/php/assets/kanoo/Images/Bobcat/Alternator.jpg'
-    },
-    {
-      id: 2,
-      name: 'Product Store Name',
-      price: '$101.0-$102.5',
-      rating: 4,
-      image: 'https://web.techinfomatic.com/kanoo/demo3/php/assets/kanoo/Images/Perkins/A010164A.jpg'
-    },
-    {
-      id: 3,
-      name: 'Product Store Name',
-      price: '$101.0-$102.5',
-      rating: 4,
-      image: 'https://web.techinfomatic.com/kanoo/demo3/php/assets/kanoo/Images/Perkins/A010388B.jpg'
-    },
-    {
-      id: 4,
-      name: 'Product Store Name',
-      price: '$101.0-$102.5',
-      rating: 4,
-      image: 'https://web.techinfomatic.com/kanoo/demo3/php/assets/kanoo/Images/Perkins/A001211B.jpg'
-    },
-    {
-      id: 5,
-      name: 'Product Store Name',
-      price: '$101.0-$102.5',
-      rating: 4,
-      image: 'https://web.techinfomatic.com/kanoo/demo3/php/assets/kanoo/Images/Perkins/A001211B.jpg'
-    },
-    {
-      id: 6,
-      name: 'Product Store Name',
-      price: '$101.0-$102.5',
-      rating: 4,
-      image: 'https://web.techinfomatic.com/kanoo/demo3/php/assets/kanoo/Images/Perkins/A001211B.jpg'
-    },
-    {
-      id: 7,
-      name: 'Product Store Name',
-      price: '$101.0-$102.5',
-      rating: 4,
-      image: 'https://web.techinfomatic.com/kanoo/demo3/php/assets/kanoo/Images/Perkins/A001211B.jpg'
-    },
-    {
-      id: 8,
-      name: 'Product Store Name',
-      price: '$101.0-$102.5',
-      rating: 4,
-      image: 'https://web.techinfomatic.com/kanoo/demo3/php/assets/kanoo/Images/Perkins/A001211B.jpg'
-    },
-    {
-      id: 9,
-      name: 'Product Store Name',
-      price: '$101.0-$102.5',
-      rating: 4,
-      image: 'https://web.techinfomatic.com/kanoo/demo3/php/assets/kanoo/Images/Perkins/A001211B.jpg'
-    },
     
   ]);
-  const [category, setCategory] = useState([
-    {
-      id: 0,
-      name: 'Perkins',
-      image: 'https://web.techinfomatic.com/kanoo/demo3/php/assets/images/demoes/demo26/products/6.png'
-    },
-    {
-      id: 1,
-      name: 'Hyster',
-      image: 'https://web.techinfomatic.com/kanoo/demo3/php/assets/images/demoes/demo26/products/3.png'
-    },
-    {
-      id: 2,
-      name: 'Bobcat',
-      image: 'https://web.techinfomatic.com/kanoo/demo3/php/assets/images/demoes/demo26/products/1.png'
-    },
-    {
-      id: 3,
-      name: 'Grove',
-      image: 'https://web.techinfomatic.com/kanoo/demo3/php/assets/images/demoes/demo26/products/2.png'
-    },
-    {
-      id: 4,
-      name: 'Massey Fergusson',
-      image: 'https://web.techinfomatic.com/kanoo/demo3/php/assets/images/demoes/demo26/products/5.png'
-    },
-    {
-      id: 5,
-      name: 'Tennant',
-      image: 'https://web.techinfomatic.com/kanoo/demo3/php/assets/images/demoes/demo26/products/8.png'
-    },
-    {
-      id: 6,
-      name: 'Lincoln',
-      image: 'https://web.techinfomatic.com/kanoo/demo3/php/assets/images/demoes/demo26/products/4.png'
-    },
-    {
-      id: 7,
-      name: 'Sullair',
-      image: 'https://web.techinfomatic.com/kanoo/demo3/php/assets/images/demoes/demo26/products/7.png'
-    },
-  ])
+  const apicall = async () => {
+    var cate = await api.getapi("featureproducts");
+    if (cate) {
+      setproducts(cate);
+    }
+  };
+  useEffect(() => {
+    apicall();
+    return ()=>{}
+  }, [])
+  const _renderItem = ({ item, index }) => {
+        return (
+          <Card style={styles.slide}>
+            <Image source={{ uri: item.image }} style={styles.banner}/>
+          </Card>
+        );
+  }
   const renderItem = ({ item, index }) => {
       return (
           <Card style={styles.catwidth}>
               <Image source={{ uri: item.image }} style={styles.imageb} />
-              <TouchableOpacity onPress={()=>navigation.navigate('ProductDetailScreen')}>
-                  <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark }}>{item.name}</Text>
-                  <AirbnbRating isDisabled={true} defaultRating={4} reviews={[]}
-                      size={15}
-                      selectedColor={colors.dark}
-                      reviewSize={0}
-                      starContainerStyle={{ padding: 0, margin: 0 }}
-                      showRating={false}
-                  />
-                  <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, fontWeight: '600', fontSize: 14 }}>{item.price}</Text>
+              <TouchableOpacity onPress={() => props.navigation.navigate('ProductDetailScreen', {product: item})}>
+                <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark }}>{item.name}</Text>
+                <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, fontWeight: '400', fontSize: 10 }}>{props.jsondata && props.jsondata['uom'] ? props.jsondata['uom'][item.color] : item.color}</Text>
+                <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, fontWeight: '600', fontSize: 14 }}>AED {item.discounted_price}</Text>
+                <AirbnbRating isDisabled={true} defaultRating={item.review} reviews={[]}
+                    size={15}
+                    selectedColor={colors.dark}
+                    reviewSize={0}
+                    starContainerStyle={{ padding: 0, margin: 0 }}
+                    showRating={false}
+                />
               </TouchableOpacity>
           </Card>
       );
@@ -159,7 +67,7 @@ const SearchScreen = ({ navigation }) => {
       <View style={{flex:1, minHeight: 150}}>
         <Carousel
           ref={(c) => { _carousel = c; }}
-          data={category}
+          data={props.category}
           renderItem={_renderItem}
           sliderWidth={width}
           itemWidth={width}
@@ -187,4 +95,19 @@ const SearchScreen = ({ navigation }) => {
     </SafeAreaView>
   );
 };
-export default SearchScreen;
+function mapStateToProps(state) {
+  return {
+    user: state.userReducer,
+    category: state.categoryReducer,
+    jsondata: state.jsondataReducer
+  };
+}
+function mapDispatchToProps(dispatch) {
+  return {
+      updateUser: (cart) => dispatch({ type: "UPDATE_USER", user: cart }),
+      updateCaregory: (data) => dispatch({ type: "UPDATE_CATEGORY", category: data }),
+      updateJsondata: (data) => dispatch({ type: "UPDATE_jsondata", jsondata: data }),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchScreen);
