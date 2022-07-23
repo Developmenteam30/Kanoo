@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Image, ImageBackground, SafeAreaView, Text, KeyboardAvoidingView, Platform, View, ScrollView, TouchableOpacity, Dimensions, FlatList} from 'react-native';
+import {Image, Alert, SafeAreaView, Text, KeyboardAvoidingView, Platform, View, ScrollView, TouchableOpacity, Dimensions, FlatList} from 'react-native';
 import { Card, AirbnbRating, Divider, Icon, Tab } from 'react-native-elements';
 import styles from '../styles/SearchScreenStyle';
 import { Images } from '../utils/Images';
@@ -17,6 +17,7 @@ const ProductDetailScreen = (props) => {
   const [count, setcount] = React.useState(0);
   const [products, setproducts] = useState(null);
   const [selected, setselected] = useState(null);
+  const [wishlist, setwishlist] = useState(0);
   const apicall = async (id) => {
     var cate = await api.getapi("productshow?q="+id);
     if (cate) {
@@ -29,17 +30,29 @@ const ProductDetailScreen = (props) => {
         }
       }
     }
+    var order = {
+        'product_id': id,
+    };
+    var cate = await api.postapi(order,"getwish");
+    if (cate) {
+      setwishlist(cate);
+    }
   };
-  addtowishlist = () => {
-        var order = {
-            'product_id': products.id,
-        };
-        var cate = await api.postapi(order,"addwish");
-        if (cate) {
-            Alert.alert(cate.message);
-        } else if (cate && cate.message) {
-            Alert.alert(cate.message);
-        }
+  const addtowishlist = async () => {
+    var order = {
+        'product_id': products.id,
+    };
+    var cate = await api.postapi(order,"addwish");
+    if (cate) {
+      if (wishlist == 1) {
+        setwishlist(0);
+      } else {
+        setwishlist(1);
+      }
+      Alert.alert(cate.message);
+    } else if (cate && cate.message) {
+      Alert.alert(cate.message);
+    }
   }
 
   useEffect(() => {
@@ -174,10 +187,17 @@ const ProductDetailScreen = (props) => {
             ) : ( 
               <Text style={{width: "50%", color: colors.warning, paddingHorizontal: 10, paddingVertical: 10}}>Out of stock</Text>
             )}
-            <TouchableOpacity onPress={()=>{addtowishlist()}} style={{ width: '50%', alignItems: "flex-end", flexDirection: 'row', justifyContent: 'center' }}>
-              <Icon type="feather" name={"heart"} size={30} color={colors.dark} />
-              <Text style={[styles.buttontext, {fontSize: 12, color: colors.dark, textAlign: 'center', paddingVertical: 10}]}> ADD TO WISHLIST</Text>
-            </TouchableOpacity>
+            {wishlist == 1 ? (
+              <TouchableOpacity onPress={()=>{addtowishlist()}} style={{ width: '50%', alignItems: "flex-end", flexDirection: 'row', justifyContent: 'center' }}>
+                <Icon type="feather" name={"heart"} size={30} color={"red"} />
+                <Text style={[styles.buttontext, {fontSize: 12, color: colors.dark, textAlign: 'center', paddingVertical: 10}]}> DELETE WISHLIST</Text>
+              </TouchableOpacity>
+            ): (
+              <TouchableOpacity onPress={()=>{addtowishlist()}} style={{ width: '50%', alignItems: "flex-end", flexDirection: 'row', justifyContent: 'center' }}>
+                <Icon type="feather" name={"heart"} size={30} color={colors.dark} />
+                <Text style={[styles.buttontext, {fontSize: 12, color: colors.dark, textAlign: 'center', paddingVertical: 10}]}> ADD TO WISHLIST</Text>
+              </TouchableOpacity>
+            )}
         </View>
         <Divider width={0.5} color={colors.primary} />  
         <Tab
