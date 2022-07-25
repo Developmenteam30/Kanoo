@@ -14,7 +14,20 @@ const CartScreen = (props) => {
   const keyboardVerticalOffset = Platform.OS === 'ios' ? 40 : 0;
   var _carousel = useRef(null);
   const [products, setProducts] = useState([]);
-const renderItem = ({ item, index }) => {
+    useEffect(() => {
+        return ()=>{}
+    }, [])
+    const usercheck = async () => {
+        var user = await api.getdata('@user');
+        var token = await api.getdata('@token');
+        if (!token || !user) {
+            props.navigation.navigate('LoginScreen');
+        } else {
+          props.navigation.navigate('MyAddressScreen', { method: 'checkout' });
+        }
+    }
+
+  const renderItem = ({ item, index }) => {
     return (
         <Card>
             <View style={[styles.cartitem]}>
@@ -70,7 +83,7 @@ const renderItem = ({ item, index }) => {
             return (
                 <View style={{ padding: 20 }}>
                   {props.cart.length > 0 ? (
-                    <TouchableOpacity style={styles.buttonfull} onPress={() => props.navigation.navigate('MyAddressScreen', {method: 'checkout'})}>
+                    <TouchableOpacity style={styles.buttonfull} onPress={() => usercheck()}>
                       <Text style={styles.buttontext}>Checkout</Text>
                     </TouchableOpacity>
                   ) : null}

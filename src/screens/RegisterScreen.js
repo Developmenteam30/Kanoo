@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Image, ImageBackground, SafeAreaView, Text, KeyboardAvoidingView, Platform, View, ScrollView, TouchableOpacity} from 'react-native';
+import {Image, ActivityIndicator, SafeAreaView, Text, KeyboardAvoidingView, Platform, View, ScrollView, TouchableOpacity} from 'react-native';
 import { Divider, Input } from 'react-native-elements';
 import styles from '../styles/LoginScreenStyle';
 import { Images } from '../utils/Images';
@@ -9,6 +9,7 @@ import { connect } from "react-redux";
 
 const RegisterScreen = (props) => {
   const keyboardVerticalOffset = Platform.OS === 'ios' ? 40 : 0
+    const [loader, setloader] = useState(false);
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
     const [passwordc, setPasswordc] = useState(null);
@@ -17,6 +18,7 @@ const RegisterScreen = (props) => {
     const [phone_number, setphone_number] = useState(null);
     const register = async () => {
         if (email && password && phone_number && password == passwordc) {
+            setloader(true);
             var user = {
                 'email': email,
                 'password': password,
@@ -30,13 +32,17 @@ const RegisterScreen = (props) => {
                 global.auth = cate.token;
                 await api.storedata(cate.user, '@user');
                 await api.storedata(cate.token, '@token');
+                setloader(false);
                 props.navigation.navigate('HomeScreen');
             } else if (cate && cate.error_message) {
+                setloader(false);
                 Alert.alert(cate.error_message);
             } else {
+                setloader(false);
                 Alert.alert('Something went wrong! Try later.');
             }
         } else {
+            setloader(false);
             Alert.alert('Password does not match.');
         }
     }
@@ -99,10 +105,16 @@ const RegisterScreen = (props) => {
                         value={passwordc}
                         secureTextEntry={true}
                     />
-                    <Text style={styles.rightalign} onPress={()=>props.navigation.navigate('ForgetScreen')}>Forgot Password ?</Text>
-                    <TouchableOpacity style={styles.buttonfull} onPress={()=>register}>
-                        <Text style={styles.buttontext}>Register</Text>
-                    </TouchableOpacity>
+                    <Text style={styles.rightalign} onPress={() => props.navigation.navigate('ForgetScreen')}>Forgot Password ?</Text>
+                    {loader ? 
+                        <SafeAreaView>
+                            <ActivityIndicator size={"large"} color={colors.dark} />
+                        </SafeAreaView >
+                            :
+                        <TouchableOpacity style={styles.buttonfull} onPress={()=>register()}>
+                            <Text style={styles.buttontext}>Register</Text>
+                        </TouchableOpacity>
+                    }
                     <Text style={styles.bottomtext} onPress={()=>props.navigation.navigate('LoginScreen')}>Already have an account?  <Text style={{color: colors.warning}}>Login</Text></Text>  
                 </View>
             </ScrollView>

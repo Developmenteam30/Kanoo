@@ -9,7 +9,7 @@ import api from '../utils/Api';
 import { connect } from "react-redux";
 
 
-const WishlistScreen = ({ navigation }) => {
+const WishlistScreen = (props) => {
   const keyboardVerticalOffset = Platform.OS === 'ios' ? 40 : 0;
   var _carousel = useRef(null);
   const [products, setProducts] = useState();
@@ -19,16 +19,25 @@ const WishlistScreen = ({ navigation }) => {
       setProducts(cate.data)
     }
   }
+  const usercheck = async () => {
+      var user = await api.getdata('@user');
+      var token = await api.getdata('@token');
+      if (!token || !user) {
+          props.navigation.replace('LoginScreen');
+      } else {
+          addtowishlist()
+      }
+  }
 
   useEffect(() => {
-    addtowishlist()
+    usercheck();
   }, [])
   const renderItem = ({ item, index }) => {
     return (
         <Card>
             <View style={[styles.cartitem]}>
                 <TouchableOpacity onPress={() => {
-                  navigation.navigate('ProductDetailScreen', {product: item.product})
+                  props.navigation.navigate('ProductDetailScreen', {product: item.product})
                 }}>
                   <Image source={{ uri: item.image }} style={styles.imageb} />
                 </TouchableOpacity>
@@ -80,4 +89,17 @@ const WishlistScreen = ({ navigation }) => {
     </SafeAreaView>
   );
 };
-export default WishlistScreen;
+function mapStateToProps(state) {
+  return {
+    user: state.userReducer,
+    jsondata: state.jsondataReducer
+  };
+}
+function mapDispatchToProps(dispatch) {
+  return {
+      updateUser: (cart) => dispatch({ type: "UPDATE_USER", user: cart }),
+      updateJsondata: (data) => dispatch({ type: "UPDATE_jsondata", jsondata: data }),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(WishlistScreen);

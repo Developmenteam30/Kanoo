@@ -30,11 +30,13 @@ const HomeScreen = (props) => {
       );
   }
   const renderItem = ({ item, index }) => {
-      return (
-        <Card style={styles.catwidth}>
-          <Image source={{ uri: item.image }} style={styles.imageb} />
-          <Text style={{width: '100%', textAlign: 'center', color: colors.dark}}>{item.name}</Text>
-        </Card>
+    return (
+        <TouchableOpacity onPress={()=>props.navigation.navigate('HomeScreen', {screen: 'Search', params: {category: item, categoryIndex: index}})}>
+          <Card style={styles.catwidth}>
+            <Image source={{ uri: item.image }} style={styles.imageb} />
+            <Text style={{width: '100%', textAlign: 'center', color: colors.dark}}>{item.name}</Text>
+          </Card>
+        </TouchableOpacity>
       );
   }
 

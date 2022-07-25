@@ -22,7 +22,7 @@ const LoginScreen = (props) => {
         if (token && user) {
             props.updateUser(user);
             global.auth = token;
-            props.navigation.navigate('HomeScreen');
+            props.navigation.replace('HomeScreen');
         }
     }
     const login = async () => {
@@ -38,7 +38,7 @@ const LoginScreen = (props) => {
                 global.auth = cate.token;
                 await api.storedata(cate.user, '@user');
                 await api.storedata(cate.token, '@token');
-                props.navigation.navigate('HomeScreen');
+                props.navigation.replace('HomeScreen');
             } else if (cate && cate.error_message) {
                 Alert.alert(cate.error_message);
             } else {

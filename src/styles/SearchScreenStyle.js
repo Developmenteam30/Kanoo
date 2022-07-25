@@ -9,7 +9,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: colors.white,
         padding: 15,
-        marginTop: 70
+        marginTop: 45
+    },
+    catwidth: {
+        width: '43%',
+        paddingRight: 0,
+        marginRight: 0,
     },
     slide: {
         height: 100,
@@ -32,7 +37,7 @@ const styles = StyleSheet.create({
         fontWeight: '500'
     },
     imageb: {
-        width: width/4,
+        width: width/3,
         height: 80,
         resizeMode: 'contain'
     },

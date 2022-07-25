@@ -32,8 +32,18 @@ const ProfileScreen = (props) => {
     await api.storedata(props.user, '@user');
     close();
   }
+  const usercheck = async () => {
+      if (!props.user.name) {
+          props.navigation.replace('LoginScreen');
+      }
+  }
+  const logout = async () => {
+    await api.clearAll();
+    props.updateUser({ user_id: null });
+    props.navigation.navigate('LoginScreen');
+  }
   useEffect(() => {
-
+    usercheck();
   }, [])
   return (
     <View style={[styles.mainContainer, {marginTop: 0, padding: 0, backgroundColor: colors.light}]}>
@@ -118,7 +128,7 @@ const ProfileScreen = (props) => {
           <Text style={styles.listtitle}>Help</Text>
         </TouchableOpacity>
         <Divider width={0.4} color={colors.gray} />  
-        <TouchableOpacity key={0} style={styles.listitems}>
+        <TouchableOpacity key={0} style={styles.listitems} onPress={logout}>
           <Icon name={'logout'} style={styles.listicon} />
           <Text style={styles.listtitle}>Logout</Text>
         </TouchableOpacity>
