@@ -6,18 +6,20 @@ import { Images } from '../utils/Images';
 import { colors } from '../utils/Variables';
 import api from "../utils/Api";
 import { connect } from "react-redux";
+import { useIsFocused } from '@react-navigation/native';
 
 const MyAddressScreen = (props) => {
   const keyboardVerticalOffset = Platform.OS === 'ios' ? 40 : 0
+  const isFocused = useIsFocused();
   const [address, setaddress] = useState([]);
   const [method, setmethod] = useState('address');
   const apicall = async () => {
     var cate = await api.getapi("getaddress");
     if (cate && cate.status == '1') {
-      console.log('cate: ', cate);
+      // console.log('cate: ', cate);
       setaddress(cate.data);
     } else {
-      console.log(cate);
+      // console.log(cate);
     }
   };
 
@@ -28,7 +30,7 @@ const MyAddressScreen = (props) => {
     }
     
     return ()=>{}
-  }, [])
+  }, [props, isFocused])
 
   const renderItem = ({ item, index }) => {
         return (
@@ -36,6 +38,8 @@ const MyAddressScreen = (props) => {
             console.log(method);
               if (method == 'checkout') {
                 props.navigation.replace('Ordersummery', {address: item});
+              } else {
+                props.navigation.navigate('MyAddressAddScreen', {address: item})
               }
             }}>
             <Card>

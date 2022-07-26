@@ -28,7 +28,6 @@ const RegisterScreen = (props) => {
             var cate = await api.postapi(user, "register");
             if (cate && cate.user) {
                 props.updateUser(cate.user);
-                props.updateUser(cate.token);
                 global.auth = cate.token;
                 await api.storedata(cate.user, '@user');
                 await api.storedata(cate.token, '@token');

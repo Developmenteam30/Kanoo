@@ -6,7 +6,7 @@ import { Images } from '../utils/Images';
 const SplashAFScreen = ({navigation}) => {
   useEffect(() => {
     setTimeout(() => {
-      navigation.navigate('HomeScreen');
+      navigation.replace('HomeScreen');
     }, 2000);
   }, []);
   return (

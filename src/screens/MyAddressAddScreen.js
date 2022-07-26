@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Image, ImageBackground, SafeAreaView, Text, KeyboardAvoidingView, Platform, View, ScrollView, TouchableOpacity, Alert} from 'react-native';
+import {Image, ImageBackground, SafeAreaView, Text, KeyboardAvoidingView, Platform, View, ScrollView, TouchableOpacity, Alert, ActivityIndicator} from 'react-native';
 import { Divider, Input } from 'react-native-elements';
 import styles from '../styles/LoginScreenStyle';
 import { Images } from '../utils/Images';
@@ -9,6 +9,8 @@ import { connect } from "react-redux";
 
 const MyAddressAddScreen = (props) => {
   const keyboardVerticalOffset = Platform.OS === 'ios' ? 40 : -100
+    const [loading, setloading] = useState(false);
+    const [id, setid] = useState(null);
     const [firstname, setfirstname] = useState(null);
     const [lastname, setlastname] = useState(null);
     const [apartment, setapartment] = useState(null);
@@ -29,18 +31,37 @@ const MyAddressAddScreen = (props) => {
             country : country,
             zip_code : zip_code,
         }
+        if (id) {
+            data.id = id;
+        }
+        setloading(true);
         var cate = await api.postapi(data, "addaddress");
         if (cate && cate.status == '1') {
-            Alert.alert('Added successfully.');
+            setloading(false);
+            Alert.alert(cate.msg);
             props.navigation.goBack();
         } else {
-        console.log(cate);
+            setloading(false);
+            Alert.alert('Something went wrong try later');
         }
     };
 
-  useEffect(() => {
-    return ()=>{}
-  }, [])
+    useEffect(() => {
+        if (props.route.params && props.route.params.address) {
+            var address = props.route.params.address;
+            var n = address.company_name.split(" ");
+            setfirstname(n.length > 0 ? n[0] : "");
+            setlastname(n.length > 1 ? n[1] : "");
+            setapartment(address.apartment);
+            setstreet(address.street);
+            setcity(address.city);
+            setstate(address.state);
+            setcountry(address.country);
+            setzip_code(address.zip_code);
+            setid(address.id);
+        }
+        return ()=>{}
+    }, [])
 
     return (
       <SafeAreaView style={[styles.mainContainer, {backgroundColor: colors.light}]}>
@@ -111,10 +132,15 @@ const MyAddressAddScreen = (props) => {
                             onChangeText={text => setzip_code(text)}
                             value={zip_code}
                         />
-
+                        {loading ? 
+                        <TouchableOpacity style={styles.buttonfull} onPress={() => addaddress()}>
+                           <ActivityIndicator size={"large"} color={colors.light} />
+                        </TouchableOpacity>
+                            :
                         <TouchableOpacity style={styles.buttonfull} onPress={() => addaddress()}>
                            <Text style={styles.buttontext}>Save</Text>
                         </TouchableOpacity>
+                        }
                     </View>
                 </ScrollView>
         </KeyboardAvoidingView>

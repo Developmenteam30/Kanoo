@@ -9,6 +9,7 @@ import Changepass from '../component/Changepass';
 import Helps from '../component/Help';
 import api from "../utils/Api";
 import { connect } from "react-redux";
+import Lgoinnow from '../component/Loginnow';
 const {width, height} = Dimensions.get('window');
 
 
@@ -34,7 +35,7 @@ const ProfileScreen = (props) => {
   }
   const usercheck = async () => {
       if (!props.user.name) {
-          props.navigation.replace('LoginScreen');
+          props.navigation.navigate('LoginScreen');
       }
   }
   const logout = async () => {
@@ -46,7 +47,8 @@ const ProfileScreen = (props) => {
     usercheck();
   }, [])
   return (
-    <View style={[styles.mainContainer, {marginTop: 0, padding: 0, backgroundColor: colors.light}]}>
+    props.user.email ? 
+    <View style={[styles.mainContainer, { marginTop: 0, padding: 0, backgroundColor: colors.light }]}>
       <Modal
         animationType="slide"
         transparent={true}
@@ -87,7 +89,7 @@ const ProfileScreen = (props) => {
       </Modal>
       <View style={styles.profileheader}>
         <View style={{ flexDirection: 'row', padding: 15 }}>
-           <Avatar
+          <Avatar
               size={74}
               rounded
               source={{ uri: 'https://i1.sndcdn.com/avatars-TlbXx1BArSO2iBM1-r5ax8A-t500x500.jpg' }}
@@ -133,6 +135,10 @@ const ProfileScreen = (props) => {
           <Text style={styles.listtitle}>Logout</Text>
         </TouchableOpacity>
       </View>
+    </View>
+    :
+    <View style={[styles.mainContainer, { marginTop: 0, padding: 0, backgroundColor: colors.light }]}>
+        <Lgoinnow navigation={ props.navigation} />
     </View>
   );
 };

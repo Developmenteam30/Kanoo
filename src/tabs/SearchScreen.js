@@ -51,23 +51,25 @@ const SearchScreen = (props) => {
         );
   }
   const renderItem = ({ item, index }) => {
-      return (
-          <Card containerStyle={styles.catwidth}>
-              <Image source={{ uri: item.image != '' ? item.image : "https://web.techinfomatic.com/assets/no-image.png" }} style={styles.imageb} />
-              <TouchableOpacity onPress={() => props.navigation.navigate('ProductDetailScreen', {product: item})}>
-                <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark }}>{item.name}</Text>
-                <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, fontWeight: '400', fontSize: 10 }}>{props.jsondata && props.jsondata['uom'] ? props.jsondata['uom'][item.color] : item.color}</Text>
-                <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, fontWeight: '600', fontSize: 14 }}>AED {item.discounted_price}</Text>
-                <AirbnbRating isDisabled={true} defaultRating={item.review} reviews={[]}
-                    size={15}
-                    selectedColor={colors.dark}
-                    reviewSize={0}
-                    starContainerStyle={{ padding: 0, margin: 0 }}
-                    showRating={false}
-                />
-              </TouchableOpacity>
-          </Card>
-      );
+    return (
+      <Card containerStyle={styles.catwidth}>
+        <TouchableOpacity onPress={() => props.navigation.navigate('ProductDetailScreen', {product: item})}>
+            <Image source={{ uri: item.image != '' ? item.image : "https://web.techinfomatic.com/assets/no-image.png" }} style={styles.imageb} />
+            <View>
+              <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark }}>{item.name}</Text>
+              <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, fontWeight: '400', fontSize: 10 }}>{props.jsondata && props.jsondata['uom'] ? props.jsondata['uom'][item.color] : item.color}</Text>
+              <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, fontWeight: '600', fontSize: 14 }}>AED {item.discounted_price}</Text>
+              <AirbnbRating isDisabled={true} defaultRating={item.review} reviews={[]}
+                  size={15}
+                  selectedColor={colors.dark}
+                  reviewSize={0}
+                  starContainerStyle={{ padding: 0, margin: 0 }}
+                  showRating={false}
+              />
+            </View>
+        </TouchableOpacity>
+      </Card>
+    );
   }
 
   return (

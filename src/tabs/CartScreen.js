@@ -18,9 +18,7 @@ const CartScreen = (props) => {
         return ()=>{}
     }, [])
     const usercheck = async () => {
-        var user = await api.getdata('@user');
-        var token = await api.getdata('@token');
-        if (!token || !user) {
+        if (!props.user.email) {
             props.navigation.navigate('LoginScreen');
         } else {
           props.navigation.navigate('MyAddressScreen', { method: 'checkout' });
@@ -31,7 +29,7 @@ const CartScreen = (props) => {
     return (
         <Card>
             <View style={[styles.cartitem]}>
-                <Image source={{ uri: item.image }} style={styles.imageb} />
+                <Image source={{ uri: item.image != "" ? item.image  : "https://web.techinfomatic.com/assets/no-image.png" }} style={styles.imageb} />
                 <View>
                     <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, paddingTop: 12 }}>{item.name}</Text>
                     <Text style={{ width: '100%', lineHeight: 16, textAlign: 'left', color: colors.dark, paddingTop: 2 }}>Part No.: {item.sku}</Text>
@@ -97,11 +95,13 @@ const CartScreen = (props) => {
 };
 function mapStateToProps(state) {
   return {
+    user: state.userReducer,
     cart: state.cartReducer,
   };
 }
 function mapDispatchToProps(dispatch) {
   return {
+    updateUser: (cart) => dispatch({ type: "UPDATE_USER", user: cart }),
     updateCart: (cart) => dispatch({ type: "UPDATE_CART", cart: cart }),
   };
 }

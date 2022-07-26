@@ -54,9 +54,9 @@ const MainDrawer = (props) => {
     >
       <Tab.Screen name="Home" component={HomeScreen} options={{ headerTransparent: true, header: (props) => <GradientHeader {...props} /> }} />
       <Tab.Screen name="Search"  component={SearchScreen} options={{ unmountOnBlur: true, headerTransparent: true, header: (props) => <GradientHeader {...props} /> }} />
-      <Tab.Screen name="Cart" component={CartScreen} options={{ headerTransparent: true, header: (props) => <GradientHeader {...props} /> }} />
-      <Tab.Screen name="Wishlist" component={WishlistScreen} options={{ headerTransparent: true, header: (props) => <GradientHeader {...props} /> }} />
-      <Tab.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }} />
+      <Tab.Screen name="Cart" component={CartScreen} options={{ unmountOnBlur: true, headerTransparent: true, header: (props) => <GradientHeader {...props} /> }} />
+      <Tab.Screen name="Wishlist" component={WishlistScreen} options={{ unmountOnBlur: true, headerTransparent: true, header: (props) => <GradientHeader {...props} /> }} />
+      <Tab.Screen name="Profile" component={ProfileScreen} options={{ unmountOnBlur: true, headerShown: false }} />
       
     </Tab.Navigator>
   )

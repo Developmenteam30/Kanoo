@@ -89,7 +89,7 @@ const Ordersummery = (props) => {
         return (
             <Card>
                 <View style={[styles.cartitems]}>
-                    <Image source={{ uri: item.image }} style={styles.imagebs} />
+                    <Image source={{ uri: item.image != "" ? item.image : "https://web.techinfomatic.com/assets/no-image.png" }} style={styles.imagebs} />
                     <View style={{width: '45%'}}>
                         <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, paddingTop: 2 }}>{item.name}</Text>
                         <Text style={{ width: '100%', lineHeight: 16, textAlign: 'left', color: colors.dark, paddingTop: 2 }}>Part No.: {item.sku}</Text>
@@ -97,7 +97,7 @@ const Ordersummery = (props) => {
                         <Text style={{ width: '100%', lineHeight: 16, textAlign: 'left', color: colors.dark, paddingTop: 2 }}>UOM: {props.jsondata && props.jsondata['uom'] ? props.jsondata['uom'][item.color] : item.color}</Text>
                     </View>
                     <View style={{ flexDirection: 'row', width: '20%' }}>
-                        <Text style={{ width: '100%', lineHeight: 84, textAlign: 'right', color: colors.dark, fontWeight: '600', fontSize: 15 }}>{item.selectedQty + 'x' + item.discounted_price}</Text>
+                        <Text style={{ width: '100%', lineHeight: 84, textAlign: 'right', color: colors.dark, fontWeight: '600', fontSize: 12 }}>{item.selectedQty + 'x' + item.discounted_price}</Text>
                     </View>
                     <View style={{ flexDirection: 'row', width: '20%' }}>
                         <Text style={{ width: '100%', lineHeight: 84, textAlign: 'right', color: colors.dark, fontWeight: '600', fontSize: 15 }}>{item.selectedQty*item.discounted_price}</Text>
@@ -128,7 +128,7 @@ const Ordersummery = (props) => {
                     <Card>
                         <View style={[styles.cartitem]}>
                             <View style={styles.cartitems}>
-                                <Text style={{ fontSize: 20, fontWeight: 'bold', color: colors.dark, width: '60%' }}>Oerder Details:
+                                <Text style={{ fontSize: 20, fontWeight: 'bold', color: colors.dark, width: '60%' }}>Order Details:
                                 </Text>
                                 <View style={{width: '40%'}}>
                                     <Chip

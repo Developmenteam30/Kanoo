@@ -7,6 +7,7 @@ import { colors } from '../utils/Variables';
 const {width, height} = Dimensions.get('window');
 import api from '../utils/Api';
 import { connect } from "react-redux";
+import Lgoinnow from '../component/Loginnow';
 
 
 const WishlistScreen = (props) => {
@@ -23,7 +24,7 @@ const WishlistScreen = (props) => {
       var user = await api.getdata('@user');
       var token = await api.getdata('@token');
       if (!token || !user) {
-          props.navigation.replace('LoginScreen');
+          props.navigation.navigate('LoginScreen');
       } else {
           addtowishlist()
       }
@@ -72,6 +73,7 @@ const WishlistScreen = (props) => {
 }
 
   return (
+    props.user.email ? 
     <SafeAreaView style={styles.mainContainer}>
       {products && products.length == 0 ? (
         <Card>
@@ -87,6 +89,10 @@ const WishlistScreen = (props) => {
         />
       )}
     </SafeAreaView>
+    :
+    <View style={[styles.mainContainer, { marginTop: 0, padding: 0, backgroundColor: colors.light }]}>
+        <Lgoinnow navigation={ props.navigation} />
+    </View>
   );
 };
 function mapStateToProps(state) {

@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {Image, Alert, SafeAreaView, Text, KeyboardAvoidingView, Platform, View, ScrollView, TouchableOpacity, Dimensions, FlatList} from 'react-native';
-import { Card, AirbnbRating, Divider, Icon, Tab } from 'react-native-elements';
+import { Card, AirbnbRating, Divider, Icon, Tab, Input, Button } from 'react-native-elements';
 import styles from '../styles/SearchScreenStyle';
 import { Images } from '../utils/Images';
 import { colors } from '../utils/Variables';
@@ -14,13 +14,37 @@ const ProductDetailScreen = (props) => {
   const keyboardVerticalOffset = Platform.OS === 'ios' ? 40 : 0;
     var _carousel = useRef(null);
   const [index, setIndex] = React.useState(0);
+  const [rating, setrating] = React.useState(3);
+  const [review, setreview] = React.useState('');
+  const [rewloading, setrewloading] = React.useState(false);
   const [count, setcount] = React.useState(0);
   const [products, setproducts] = useState(null);
   const [selected, setselected] = useState(null);
   const [wishlist, setwishlist] = useState(0);
+  const submitreview = async () => {
+    if (rating && review) {
+      var order = {
+        'product_id': products.id,
+        'rating': rating,
+        'message': review
+      };
+      setrewloading(true);
+      var cate = await api.postapi(order,"addreview");
+      if (cate) {
+        setreview("");
+        Alert.alert(cate.message);
+        apicall(products.id);
+      } else if (cate && cate.message) {
+        Alert.alert(cate.message);
+      }
+    } else {
+      Alert.alert('Review can not be blank');
+    }
+  }
   const apicall = async (id) => {
     var cate = await api.getapi("productshow?q="+id);
     if (cate) {
+      setrewloading(false);
       if (cate.product) {
         setproducts(cate.product);
         if (cate.product.media && cate.product.media.length > 0) {
@@ -114,149 +138,183 @@ const ProductDetailScreen = (props) => {
             <Image source={{ uri: selected.original_url }} style={{ width: '100%', height: 190, resizeMode: 'contain' }} ></Image>
           ) : null}
           
-        <View style={{ flexDirection: 'row' }}>
-            {products.media && selected && products.media.map((data, index) => {
-              return (
-                <TouchableOpacity style={{ width: '23%', margin: '1%', height: 70 }} onPress={() => {
-                  setselected(data);
-                }}>
-                  <Image source={{ uri: data.original_url }} style={{ width: '100%', borderWidth: selected.original_url == data.original_url ? 1 : 0, borderColor: colors.primary, margin: '1%', height: 70, resizeMode: 'contain' }} ></Image>
-                </TouchableOpacity>
-            )})}
-        </View>
-        <Text style={[styles.header, { width: '100%' }]}>{products.name}</Text>
-        <View style={{ width: 130 }}>
-            <AirbnbRating isDisabled={true} defaultRating={products.review} reviews={[]}
-                size={20}
-                reviewSize={0}
-                selectedColor={colors.warning}
-                starContainerStyle={{ padding: 0, margin: 0 }}
-                showRating={false}
-            />
-        </View>
-        <Text style={{color: 'white'}}>{count}</Text>  
-        <Text style={{ width: '100%', lineHeight: 34, textAlign: 'left', color: colors.dark, fontWeight: '600', fontSize: 16 }}>AED {products.discounted_price}</Text>
-        <Text style={{ width: '100%', textAlign: 'left', color: '#7E7E7E', fontWeight: '400', fontSize: 12 }}>{products.description}</Text>
-        <Divider width={0.5} color={colors.primary} />  
-        <View style={{ flexDirection: 'row', paddingVertical: 10 }}>
-            {checkincart(products.id) ? (
-              <View style={{ flexDirection: 'row', width: "50%" }}>
-                <TouchableOpacity style={styles.navbutton} onPress={() => {
-                  var cart = props.cart;
-                  var i;
-                  cart.forEach((c, ind) => {
-                    if (c.id == products.id) {
-                      i = ind;
-                    }
-                  });
-                  if (cart[i].selectedQty && cart[i].selectedQty > 1) {
-                    cart[i].selectedQty--;
-                    products.selectedQty = cart[i].selectedQty;
-                  } else {
-                    cart.splice(i, 1);
-                    products.selectedQty = null;
-                  }
-                  props.updateCart(cart);
-                  setcount(count + 1);
-                }}><Text style={styles.darkcolor}>-</Text></TouchableOpacity>
-                <TouchableOpacity style={styles.navbutton}><Text style={styles.darkcolor}>{getselectedqty(products.id)}</Text></TouchableOpacity>
-                <TouchableOpacity style={styles.navbutton} onPress={() => {
-                  var cart = props.cart;
-                  cart.forEach((c, ind) => {
-                    if (c.id == products.id && products.quantity_in_stock > cart[ind].selectedQty) {
-                      cart[ind].selectedQty++;
-                      products.selectedQty = cart[ind].selectedQty;
-                      setproducts(products);
-                    }
-                  });
-                  props.updateCart(cart);
-                  setcount(count + 1);
-                }}><Text style={styles.darkcolor}>+</Text></TouchableOpacity>
-              </View>
-            ) : products.quantity_in_stock > 0 ? (
-              <TouchableOpacity style={[styles.buttonfull, { marginVertical: 0, padding: 8, width: '50%', marginLeft: 10 }]} onPress={() => {
-                var car = props.cart;
-                products.selectedQty = 1;
-                setproducts(products);
-                car.push(products);
-                props.updateCart(car);
-                setcount(count + 1);
-              }}>
-                <Text style={[styles.buttontext, { fontSize: 12 }]}>ADD TO CART</Text>
-              </TouchableOpacity>
-            ) : ( 
-              <Text style={{width: "50%", color: colors.warning, paddingHorizontal: 10, paddingVertical: 10}}>Out of stock</Text>
-            )}
-            {wishlist == 1 ? (
-              <TouchableOpacity onPress={()=>{addtowishlist()}} style={{ width: '50%', alignItems: "flex-end", flexDirection: 'row', justifyContent: 'center' }}>
-                <Icon type="feather" name={"heart"} size={30} color={"red"} />
-                <Text style={[styles.buttontext, {fontSize: 12, color: colors.dark, textAlign: 'center', paddingVertical: 10}]}> DELETE WISHLIST</Text>
-              </TouchableOpacity>
-            ): (
-              <TouchableOpacity onPress={()=>{addtowishlist()}} style={{ width: '50%', alignItems: "flex-end", flexDirection: 'row', justifyContent: 'center' }}>
-                <Icon type="feather" name={"heart"} size={30} color={colors.dark} />
-                <Text style={[styles.buttontext, {fontSize: 12, color: colors.dark, textAlign: 'center', paddingVertical: 10}]}> ADD TO WISHLIST</Text>
-              </TouchableOpacity>
-            )}
-        </View>
-        <Divider width={0.5} color={colors.primary} />  
-        <Tab
-            value={index}
-            onChange={(e) => setIndex(e)}
-            indicatorStyle={{
-                backgroundColor: 'black',
-                height: 3,
-            }}
-            variant="primary"
-        >
-          <Tab.Item
-              title="Details"
-              titleStyle={{ fontSize: 12, color: colors.dark }}
-              containerStyle={{backgroundColor: colors.light,borderBottomWidth: 0.5, borderBottomColor: colors.dark}}
-          />
-          <Tab.Item
-              title="REVIEWS"
-              titleStyle={{ fontSize: 12, color: colors.dark }}
-              containerStyle={{backgroundColor: colors.light, borderBottomWidth: 0.5, borderBottomColor: colors.dark}}
-          />
-        </Tab>
-        {index == 0 ?
-          <View>
-            <Text style={{ width: '100%', lineHeight: 34, textAlign: 'left', color: colors.dark, fontWeight: '500', fontSize: 12 }}>Part No.: {products.sku}</Text>
-            <Text style={{ width: '100%', lineHeight: 34, textAlign: 'left', color: colors.dark, fontWeight: '500', fontSize: 12 }}>CATEGORY: {products.brand.name}</Text>
-            <Text style={{ width: '100%', lineHeight: 34, textAlign: 'left', color: colors.dark, fontWeight: '500', fontSize: 12 }}>UOM: {props.jsondata && props.jsondata['uom'] ? props.jsondata['uom'][products.color] : products.color}</Text>
+          <View style={{ flexDirection: 'row' }}>
+              {products.media && selected && products.media.map((data, index) => {
+                return (
+                  <TouchableOpacity style={{ width: '23%', margin: '1%', height: 70 }} onPress={() => {
+                    setselected(data);
+                  }}>
+                    <Image source={{ uri: data.original_url }} style={{ width: '100%', borderWidth: selected.original_url == data.original_url ? 1 : 0, borderColor: colors.primary, margin: '1%', height: 70, resizeMode: 'contain' }} ></Image>
+                  </TouchableOpacity>
+              )})}
           </View>
-          : 
-          products.reviews && products.reviews.map((data, index) => {
-            return (
-              <View style={{paddingHorizontal : 10, borderBottomWidth: 0.6, marginTop: 10, borderBottomColor: colors.gray}}>
-                <View style={{ width: 130 }}>
-                    <AirbnbRating isDisabled={true} defaultRating={data.rating} reviews={[]}
-                        size={20}
-                        reviewSize={0}
-                        selectedColor={colors.warning}
-                        starContainerStyle={{ padding: 0, margin: 0 }}
-                        showRating={false}
-                    />
+          <Text style={[styles.header, { width: '100%' }]}>{products.name}</Text>
+          <View style={{ width: 130 }}>
+              <AirbnbRating isDisabled={true} defaultRating={products.review} reviews={[]}
+                  size={20}
+                  reviewSize={0}
+                  selectedColor={colors.warning}
+                  starContainerStyle={{ padding: 0, margin: 0 }}
+                  showRating={false}
+              />
+          </View>
+          <Text style={{color: 'white'}}>{count}</Text>  
+          <Text style={{ width: '100%', lineHeight: 34, textAlign: 'left', color: colors.dark, fontWeight: '600', fontSize: 16 }}>AED {products.discounted_price}</Text>
+          <Text style={{ width: '100%', textAlign: 'left', color: '#7E7E7E', fontWeight: '400', fontSize: 12 }}>{products.description}</Text>
+          <Divider width={0.5} color={colors.primary} />  
+          <View style={{ flexDirection: 'row', paddingVertical: 10 }}>
+              {checkincart(products.id) ? (
+                <View style={{ flexDirection: 'row', width: "50%" }}>
+                  <TouchableOpacity style={styles.navbutton} onPress={() => {
+                    var cart = props.cart;
+                    var i;
+                    cart.forEach((c, ind) => {
+                      if (c.id == products.id) {
+                        i = ind;
+                      }
+                    });
+                    if (cart[i].selectedQty && cart[i].selectedQty > 1) {
+                      cart[i].selectedQty--;
+                      products.selectedQty = cart[i].selectedQty;
+                    } else {
+                      cart.splice(i, 1);
+                      products.selectedQty = null;
+                    }
+                    props.updateCart(cart);
+                    setcount(count + 1);
+                  }}><Text style={styles.darkcolor}>-</Text></TouchableOpacity>
+                  <TouchableOpacity style={styles.navbutton}><Text style={styles.darkcolor}>{getselectedqty(products.id)}</Text></TouchableOpacity>
+                  <TouchableOpacity style={styles.navbutton} onPress={() => {
+                    var cart = props.cart;
+                    cart.forEach((c, ind) => {
+                      if (c.id == products.id && products.quantity_in_stock > cart[ind].selectedQty) {
+                        cart[ind].selectedQty++;
+                        products.selectedQty = cart[ind].selectedQty;
+                        setproducts(products);
+                      }
+                    });
+                    props.updateCart(cart);
+                    setcount(count + 1);
+                  }}><Text style={styles.darkcolor}>+</Text></TouchableOpacity>
                 </View>
-                <Text style={{ width: '100%', lineHeight: 34, textAlign: 'left', color: colors.dark, fontWeight: '500', fontSize: 12 }}>{data.message}</Text>
+              ) : products.quantity_in_stock > 0 ? (
+                <TouchableOpacity style={[styles.buttonfull, { marginVertical: 0, padding: 8, width: '50%', marginLeft: 10 }]} onPress={() => {
+                  var car = props.cart;
+                  products.selectedQty = 1;
+                  setproducts(products);
+                  car.push(products);
+                  props.updateCart(car);
+                  setcount(count + 1);
+                }}>
+                  <Text style={[styles.buttontext, { fontSize: 12 }]}>ADD TO CART</Text>
+                </TouchableOpacity>
+              ) : ( 
+                <Text style={{width: "50%", color: colors.warning, paddingHorizontal: 10, paddingVertical: 10}}>Out of stock</Text>
+              )}
+              {wishlist == 1 ? (
+                <TouchableOpacity onPress={()=>{addtowishlist()}} style={{ width: '50%', alignItems: "flex-end", flexDirection: 'row', justifyContent: 'center' }}>
+                  <Icon type="feather" name={"heart"} size={30} color={"red"} />
+                  <Text style={[styles.buttontext, {fontSize: 12, color: colors.dark, textAlign: 'center', paddingVertical: 10}]}> DELETE WISHLIST</Text>
+                </TouchableOpacity>
+              ): (
+                <TouchableOpacity onPress={()=>{addtowishlist()}} style={{ width: '50%', alignItems: "flex-end", flexDirection: 'row', justifyContent: 'center' }}>
+                  <Icon type="feather" name={"heart"} size={30} color={colors.dark} />
+                  <Text style={[styles.buttontext, {fontSize: 12, color: colors.dark, textAlign: 'center', paddingVertical: 10}]}> ADD TO WISHLIST</Text>
+                </TouchableOpacity>
+              )}
+          </View>
+          <Divider width={0.5} color={colors.primary} />  
+          <Tab
+              value={index}
+              onChange={(e) => setIndex(e)}
+              indicatorStyle={{
+                  backgroundColor: 'black',
+                  height: 3,
+              }}
+              variant="primary"
+          >
+            <Tab.Item
+                title="Details"
+                titleStyle={{ fontSize: 12, color: colors.dark }}
+                containerStyle={{backgroundColor: colors.light,borderBottomWidth: 0.5, borderBottomColor: colors.dark}}
+            />
+            <Tab.Item
+                title="REVIEWS"
+                titleStyle={{ fontSize: 12, color: colors.dark }}
+                containerStyle={{backgroundColor: colors.light, borderBottomWidth: 0.5, borderBottomColor: colors.dark}}
+            />
+          </Tab>
+          {index == 0 ?
+            <View style={{marginBottom: 30}}>
+              <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, fontWeight: '500', fontSize: 12 }}>Part No.: {products.sku}</Text>
+              <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, fontWeight: '500', fontSize: 12 }}>UOM: {props.jsondata && props.jsondata['uom'] ? props.jsondata['uom'][products.color] : products.color}</Text>
+              <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, fontWeight: '500', fontSize: 12 }}>CATEGORY: {products.brand.name}</Text>
+            </View>
+            : 
+            (
+              <View style={{marginBottom: 30}}>
+                {products.reviews && products.reviews.map((data, index) => {
+                  return (
+                    <View style={{paddingHorizontal : 10, borderBottomWidth: 0.6, marginTop: 10, borderBottomColor: colors.gray}}>
+                      <View style={{ width: 130 }}>
+                          <AirbnbRating isDisabled={true} defaultRating={data.rating} reviews={[]}
+                              size={20}
+                              reviewSize={0}
+                              selectedColor={colors.warning}
+                              starContainerStyle={{ padding: 0, margin: 0 }}
+                              showRating={false}
+                          />
+                      </View>
+                      <Text style={{ width: '100%', lineHeight: 34, textAlign: 'left', color: colors.dark, fontWeight: '500', fontSize: 12 }}>{data.message}</Text>
+                    </View>
+                  )
+                })}
+                {props.user.id ? 
+                  <Card style={{paddingHorizontal : 10, borderBottomWidth: 0.6, marginTop: 20, borderBottomColor: colors.gray}}>
+                    <Text style={{ width: '100%', lineHeight: 15, textAlign: 'left', color: colors.dark, fontWeight: '500', fontSize: 17 }}>
+                      Write a review about the product</Text>
+                    <View style={{ width: 130, marginBottom: 20 }}>
+                        <AirbnbRating isDisabled={false} defaultRating={rating} reviews={[]}
+                            size={20}
+                            reviewSize={0}
+                            onFinishRating={r => { setrating(r)}}
+                            selectedColor={colors.warning}
+                            starContainerStyle={{ padding: 0, margin: 0 }}
+                            showRating={true}
+                        />
+                    </View>
+                    <View style={{ marginBottom: 20, flexDirection: 'row' }}>
+                      <Input
+                          placeholder='Write review'
+                          onChangeText={text => setreview(text)}
+                          value={review}
+                          containerStyle={[styles.inputcontainerstyle, {width: '68%'}]}
+                          inputContainerStyle={styles.inputstyle}
+                      />
+                      <Button title={"Submit"} onPress={() => submitreview()} loading={rewloading} color={colors.success} size={"lg"} containerStyle={{marginLeft: 5, width: '30%'}} buttonStyle={{paddingVertical: 13, backgroundColor: colors.primary}}></Button>
+                    </View>
+                  </Card>
+                  :
+                    <Text style={{ width: '100%', lineHeight: 15, textAlign: 'left', color: colors.dark, fontWeight: '500', fontSize: 17 }}>
+                      Login to give feedback</Text>
+                }
+
               </View>
             )
-          })
-        }
+          }
 
-        {products && products.productsLike ?
-          <View>
-            <Text style={[styles.header, { width: '100%' }]}>Related Products</Text>
-            <FlatList
-              data={products.productsLike}
-              horizontal={true}
-              renderItem={renderItem}
-              keyExtractor={item => item.id}
-              style={{width: Dimensions.get('screen').width}}
-            />
-          </View>
-        : null}
+          {products && products.productsLike ?
+            <View>
+              <Text style={[styles.header, { width: '100%' }]}>Related Products</Text>
+              <FlatList
+                data={products.productsLike}
+                horizontal={true}
+                renderItem={renderItem}
+                keyExtractor={item => item.id}
+                style={{width: Dimensions.get('screen').width}}
+              />
+            </View>
+          : null}
         </ScrollView>
         : <ActivityIndicator size={"large"} color={colors.primary} />
       }
@@ -266,10 +324,12 @@ const ProductDetailScreen = (props) => {
 function mapStateToProps(state) {
   return {
     cart: state.cartReducer,
+    user: state.userReducer,
   };
 }
 function mapDispatchToProps(dispatch) {
   return {
+    updateUser: (cart) => dispatch({ type: "UPDATE_USER", user: cart }),
     updateCart: (cart) => dispatch({ type: "UPDATE_CART", cart: cart }),
   };
 }
