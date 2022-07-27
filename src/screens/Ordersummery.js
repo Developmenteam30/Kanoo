@@ -191,15 +191,15 @@ const Ordersummery = (props) => {
                 <Card>
                         <View style={styles.cartitems}>
                             <Text style={styles.headertext}>Subtotal</Text>
-                            <Text style={styles.headervalue}>{subtotal}</Text>
+                            <Text style={styles.headervalue}>AED {subtotal}</Text>
                         </View>
                         <View style={styles.cartitems}>
                             <Text style={styles.headertext}>Tax</Text>
-                            <Text style={styles.headervalue}>{tax}</Text>
+                            <Text style={styles.headervalue}>AED {tax}</Text>
                         </View>
                         <View style={styles.cartitems}>
                             <Text style={styles.headertext}>Total</Text>
-                            <Text style={styles.headervalue}>{total}</Text>
+                            <Text style={styles.headervalue}>AED {total}</Text>
                         </View>
                 </Card>
                 {order ? null :

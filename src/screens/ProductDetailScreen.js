@@ -63,19 +63,23 @@ const ProductDetailScreen = (props) => {
     }
   };
   const addtowishlist = async () => {
-    var order = {
-        'product_id': products.id,
-    };
-    var cate = await api.postapi(order,"addwish");
-    if (cate) {
-      if (wishlist == 1) {
-        setwishlist(0);
-      } else {
-        setwishlist(1);
+    if (props.user.email) {
+      var order = {
+          'product_id': products.id,
+      };
+      var cate = await api.postapi(order,"addwish");
+      if (cate) {
+        if (wishlist == 1) {
+          setwishlist(0);
+        } else {
+          setwishlist(1);
+        }
+        Alert.alert(cate.message);
+      } else if (cate && cate.message) {
+        Alert.alert(cate.message);
       }
-      Alert.alert(cate.message);
-    } else if (cate && cate.message) {
-      Alert.alert(cate.message);
+    } else {
+        Alert.alert("Please login first to add wishlist");
     }
   }
 

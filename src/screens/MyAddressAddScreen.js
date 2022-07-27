@@ -1,15 +1,20 @@
 import React, {useEffect, useState} from 'react';
 import {Image, ImageBackground, SafeAreaView, Text, KeyboardAvoidingView, Platform, View, ScrollView, TouchableOpacity, Alert, ActivityIndicator} from 'react-native';
-import { Divider, Input } from 'react-native-elements';
+import { BottomSheet, Divider, Input, ListItem } from 'react-native-elements';
 import styles from '../styles/LoginScreenStyle';
 import { Images } from '../utils/Images';
 import { colors } from '../utils/Variables';
 import api from "../utils/Api";
 import { connect } from "react-redux";
+const customData = require('../utils/country.json');
 
 const MyAddressAddScreen = (props) => {
   const keyboardVerticalOffset = Platform.OS === 'ios' ? 40 : -100
     const [loading, setloading] = useState(false);
+    const [isVisible, setIsVisible] = useState(false);
+    const [isVisibleE, setIsVisibleE] = useState(false);
+    const [countrylist, setcountrylist] = useState([]);
+    const [emirateslist, setemirateslist] = useState([]);
     const [id, setid] = useState(null);
     const [firstname, setfirstname] = useState(null);
     const [lastname, setlastname] = useState(null);
@@ -27,7 +32,7 @@ const MyAddressAddScreen = (props) => {
             apartment : apartment,
             street : street,
             city : city,
-            state : state,
+            state : state ? state : "",
             country : country,
             zip_code : zip_code,
         }
@@ -45,7 +50,18 @@ const MyAddressAddScreen = (props) => {
             Alert.alert('Something went wrong try later');
         }
     };
-
+    const setdatafile = (e) => {
+        setcountry(e.country);
+        var d = [];
+        e.states.forEach(e => {
+            d.push({
+                title: e,
+                onPress: () => { setstate(e); setIsVisibleE(false);},
+            });
+        })
+        setemirateslist(d);
+        setIsVisible(false);
+    }
     useEffect(() => {
         if (props.route.params && props.route.params.address) {
             var address = props.route.params.address;
@@ -60,17 +76,49 @@ const MyAddressAddScreen = (props) => {
             setzip_code(address.zip_code);
             setid(address.id);
         }
+        var d = [];
+        customData.countries.forEach(e => {
+            d.push({
+                title: e.country,
+                onPress: () => setdatafile(e),
+            });
+        })
+        setcountrylist(d);
         return ()=>{}
     }, [])
 
     return (
-      <SafeAreaView style={[styles.mainContainer, {backgroundColor: colors.light}]}>
-        <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={keyboardVerticalOffset}>
+        <SafeAreaView style={[styles.mainContainer, { backgroundColor: colors.light }]}>
+            <BottomSheet
+                isVisible={isVisible}
+                containerStyle={{ backgroundColor: 'rgba(0.5, 0.25, 0, 0.2)' }}
+                >
+                {countrylist.map((l, i) => (
+                    <ListItem key={i} containerStyle={l.containerStyle} onPress={l.onPress}>
+                    <ListItem.Content>
+                        <ListItem.Title style={l.titleStyle}>{l.title}</ListItem.Title>
+                    </ListItem.Content>
+                    </ListItem>
+                ))}
+            </BottomSheet>
+            <BottomSheet
+                isVisible={isVisibleE}
+                containerStyle={{ backgroundColor: 'rgba(0.5, 0.25, 0, 0.2)' }}
+                >
+                {emirateslist.map((l, i) => (
+                    <ListItem key={i} containerStyle={l.containerStyle} onPress={l.onPress}>
+                    <ListItem.Content>
+                        <ListItem.Title style={l.titleStyle}>{l.title}</ListItem.Title>
+                    </ListItem.Content>
+                    </ListItem>
+                ))}
+            </BottomSheet>
+            <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={keyboardVerticalOffset}>
               <ScrollView style={[styles.Modelscrollwidth, {padding: 15, backgroundColor: colors.light}]} showsVerticalScrollIndicator={false}>
                     <View style={styles.form}>
                         <Text style={styles.label}>First name</Text>
                         <Input
-                            placeholder='enter first Name'
+                            placeholder='Enter First Name'
                             containerStyle={styles.inputcontainerstyle}
                             inputContainerStyle={styles.inputstyle}
                             onChangeText={text => setfirstname(text)}
@@ -78,7 +126,7 @@ const MyAddressAddScreen = (props) => {
                         />
                         <Text style={styles.label}>Last name</Text>
                         <Input
-                            placeholder='enter last name'
+                            placeholder='Enter Last name'
                             containerStyle={styles.inputcontainerstyle}
                             inputContainerStyle={styles.inputstyle}
                             onChangeText={text => setlastname(text)}
@@ -86,7 +134,7 @@ const MyAddressAddScreen = (props) => {
                         />
                         <Text style={styles.label}>Apartment</Text>
                         <Input
-                            placeholder='enter apartment'
+                            placeholder='Enter Apartment'
                             containerStyle={styles.inputcontainerstyle}
                             inputContainerStyle={styles.inputstyle}
                             onChangeText={text => setapartment(text)}
@@ -94,7 +142,7 @@ const MyAddressAddScreen = (props) => {
                         />
                         <Text style={styles.label}>Street</Text>
                         <Input
-                            placeholder='enter address'
+                            placeholder='Enter Address'
                             containerStyle={styles.inputcontainerstyle}
                             inputContainerStyle={styles.inputstyle}
                             onChangeText={text => setstreet(text)}
@@ -102,31 +150,43 @@ const MyAddressAddScreen = (props) => {
                         />
                         <Text style={styles.label}>Town / City</Text>
                         <Input
-                            placeholder='enter city'
+                            placeholder='Enter City'
                             containerStyle={styles.inputcontainerstyle}
                             inputContainerStyle={styles.inputstyle}
                             onChangeText={text => setcity(text)}
                             value={city}
                         />
-                        <Text style={styles.label}>Emirate</Text>
-                        <Input
-                            placeholder='enter emirate'
-                            containerStyle={styles.inputcontainerstyle}
-                            inputContainerStyle={styles.inputstyle}
-                            onChangeText={text => setstate(text)}
-                            value={state}
-                        />
                         <Text style={styles.label}>Country</Text>
+                        <TouchableOpacity
+                            onPress={() => setIsVisible(true)}
+                        >
                         <Input
-                            placeholder='enter state'
+                            placeholder='Enter Country'
+                            disabled={true}
                             containerStyle={styles.inputcontainerstyle}
                             inputContainerStyle={styles.inputstyle}
                             onChangeText={text => setcountry(text)}
                             value={country}
                         />
+                        </TouchableOpacity>
+                        {emirateslist.length > 0 ?
+                        <TouchableOpacity
+                            onPress={() => setIsVisibleE(true)}
+                        >
+                        <Text style={styles.label}>Emirate</Text>
+                        <Input
+                            placeholder='Enter Emirate'
+                            disabled={true}
+                            containerStyle={styles.inputcontainerstyle}
+                            inputContainerStyle={styles.inputstyle}
+                            onChangeText={text => setstate(text)}
+                            value={state}
+                        />
+                        </TouchableOpacity>
+                        : null}
                         <Text style={styles.label}>Postalcode / ZIP</Text>
                         <Input
-                            placeholder='enter postalcode'
+                            placeholder='Enter Postalcode'
                             containerStyle={styles.inputcontainerstyle}
                             inputContainerStyle={styles.inputstyle}
                             onChangeText={text => setzip_code(text)}

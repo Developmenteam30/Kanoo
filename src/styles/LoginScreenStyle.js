@@ -16,10 +16,10 @@ const styles = StyleSheet.create({
         resizeMode: 'contain'
     },
     headertext: {
-         width: '75%', lineHeight: 24, textAlign: 'right', color: colors.dark, paddingTop: 12, fontWeight: '500'
+         width: '65%', lineHeight: 24, textAlign: 'right', color: colors.dark, paddingTop: 12, fontWeight: '500'
     },
     headervalue: {
-         width: '25%', lineHeight: 24, textAlign: 'right', color: colors.dark, paddingTop: 12,
+         width: '35%', lineHeight: 24, textAlign: 'right', color: colors.dark, paddingTop: 12,
     },
     cartitems: {
         flexDirection: 'row',

@@ -90,7 +90,7 @@ const Helps = (props) => {
                     <Divider width={1} color={colors.primary} />  
                     <Image source={require('../assets/images/darklogo.png')} style={{ width: '100%', height: 50, resizeMode: 'contain', marginTop: 20 }} />
                     <Text style={[styles.bottomtext, { padding: 0, color: colors.primary, marginTop: 15, paddingHorizontal: 0, lineHeight: 24 }]}>Get In Touch With Us</Text>  
-                    <Text style={[styles.bottomtext, { padding: 0, paddingHorizontal: 0, lineHeight: 24 }]}>km100.uae@kanoo.coms</Text>  
+                    <Text style={[styles.bottomtext, { padding: 0, paddingHorizontal: 0, lineHeight: 24 }]}>km100.uae@kanoo.com</Text>  
                     <Text style={[styles.bottomtext, { padding: 0, paddingHorizontal: 0, lineHeight: 24 }]}>Toll-Free: 800-KM100 (56100)</Text>  
                     <FlatList
                       data={DATA}

@@ -66,7 +66,6 @@ const ProfileScreen = (props) => {
         transparent={true}
         visible={passmodalVisible}
         onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
           setpassModalVisible(!passmodalVisible);
         }}
       >
@@ -79,7 +78,6 @@ const ProfileScreen = (props) => {
         transparent={true}
         visible={Help}
         onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
           setHelp(!Help);
         }}
       >
