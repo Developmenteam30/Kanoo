@@ -24,7 +24,7 @@ const HomeScreen = (props) => {
   };
   const _renderItem = ({ item, index }) => {
       return (
-        <Card style={styles.slide}>
+        <Card style={styles.slide} containerStyle={{padding: 5}}>
           <Image source={{ uri: global.base_url+item.image_1 }} style={styles.banner}/>
         </Card>
       );
@@ -32,9 +32,9 @@ const HomeScreen = (props) => {
   const renderItem = ({ item, index }) => {
     return (
         <TouchableOpacity onPress={()=>props.navigation.navigate('HomeScreen', {screen: 'Search', params: {category: item, categoryIndex: index}})}>
-          <Card style={styles.catwidth}>
+          <Card containerStyle={styles.catwidth}>
             <Image source={{ uri: item.image }} style={styles.imageb} />
-            <Text style={{width: '100%', textAlign: 'center', color: colors.dark}}>{item.name}</Text>
+            {/* <Text style={{width: '100%', textAlign: 'center', color: colors.dark}}>{item.name}</Text> */}
           </Card>
         </TouchableOpacity>
       );
@@ -46,7 +46,7 @@ const HomeScreen = (props) => {
   }, [])
   return (
     <SafeAreaView style={styles.mainContainer}>
-      <View style={{ flex: 1, minHeight: 250 }}>
+      <View style={{ flex: 1, minHeight: 245 }}>
         {props.jsondata && props.jsondata.home_slider && props.jsondata.home_slider.images ?
           <Carousel
             ref={(c) => { _carousel = c; }}

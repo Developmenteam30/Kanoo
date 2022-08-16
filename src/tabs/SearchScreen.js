@@ -20,6 +20,7 @@ const SearchScreen = (props) => {
   const [category, setcategory] = useState(0);
   const [products, setproducts] = useState();
   const [loader, setloader] = useState(true);
+  const [count, setcount] = React.useState(0);
   const apicall = async (text = "", cat = category) => {
     setsearch(text);
     var cate = await api.getapi("featureproducts?brand_id="+props.category[cat].id+"&q="+text);
@@ -43,6 +44,26 @@ const SearchScreen = (props) => {
     }
     return ()=>{}
   }, [])
+
+  const getselectedqty = (id) => {
+    var i = 1;
+    props.cart.forEach((c) => {
+      if (c.id == id) {
+        i = c.selectedQty;
+      }
+    });
+    return i;
+  }
+  const checkincart = (id) => {
+    var i = 0;
+    props.cart.forEach((c) => {
+      if (c.id == id) {
+        i = 1;
+      }
+    });
+    return i == 0 ? false : true;
+  };
+
   const _renderItem = ({ item, index }) => {
         return (
           <Card style={styles.slide}>
@@ -56,9 +77,10 @@ const SearchScreen = (props) => {
         <TouchableOpacity onPress={() => props.navigation.navigate('ProductDetailScreen', {product: item})}>
             <Image source={{ uri: item.image != '' ? item.image : "https://web.techinfomatic.com/assets/no-image.png" }} style={styles.imageb} />
             <View>
+            <Text style={{ width: '100%', lineHeight: 16, textAlign: 'left', color: colors.dark, fontWeight: '400', fontSize: 10 }}>Part Number: {item.sku}</Text>
               <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark }}>{item.name}</Text>
-              <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, fontWeight: '400', fontSize: 10 }}>{props.jsondata && props.jsondata['uom'] ? props.jsondata['uom'][item.color] : item.color}</Text>
-              <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, fontWeight: '600', fontSize: 14 }}>AED {item.discounted_price}</Text>
+              <Text style={{ width: '100%', lineHeight: 16, textAlign: 'left', color: colors.dark, fontWeight: '400', fontSize: 10 }}>{props.jsondata && props.jsondata['uom'] ? props.jsondata['uom'][item.color] : item.color}</Text>
+            <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, fontWeight: '600', fontSize: 14 }}>AED {item.discounted_price} </Text>
               <AirbnbRating isDisabled={true} defaultRating={item.review} reviews={[]}
                   size={15}
                   selectedColor={colors.dark}
@@ -66,6 +88,54 @@ const SearchScreen = (props) => {
                   starContainerStyle={{ padding: 0, margin: 0 }}
                   showRating={false}
               />
+
+              {checkincart(item.id) ? (
+                <View style={{ flexDirection: 'row', width: "50%" }}>
+                  <TouchableOpacity style={styles.navbutton} onPress={() => {
+                    var cart = props.cart;
+                    var i;
+                    cart.forEach((c, ind) => {
+                      if (c.id == item.id) {
+                        i = ind;
+                      }
+                    });
+                    if (cart[i].selectedQty && cart[i].selectedQty > 1) {
+                      cart[i].selectedQty--;
+                      item.selectedQty = cart[i].selectedQty;
+                    } else {
+                      cart.splice(i, 1);
+                      item.selectedQty = null;
+                    }
+                    props.updateCart(cart);
+                    setcount(count + 1);
+                  }}><Text style={styles.darkcolor}>-</Text></TouchableOpacity>
+                  <TouchableOpacity style={styles.navbutton}><Text style={styles.darkcolor}>{getselectedqty(item.id)}</Text></TouchableOpacity>
+                  <TouchableOpacity style={styles.navbutton} onPress={() => {
+                    var cart = props.cart;
+                    cart.forEach((c, ind) => {
+                      if (c.id == item.id && item.quantity_in_stock > cart[ind].selectedQty) {
+                        cart[ind].selectedQty++;
+                        item.selectedQty = cart[ind].selectedQty;
+                      }
+                    });
+                    props.updateCart(cart);
+                    setcount(count + 1);
+                  }}><Text style={styles.darkcolor}>+</Text></TouchableOpacity>
+                </View>
+              ) : item.quantity_in_stock > 0 ? (
+                <TouchableOpacity style={[styles.buttonfull, { marginVertical: 0, padding: 8, width: '90%', marginLeft: 0 }]} onPress={() => {
+                  var car = props.cart;
+                  item.selectedQty = 1;
+                  car.push(item);
+                  props.updateCart(car);
+                  setcount(count + 1);
+                }}>
+                  <Text style={[styles.buttontext, { fontSize: 12 }]}>ADD TO CART</Text>
+                </TouchableOpacity>
+              ) : ( 
+                <Text style={{width: "90%", color: colors.warning, paddingHorizontal: 10, paddingVertical: 10}}>Out of stock</Text>
+              )}
+            
             </View>
         </TouchableOpacity>
       </Card>
@@ -122,12 +192,14 @@ const SearchScreen = (props) => {
 function mapStateToProps(state) {
   return {
     user: state.userReducer,
+    cart: state.cartReducer,
     category: state.categoryReducer,
     jsondata: state.jsondataReducer
   };
 }
 function mapDispatchToProps(dispatch) {
   return {
+      updateCart: (cart) => dispatch({ type: "UPDATE_CART", cart: cart }),
       updateUser: (cart) => dispatch({ type: "UPDATE_USER", user: cart }),
       updateCaregory: (data) => dispatch({ type: "UPDATE_CATEGORY", category: data }),
       updateJsondata: (data) => dispatch({ type: "UPDATE_jsondata", jsondata: data }),

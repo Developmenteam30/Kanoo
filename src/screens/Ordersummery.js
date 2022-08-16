@@ -147,8 +147,8 @@ const Ordersummery = (props) => {
                                     <Text style={{ width: '100%', fontSize: 15, fontWeight: '600', lineHeight: 18, textAlign: 'left', color: colors.dark, paddingTop: 12 }}>Oerder date: {api.formatDate(order.created_at)}</Text>
                                 </View>
                             </View>
-                            <Text style={{ width: '100%', lineHeight: 20, textAlign: 'left', color: colors.dark, paddingTop: 12 }}>Payment Method: {order.payment_method}</Text>
-                            <Text style={{ width: '100%', lineHeight: 20, textAlign: 'left', color: colors.dark, paddingTop: 12 }}>Oerder Status: {order.status}</Text>
+                            <Text style={{ width: '100%', textTransform: 'capitalize', lineHeight: 20, textAlign: 'left', color: colors.dark, paddingTop: 12 }}>Payment Method: {order.payment_method}</Text>
+                            <Text style={{ width: '100%', textTransform: 'capitalize', lineHeight: 20, textAlign: 'left', color: colors.dark, paddingTop: 12 }}>Oerder Status: {order.status}</Text>
                         </View>
                     </Card>
                     : null 

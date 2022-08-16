@@ -31,14 +31,14 @@ const MyOrderScreen = (props) => {
             <Card>
                 <View style={[styles.cartitem]}>
                     <View style={{ flexDirection: 'row' }}>
-                        <View style={{width: '65%'}}>
-                            <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, paddingTop: 12 }}>{item.order_items[0].product.name}</Text>
+                        <View style={{width: '55%'}}>
+                            <Text style={{ width: '100%', fontWeight: 'bold', fontSize: 17, lineHeight: 24, textAlign: 'left', color: colors.dark, paddingTop: 12 }}>Order Id: {item.id}</Text>
                             <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, paddingTop: 12 }}>Total Amount</Text>
-                            <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, fontWeight: '600', fontSize: 15 }}>{item.total_price}</Text>
+                            <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, fontWeight: '600', fontSize: 15 }}>AED {item.total_price}</Text>
                         </View>
-                        <View style={{width: '35%'}}>
-                            <Text style={{ width: '100%', lineHeight: 24, textAlign: 'right', color: colors.dark, paddingTop: 12 }}>{item.created_at}</Text>
-                            <Text style={{ width: '100%', lineHeight: 20, textAlign: 'right', color: colors.success, paddingTop: 12 }}>{item.status}</Text>
+                        <View style={{width: '45%'}}>
+                            <Text style={{ width: '100%', lineHeight: 18, textAlign: 'right', color: colors.dark, paddingTop: 12 }}>{api.settimeformat(item.created_at)}</Text>
+                            <Text style={{ width: '100%', lineHeight: 16, textAlign: 'right', color: colors.success, paddingTop: 12 }}>{item.status}</Text>
                             <Text style={{ width: '100%', lineHeight: 24, textAlign: 'center', color: colors.dark, paddingVertical: 5, marginTop: 7, borderColor: colors.dark, borderRadius: 20, borderWidth: 0.6 }}>View details</Text>
                         </View>
                     </View>

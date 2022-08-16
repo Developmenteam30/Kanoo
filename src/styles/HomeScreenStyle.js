@@ -33,9 +33,19 @@ const styles = StyleSheet.create({
         color: colors.dark
     },
     imageb: {
-        width: width/3,
+        width: (width-(width/7))/2,
         height: 80,
-        resizeMode: 'contain'
+        resizeMode: 'contain',
+        marginRight: 0,
+    },
+    catwidth: {
+        padding: 0,
+        width: '95%',
+        marginLeft: "5%",
+        marginRight: 0,
+        marginVertical: '5%',
+        justifyContent: 'center',
+        borderRadius : 10,
     }
 });
 export default styles;
