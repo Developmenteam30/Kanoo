@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Pressable, Image } from 'react-native';
+import { Pressable, Image, View } from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
@@ -75,9 +75,13 @@ const GradientHeader = props => {
         } 
         centerComponent={{ text: '', style: { color: '#fff', paddingTop: 5, fontWeight: '700' } }} 
         rightComponent={
-            (<Pressable onPress={()=>props.navigation.navigate('Search')}>
-                <Icon name={"search"} color='#fff' size={40} type="evilicon" style={{padding: 5}} />
-            </Pressable>)
+          (
+            <View style={{ flexDirection: 'row' }}>
+              <Pressable onPress={() => props.navigation.navigate('Search')}>
+                  <Icon name={"bell"} color='#fff' size={40} type="evilicon" style={{padding: 5}} />
+              </Pressable>
+            </View>
+          )
         }/>
 )};
 const MainStack = ({navigation}) => {

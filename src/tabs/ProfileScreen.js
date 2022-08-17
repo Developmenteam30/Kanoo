@@ -125,7 +125,7 @@ const ProfileScreen = (props) => {
         <Divider width={0.3} color={colors.gray} />  
         <TouchableOpacity key={0} style={styles.listitems} onPress={()=>setHelp(true)}>
           <Icon name={'ios-chatbox-ellipses-outline'} type="ionicon" style={styles.listicon} />
-          <Text style={styles.listtitle}>Help</Text>
+          <Text style={styles.listtitle}>Contact Us</Text>
         </TouchableOpacity>
         <Divider width={0.4} color={colors.gray} />  
         <TouchableOpacity key={0} style={styles.listitems} onPress={logout}>

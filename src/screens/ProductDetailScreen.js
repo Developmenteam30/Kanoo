@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Image, Alert, SafeAreaView, Text, KeyboardAvoidingView, Platform, View, ScrollView, TouchableOpacity, Dimensions, FlatList} from 'react-native';
+import {Image, Alert, SafeAreaView, Text, Modal, Platform, View, ScrollView, TouchableOpacity, Dimensions, FlatList} from 'react-native';
 import { Card, AirbnbRating, Divider, Icon, Tab, Input, Button } from 'react-native-elements';
 import styles from '../styles/SearchScreenStyle';
 import { Images } from '../utils/Images';
@@ -9,10 +9,12 @@ import { Pagination } from 'react-native-snap-carousel';
 import api from '../utils/Api';
 import { connect } from "react-redux";
 import { ActivityIndicator } from 'react-native';
+import Bulkorder from '../component/Bulkorder';
 const {width, height} = Dimensions.get('window');
 const ProductDetailScreen = (props) => {
   const keyboardVerticalOffset = Platform.OS === 'ios' ? 40 : 0;
     var _carousel = useRef(null);
+  const [modalVisible, setModalVisible] = useState(false);
   const [index, setIndex] = React.useState(0);
   const [rating, setrating] = React.useState(3);
   const [review, setreview] = React.useState('');
@@ -114,6 +116,9 @@ const ProductDetailScreen = (props) => {
     });
     return i == 0 ? false : true;
   };
+  const close = () => {
+    setModalVisible(false);
+  }
 
   const renderItem = ({ item, index }) => {
       return (
@@ -136,8 +141,22 @@ const ProductDetailScreen = (props) => {
 
   return (
     <SafeAreaView style={[styles.mainContainer, { marginTop: 0 }]}>
+
       {products ?
         <ScrollView style={{ flex: 1, minHeight: 150, padding: 15, width: Dimensions.get('screen').width, backgroundColor: colors.light }}>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              setModalVisible(!modalVisible);
+            }}
+          >
+            <View style={styles.centeredView}>
+              <Bulkorder user={props.user}  close={close} product_id={products.id} />
+            </View>
+          </Modal>
+
           {selected && selected.original_url ? (
             <Image source={{ uri: selected.original_url }} style={{ width: '100%', height: 190, resizeMode: 'contain' }} ></Image>
           ) : null}
@@ -168,7 +187,7 @@ const ProductDetailScreen = (props) => {
           <Divider width={0.5} color={colors.primary} />  
           <View style={{ flexDirection: 'row', paddingVertical: 10 }}>
               {checkincart(products.id) ? (
-                <View style={{ flexDirection: 'row', width: "50%" }}>
+                <View style={{ flexDirection: 'row', width: "40%" }}>
                   <TouchableOpacity style={styles.navbutton} onPress={() => {
                     var cart = props.cart;
                     var i;
@@ -202,7 +221,7 @@ const ProductDetailScreen = (props) => {
                   }}><Text style={styles.darkcolor}>+</Text></TouchableOpacity>
                 </View>
               ) : products.quantity_in_stock > 0 ? (
-                <TouchableOpacity style={[styles.buttonfull, { marginVertical: 0, padding: 8, width: '50%', marginLeft: 10 }]} onPress={() => {
+                <TouchableOpacity style={[styles.buttonfull, { marginVertical: 0, padding: 8, width: '40%', marginLeft: 10 }]} onPress={() => {
                   var car = props.cart;
                   products.selectedQty = 1;
                   setproducts(products);
@@ -215,15 +234,19 @@ const ProductDetailScreen = (props) => {
               ) : ( 
                 <Text style={{width: "50%", color: colors.warning, paddingHorizontal: 10, paddingVertical: 10}}>Out of stock</Text>
               )}
+              <TouchableOpacity style={[styles.buttonfull, { marginVertical: 0, padding: 8, width: '40%', marginLeft: 10 }]} onPress={() => {
+                setModalVisible(!modalVisible);
+              }}>
+                <Text style={[styles.buttontext, { fontSize: 12 }]}>BULK ORDER</Text>
+              </TouchableOpacity>
+
               {wishlist == 1 ? (
-                <TouchableOpacity onPress={()=>{addtowishlist()}} style={{ width: '50%', alignItems: "flex-end", flexDirection: 'row', justifyContent: 'center' }}>
+                <TouchableOpacity onPress={()=>{addtowishlist()}} style={{ width: '15%', alignItems: "flex-end", flexDirection: 'row', justifyContent: 'center' }}>
                   <Icon type="feather" name={"heart"} size={30} color={"red"} />
-                  <Text style={[styles.buttontext, {fontSize: 12, color: colors.dark, textAlign: 'center', paddingVertical: 10}]}> DELETE WISHLIST</Text>
                 </TouchableOpacity>
               ): (
-                <TouchableOpacity onPress={()=>{addtowishlist()}} style={{ width: '50%', alignItems: "flex-end", flexDirection: 'row', justifyContent: 'center' }}>
+                <TouchableOpacity onPress={()=>{addtowishlist()}} style={{ width: '15%', alignItems: "flex-end", flexDirection: 'row', justifyContent: 'center' }}>
                   <Icon type="feather" name={"heart"} size={30} color={colors.dark} />
-                  <Text style={[styles.buttontext, {fontSize: 12, color: colors.dark, textAlign: 'center', paddingVertical: 10}]}> ADD TO WISHLIST</Text>
                 </TouchableOpacity>
               )}
           </View>
