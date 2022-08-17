@@ -52,7 +52,6 @@ class Api {
 
   login = async (data, url) => {
     try {
-      console.log(data);
       var response = await fetch(api_url + url, {
         method: "POST",
         headers: {
@@ -95,7 +94,6 @@ class Api {
 
   getapi = async (url) => {
     try {
-      console.log(global.auth);
       var response = await fetch(api_url + url, {
         method: "GET",
         headers: {
