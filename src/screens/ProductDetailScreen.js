@@ -275,7 +275,7 @@ const ProductDetailScreen = (props) => {
             <View style={{marginBottom: 30}}>
               <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, fontWeight: '500', fontSize: 12 }}>Part No.: {products.sku}</Text>
               <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, fontWeight: '500', fontSize: 12 }}>UOM: {props.jsondata && props.jsondata['uom'] ? props.jsondata['uom'][products.color] : products.color}</Text>
-              <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, fontWeight: '500', fontSize: 12 }}>CATEGORY: {products.brand.name}</Text>
+              <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, fontWeight: '500', fontSize: 12 }}>Brand: {products.brand.name}</Text>
             </View>
             : 
             (

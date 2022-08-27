@@ -89,7 +89,7 @@ const Bulkorder = (props) => {
                         value={message}
                     />
                     <TouchableOpacity style={styles.buttonfull} onPress={()=>updateuserdata()}>
-                        <Text style={styles.buttontext}>Save</Text>
+                        <Text style={styles.buttontext}>Send Request</Text>
                     </TouchableOpacity>
                 </View>
             </ScrollView>

@@ -20,6 +20,7 @@ import MyAddressScreen from '../screens/MyAddressScreen';
 import MyAddressAddScreen from '../screens/MyAddressAddScreen';
 import ProductDetailScreen from '../screens/ProductDetailScreen';
 import Ordersummery from '../screens/Ordersummery';
+import NotificationsScreen from '../screens/NotificationsScreen';
 
 import { colors } from '../utils/Variables';
 import { Header, Icon } from 'react-native-elements';
@@ -77,7 +78,7 @@ const GradientHeader = props => {
         rightComponent={
           (
             <View style={{ flexDirection: 'row' }}>
-              <Pressable onPress={() => props.navigation.navigate('Search')}>
+              <Pressable onPress={() => props.navigation.navigate('Notifications')}>
                   <Icon name={"bell"} color='#fff' size={40} type="evilicon" style={{padding: 5}} />
               </Pressable>
             </View>
@@ -132,6 +133,11 @@ const MainStack = ({navigation}) => {
         component={Success}
         options={{ headerShown: false }}
       />
+      <Stack.Screen
+        name='Notifications'
+        component={NotificationsScreen}
+      />
+      
       <Stack.Screen
         name='Ordersummery'
         component={Ordersummery}

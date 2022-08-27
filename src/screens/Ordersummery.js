@@ -72,7 +72,7 @@ const Ordersummery = (props) => {
                     <View style={{width: '45%'}}>
                         <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, paddingTop: 2 }}>{item.product.name}</Text>
                         <Text style={{ width: '100%', lineHeight: 16, textAlign: 'left', color: colors.dark, paddingTop: 2 }}>Part No.: {item.product.sku}</Text>
-                        <Text style={{ width: '100%', lineHeight: 16, textAlign: 'left', color: colors.dark, paddingTop: 2 }}>Category: {item.product.brand.name}</Text>
+                        <Text style={{ width: '100%', lineHeight: 16, textAlign: 'left', color: colors.dark, paddingTop: 2 }}>Brand: {item.product.brand.name}</Text>
                         <Text style={{ width: '100%', lineHeight: 16, textAlign: 'left', color: colors.dark, paddingTop: 2 }}>UOM: {props.jsondata && props.jsondata['uom'] ? props.jsondata['uom'][item.product.color] : item.product.color}</Text>
                     </View>
                     <View style={{ flexDirection: 'row', width: '20%' }}>
@@ -93,7 +93,7 @@ const Ordersummery = (props) => {
                     <View style={{width: '45%'}}>
                         <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, paddingTop: 2 }}>{item.name}</Text>
                         <Text style={{ width: '100%', lineHeight: 16, textAlign: 'left', color: colors.dark, paddingTop: 2 }}>Part No.: {item.sku}</Text>
-                        <Text style={{ width: '100%', lineHeight: 16, textAlign: 'left', color: colors.dark, paddingTop: 2 }}>Category: {item.brand.name}</Text>
+                        <Text style={{ width: '100%', lineHeight: 16, textAlign: 'left', color: colors.dark, paddingTop: 2 }}>Brand: {item.brand.name}</Text>
                         <Text style={{ width: '100%', lineHeight: 16, textAlign: 'left', color: colors.dark, paddingTop: 2 }}>UOM: {props.jsondata && props.jsondata['uom'] ? props.jsondata['uom'][item.color] : item.color}</Text>
                     </View>
                     <View style={{ flexDirection: 'row', width: '20%' }}>
