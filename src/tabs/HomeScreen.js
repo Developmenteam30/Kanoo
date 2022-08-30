@@ -24,8 +24,10 @@ const HomeScreen = (props) => {
   };
   const _renderItem = ({ item, index }) => {
       return (
-        <Card style={styles.slide} containerStyle={{padding: 5}}>
-          <Image source={{ uri: global.base_url+item.image_1 }} style={styles.banner}/>
+        <Card style={styles.slide} containerStyle={{ padding: 5 }}>
+          <TouchableOpacity onPress={()=>props.navigation.navigate('HomeScreen', {screen: 'Search'})}>
+            <Image source={{ uri: global.base_url + item.image_1 }} style={styles.banner} />
+          </TouchableOpacity>
         </Card>
       );
   }

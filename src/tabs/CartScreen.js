@@ -53,8 +53,10 @@ const CartScreen = (props) => {
                           <TouchableOpacity style={styles.navbutton}
                             onPress={() => {
                               var cart = props.cart;
-                              cart[index].selectedQty++;
-                              props.updateCart(cart);
+                              if (item.quantity_in_stock > cart[index].selectedQty) {
+                                cart[index].selectedQty++;
+                                props.updateCart(cart);
+                              }
                               setcount(count+1);
                           }}><Text style={styles.darkcolor}>+</Text></TouchableOpacity>
                         </View>

@@ -8,6 +8,7 @@ import Carousel from 'react-native-snap-carousel';
 import { Pagination } from 'react-native-snap-carousel';
 import api from "../utils/Api";
 import { connect } from "react-redux";
+import Toast from 'react-native-simple-toast';
 const {width, height} = Dimensions.get('window');
 
 
@@ -66,21 +67,23 @@ const SearchScreen = (props) => {
 
   const _renderItem = ({ item, index }) => {
         return (
-          <Card style={styles.slide}>
+          <View style={styles.slide}>
             <Image source={{ uri: item.image }} style={styles.banner}/>
-          </Card>
+          </View>
         );
   }
-  const renderItem = ({ item, index }) => {
+  const renderItem = ({ item, index, separators }) => {
     return (
-      <Card containerStyle={styles.catwidth}>
+      <View style={styles.catwidth}
+        onShowUnderlay={separators.highlight}
+        onHideUnderlay={separators.unhighlight}>
         <TouchableOpacity onPress={() => props.navigation.navigate('ProductDetailScreen', {product: item})}>
             <Image source={{ uri: item.image != '' ? item.image : "https://web.techinfomatic.com/assets/no-image.png" }} style={styles.imageb} />
             <View>
-            <Text style={{ width: '100%', lineHeight: 16, textAlign: 'left', color: colors.dark, fontWeight: '400', fontSize: 10 }}>Part Number: {item.sku}</Text>
+              <Text style={{ width: '100%', lineHeight: 16, textAlign: 'left', color: colors.dark, fontWeight: '400', fontSize: 10 }}>Part Number: {item.sku}</Text>
               <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark }}>{item.name}</Text>
               <Text style={{ width: '100%', lineHeight: 16, textAlign: 'left', color: colors.dark, fontWeight: '400', fontSize: 10 }}>{props.jsondata && props.jsondata['uom'] ? props.jsondata['uom'][item.color] : item.color}</Text>
-            <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, fontWeight: '600', fontSize: 14 }}>AED {item.discounted_price} </Text>
+              <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, fontWeight: '600', fontSize: 14 }}>AED {item.discounted_price} </Text>
               <AirbnbRating isDisabled={true} defaultRating={item.review} reviews={[]}
                   size={15}
                   selectedColor={colors.dark}
@@ -90,7 +93,7 @@ const SearchScreen = (props) => {
               />
 
               {checkincart(item.id) ? (
-                <View style={{ flexDirection: 'row', width: "50%" }}>
+                <View style={{ flexDirection: 'row', width: "100%", justifyContent: 'center' }}>
                   <TouchableOpacity style={styles.navbutton} onPress={() => {
                     var cart = props.cart;
                     var i;
@@ -108,6 +111,7 @@ const SearchScreen = (props) => {
                     }
                     props.updateCart(cart);
                     setcount(count + 1);
+                    Toast.showWithGravity('Cart updated successfully', Toast.LONG, Toast.TOP);
                   }}><Text style={styles.darkcolor}>-</Text></TouchableOpacity>
                   <TouchableOpacity style={styles.navbutton}><Text style={styles.darkcolor}>{getselectedqty(item.id)}</Text></TouchableOpacity>
                   <TouchableOpacity style={styles.navbutton} onPress={() => {
@@ -116,6 +120,7 @@ const SearchScreen = (props) => {
                       if (c.id == item.id && item.quantity_in_stock > cart[ind].selectedQty) {
                         cart[ind].selectedQty++;
                         item.selectedQty = cart[ind].selectedQty;
+                        Toast.showWithGravity('Cart updated successfully', Toast.LONG, Toast.TOP);
                       }
                     });
                     props.updateCart(cart);
@@ -123,12 +128,13 @@ const SearchScreen = (props) => {
                   }}><Text style={styles.darkcolor}>+</Text></TouchableOpacity>
                 </View>
               ) : item.quantity_in_stock > 0 ? (
-                <TouchableOpacity style={[styles.buttonfull, { marginVertical: 0, padding: 8, width: '90%', marginLeft: 0 }]} onPress={() => {
+                <TouchableOpacity style={[styles.buttonfull, { marginVertical: 0, padding: 8, width: '100%', marginLeft: 0 }]} onPress={() => {
                   var car = props.cart;
                   item.selectedQty = 1;
                   car.push(item);
                   props.updateCart(car);
                   setcount(count + 1);
+                  Toast.showWithGravity('Successfully added to cart', Toast.LONG, Toast.TOP);
                 }}>
                   <Text style={[styles.buttontext, { fontSize: 12 }]}>ADD TO CART</Text>
                 </TouchableOpacity>
@@ -138,13 +144,13 @@ const SearchScreen = (props) => {
             
             </View>
         </TouchableOpacity>
-      </Card>
+      </View>
     );
   }
 
   return (
     <SafeAreaView style={styles.mainContainer}>
-      <View style={{flex:1, height: 140, marginBottom: 10}}>
+      <View style={{flex:1, height: 110, marginBottom: 0}}>
         <Carousel
           ref={_carousel}
           data={props.category}
@@ -160,8 +166,8 @@ const SearchScreen = (props) => {
           <ActivityIndicator size={"large"} color={colors.dark} />
         </SafeAreaView >
         :
-        <View style={{height: height-280}}>
-          <View style={{paddingHorizontal: 15, width: width}}>
+        <View style={{height: height-270}}>
+          <View style={{paddingHorizontal: 0, width: width}}>
               <Input
                   placeholder='Search'
                   containerStyle={styles.inputcontainerstyle}
@@ -181,7 +187,7 @@ const SearchScreen = (props) => {
               numColumns={2}
               renderItem={renderItem}
               keyExtractor={item => item.id}
-              style={{width: width,height: height-450}}
+              style={{width: width,height: height-400}}
             />
           }
         </View>

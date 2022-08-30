@@ -12,15 +12,17 @@ const styles = StyleSheet.create({
         marginTop: 45
     },
     catwidth: {
-        width: '43%',
-        paddingRight: 0,
+        width: '50%',
+        backgroundColor: 'white',
+        borderWidth: 0.2,
+        borderColor: 'gray',
+        padding: 10,
         marginRight: 0,
     },
     slide: {
-        height: 100,
+        height: 150,
         flexDirection: 'row',
-        backgroundColor: colors.white,
-        padding: 5,
+        backgroundColor: 'white',
     },
     title: {
         fontSize: 16,
@@ -29,7 +31,7 @@ const styles = StyleSheet.create({
     },
     banner: {
         width: '100%',
-        height: 90,
+        height: 150,
         resizeMode: 'contain'
     },
     headertext: {
@@ -37,7 +39,7 @@ const styles = StyleSheet.create({
         fontWeight: '500'
     },
     imageb: {
-        width: width/3,
+        width: width/2.5,
         height: 80,
         resizeMode: 'contain'
     },
@@ -75,7 +77,7 @@ const styles = StyleSheet.create({
     },
     darkcolor: {
         color: colors.dark,
-        width: 20,
+        width: 35,
         textAlign: 'center'
     },
     profileheader: {

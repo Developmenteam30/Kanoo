@@ -85,7 +85,7 @@ const Helps = (props) => {
   return (
     <SafeAreaView style={[styles.mainContainer, {backgroundColor: "rgba(0,0,0,0.5)"}]}>
         <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={keyboardVerticalOffset}>
-              <ScrollView style={[styles.Modelscrollwidth, {padding: 15, backgroundColor: colors.light, marginTop: 200}]} showsVerticalScrollIndicator={false}>
+              <ScrollView style={[styles.Modelscrollwidth, {padding: 15, backgroundColor: colors.light, marginTop: 160}]} showsVerticalScrollIndicator={false}>
                     <Text style={[styles.header, {width: '100%', textAlign: 'center'}]}>Help</Text>
                     <Divider width={1} color={colors.primary} />  
                     <Image source={require('../assets/images/darklogo.png')} style={{ width: '100%', height: 50, resizeMode: 'contain', marginTop: 20 }} />

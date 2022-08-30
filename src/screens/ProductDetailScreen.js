@@ -10,6 +10,7 @@ import api from '../utils/Api';
 import { connect } from "react-redux";
 import { ActivityIndicator } from 'react-native';
 import Bulkorder from '../component/Bulkorder';
+import Toast from 'react-native-simple-toast';
 const {width, height} = Dimensions.get('window');
 const ProductDetailScreen = (props) => {
   const keyboardVerticalOffset = Platform.OS === 'ios' ? 40 : 0;
@@ -205,6 +206,7 @@ const ProductDetailScreen = (props) => {
                     }
                     props.updateCart(cart);
                     setcount(count + 1);
+                    Toast.showWithGravity('Cart updated successfully', Toast.LONG, Toast.TOP);
                   }}><Text style={styles.darkcolor}>-</Text></TouchableOpacity>
                   <TouchableOpacity style={styles.navbutton}><Text style={styles.darkcolor}>{getselectedqty(products.id)}</Text></TouchableOpacity>
                   <TouchableOpacity style={styles.navbutton} onPress={() => {
@@ -218,6 +220,7 @@ const ProductDetailScreen = (props) => {
                     });
                     props.updateCart(cart);
                     setcount(count + 1);
+                    Toast.showWithGravity('Cart updated successfully', Toast.LONG, Toast.TOP);
                   }}><Text style={styles.darkcolor}>+</Text></TouchableOpacity>
                 </View>
               ) : products.quantity_in_stock > 0 ? (
@@ -228,6 +231,7 @@ const ProductDetailScreen = (props) => {
                   car.push(products);
                   props.updateCart(car);
                   setcount(count + 1);
+                  Toast.showWithGravity('Successfully added to cart', Toast.LONG, Toast.TOP);
                 }}>
                   <Text style={[styles.buttontext, { fontSize: 12 }]}>ADD TO CART</Text>
                 </TouchableOpacity>
