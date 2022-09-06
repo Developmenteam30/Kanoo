@@ -158,7 +158,12 @@ const SearchScreen = (props) => {
           currentIndex={ category}
           sliderWidth={width}
           itemWidth={width}
-          onSnapToItem={(index) => { console.log(index);  setActiveIndex(index)}}
+          onSnapToItem={(index) => {
+            console.log(index);
+            setcategory(index);
+            apicall(search, index);
+            setActiveIndex(index);
+          }}
         />
       </View>
       {loader ?
