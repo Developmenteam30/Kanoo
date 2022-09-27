@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Image, FlatList, SafeAreaView, Text, KeyboardAvoidingView, Platform, View, Dimensions, TouchableOpacity, Alert} from 'react-native';
+import {Image, FlatList, SafeAreaView, Text, KeyboardAvoidingView, Platform, View, Dimensions, TouchableOpacity, Alert, ActivityIndicator} from 'react-native';
 import { Divider, Input, Card, Chip } from 'react-native-elements';
 import styles from '../styles/LoginScreenStyle';
 import { Images } from '../utils/Images';
@@ -18,7 +18,9 @@ const Ordersummery = (props) => {
     const [tax, settax] = useState(0);
     const [qty, setqty] = useState(0);
     const [order, setorder] = useState(null);
+    const [submitload, setsubmitload] = useState(false);
     const placeorder = async () => {
+        setsubmitload(true);
         var order = {
             'items': JSON.stringify(products),
             'address': JSON.stringify(address),
@@ -30,9 +32,11 @@ const Ordersummery = (props) => {
         if (cate && cate.success) {
             props.updateCart([]);
             props.navigation.replace('Success');
+            setsubmitload(false);
         } else if (cate && cate.message) {
             console.log(cate.message);
             Alert.alert(cate.message);
+            setsubmitload(false);
         }
     };
     const cancelorder = async () => {
@@ -103,19 +107,19 @@ const Ordersummery = (props) => {
         return (
             <Card>
                 <View style={[styles.cartitems]}>
-                    <View style={{ flexDirection: 'row', width: '20%' }}>
+                    <View style={{ flexDirection: 'row', width: '20%', borderRightWidth : 0.3, borderRightColor: 'gray', padding:5 }}>
                         <Text style={{ width: '100%', lineHeight: 84, textAlign: 'center', color: colors.dark, fontWeight: '600', fontSize: 15 }}>{index+1}</Text>
                     </View>
-                    <View style={{width: '45%'}}>
+                    <View style={{width: '45%', borderRightWidth: 0.3, borderRightColor: 'gray', padding:5}}>
                         <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, paddingTop: 2 }}>{item.product.name}</Text>
                         <Text style={{ width: '100%', lineHeight: 16, textAlign: 'left', color: colors.dark, paddingTop: 2 }}>Part No.: {item.product.sku}</Text>
                         <Text style={{ width: '100%', lineHeight: 16, textAlign: 'left', color: colors.dark, paddingTop: 2 }}>Brand: {item.product.brand.name}</Text>
                         <Text style={{ width: '100%', lineHeight: 16, textAlign: 'left', color: colors.dark, paddingTop: 2 }}>UOM: {props.jsondata && props.jsondata['uom'] ? props.jsondata['uom'][item.product.color] : item.product.color}</Text>
                     </View>
-                    <View style={{ flexDirection: 'row', width: '20%' }}>
+                    <View style={{ flexDirection: 'row', width: '20%', borderRightWidth: 0.3, borderRightColor: 'gray', padding:5 }}>
                         <Text style={{ width: '100%', lineHeight: 84, textAlign: 'right', color: colors.dark, fontWeight: '600', fontSize: 15 }}>{item.quantity}</Text>
                     </View>
-                    <View style={{ flexDirection: 'row', width: '20%' }}>
+                    <View style={{ flexDirection: 'row', width: '20%', padding:5 }}>
                         <Text style={{ width: '100%', lineHeight: 84, textAlign: 'right', color: colors.dark, fontWeight: '600', fontSize: 15 }}>{item.price}</Text>
                     </View>
                 </View>
@@ -126,17 +130,17 @@ const Ordersummery = (props) => {
         return (
             <Card>
                 <View style={[styles.cartitems]}>
-                    <Image source={{ uri: item.image != "" ? item.image : "https://web.techinfomatic.com/assets/no-image.png" }} style={styles.imagebs} />
-                    <View style={{width: '45%'}}>
+                    <Image source={{ uri: item.image != "" ? item.image : "https://web.techinfomatic.com/assets/no-image.png" }} style={[styles.imagebs, {borderRightWidth : 0.3, borderRightColor: 'gray', padding:5}]} />
+                    <View style={{width: '45%', borderRightWidth : 0.3, borderRightColor: 'gray', padding:5}}>
                         <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, paddingTop: 2 }}>{item.name}</Text>
                         <Text style={{ width: '100%', lineHeight: 16, textAlign: 'left', color: colors.dark, paddingTop: 2 }}>Part No.: {item.sku}</Text>
                         <Text style={{ width: '100%', lineHeight: 16, textAlign: 'left', color: colors.dark, paddingTop: 2 }}>Brand: {item.brand.name}</Text>
                         <Text style={{ width: '100%', lineHeight: 16, textAlign: 'left', color: colors.dark, paddingTop: 2 }}>UOM: {props.jsondata && props.jsondata['uom'] ? props.jsondata['uom'][item.color] : item.color}</Text>
                     </View>
-                    <View style={{ flexDirection: 'row', width: '20%' }}>
+                    <View style={{ flexDirection: 'row', width: '20%', borderRightWidth : 0.3, borderRightColor: 'gray', padding:5 }}>
                         <Text style={{ width: '100%', lineHeight: 84, textAlign: 'right', color: colors.dark, fontWeight: '600', fontSize: 12 }}>{item.selectedQty + 'x' + item.discounted_price}</Text>
                     </View>
-                    <View style={{ flexDirection: 'row', width: '20%' }}>
+                    <View style={{ flexDirection: 'row', width: '20%', padding:5 }}>
                         <Text style={{ width: '100%', lineHeight: 84, textAlign: 'right', color: colors.dark, fontWeight: '600', fontSize: 15 }}>{item.selectedQty*item.discounted_price}</Text>
                     </View>
                 </View>
@@ -157,7 +161,62 @@ const Ordersummery = (props) => {
     return (s.length > 2 ? s[2] : "");
   }
 
+    const headercon = () => {return (
+        <Card containerStyle={{backgroundColor: colors.white}}>
+            <View style={[styles.cartitems]}>
+                <View style={{width: '20%', borderRightWidth : 0.3, borderRightColor: 'gray', padding:5}}>
+                    <Text adjustsFontSizeToFit={true} numberOfLines={1} style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, paddingTop: 2, fontWeight: '600' }}>Item #</Text>
+                </View>
+                <View style={{width: '45%', borderRightWidth : 0.3, borderRightColor: 'gray', padding:5}}>
+                    <Text adjustsFontSizeToFit={true} numberOfLines={1} style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, fontWeight: '600', paddingTop: 2 }}>Description</Text>
+                </View>
+                <View style={{ flexDirection: 'row', width: '20%', borderRightWidth : 0.3, borderRightColor: 'gray', padding:5 }}>
+                    <Text adjustsFontSizeToFit={true} numberOfLines={1} style={{ width: '100%', lineHeight: 24, textAlign: 'right', color: colors.dark, fontWeight: '600', fontSize: 12 }}>Quantity</Text>
+                </View>
+                <View style={{ flexDirection: 'row', width: '20%', padding:5 }}>
+                    <Text adjustsFontSizeToFit={true} numberOfLines={1} style={{width: '100%', lineHeight: 24, textAlign: 'right', color: colors.dark, fontWeight: '600', fontSize: 12 }}>Total</Text>
+                </View>
+            </View>
+        </Card>
+    )
+    }
+    const footerco = () => {
+        return (
+            <Card>
+                <View style={styles.cartitems}>
+                    <Text style={styles.headertext}>Subtotal</Text>
+                    <Text style={styles.headervalue}>AED {subtotal}</Text>
+                </View>
+                <View style={styles.cartitems}>
+                    <Text style={styles.headertext}>Tax</Text>
+                    <Text style={styles.headervalue}>AED {tax}</Text>
+                </View>
+                <View style={styles.cartitems}>
+                    <Text style={styles.headertext}>Total</Text>
+                    <Text style={styles.headervalue}>AED {total}</Text>
+                </View>
 
+                {order ? (
+                    <View>
+                        {order.status == 'Pending' && (
+                            <TouchableOpacity style={[styles.buttonfull, { width: '100%', marginLeft: '0%' }]} onPress={() => cancelorder()}>
+                                <Text style={styles.buttontext}>Cancel Order</Text>
+                            </TouchableOpacity>
+                        )}
+                    </View>
+                ) :
+                    submitload ? (
+                        <TouchableOpacity style={[styles.buttonfull, { width: '100%', marginLeft: '0%', backgroundColor: 'white' }]}>
+                            <ActivityIndicator size={'large'} color={'black'} />
+                        </TouchableOpacity>
+                    ) : (
+                    <TouchableOpacity style={[styles.buttonfull, { width: '100%', marginLeft: '0%' }]} onPress={() => placeorder()}>
+                        <Text style={styles.buttontext}>Place Order</Text>
+                    </TouchableOpacity>
+                )}
+            </Card>
+        )
+    }
     return (
         <SafeAreaView style={[styles.mainContainer, {backgroundColor: colors.light}]}>
             <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={keyboardVerticalOffset}>
@@ -206,68 +265,30 @@ const Ordersummery = (props) => {
                     : null 
                 }
                 <Text style={{ textAlign: 'left', fontSize: 17, fontWeight: 'bold', color: colors.dark, paddingTop: 12, paddingHorizontal: 12 }}>Currency: AED </Text>
-                <Card containerStyle={{backgroundColor: colors.white}}>
-                    <View style={[styles.cartitems]}>
-                        <View style={{width: '20%'}}>
-                            <Text adjustsFontSizeToFit={true} numberOfLines={1} style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, paddingTop: 2, fontWeight: '600' }}>Item #</Text>
-                        </View>
-                        <View style={{width: '50%'}}>
-                            <Text adjustsFontSizeToFit={true} numberOfLines={1} style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, fontWeight: '600', paddingTop: 2 }}>Description</Text>
-                        </View>
-                        <View style={{ flexDirection: 'row', width: '20%' }}>
-                            <Text adjustsFontSizeToFit={true} numberOfLines={1} style={{lineHeight: 24, textAlign: 'right', color: colors.dark, fontWeight: '600', fontSize: 12 }}>Quantity</Text>
-                        </View>
-                        <View style={{ flexDirection: 'row', width: '15%' }}>
-                            <Text adjustsFontSizeToFit={true} numberOfLines={1} style={{lineHeight: 24, textAlign: 'right', color: colors.dark, fontWeight: '600', fontSize: 15 }}>Total</Text>
-                        </View>
-                    </View>
-                </Card>
+
 
                 {order ? (
                     <FlatList
+                        ListHeaderComponent={headercon}
                         data={order.order_items}
                         numColumns={1}
-                        renderItem={renderItems}
+                        renderItem={renderItems} 
                         keyExtractor={item => item.id}
-                        style={{width: Dimensions.get('screen').width}}
+                        style={{ width: Dimensions.get('screen').width }}
+                        ListFooterComponent={footerco}
                     />
                 ) : (
                     <FlatList
+                        ListHeaderComponent={headercon}
                         data={products}
                         numColumns={1}
                         renderItem={renderItem}
                         keyExtractor={item => item.id}
                         style={{width: Dimensions.get('screen').width}}
+                        ListFooterComponent={footerco}
                     />
                 )}
-                <Card>
-                        <View style={styles.cartitems}>
-                            <Text style={styles.headertext}>Subtotal</Text>
-                            <Text style={styles.headervalue}>AED {subtotal}</Text>
-                        </View>
-                        <View style={styles.cartitems}>
-                            <Text style={styles.headertext}>Tax</Text>
-                            <Text style={styles.headervalue}>AED {tax}</Text>
-                        </View>
-                        <View style={styles.cartitems}>
-                            <Text style={styles.headertext}>Total</Text>
-                            <Text style={styles.headervalue}>AED {total}</Text>
-                        </View>
-                </Card>
-                {order ? (
-                    <View>
-                        {order.status == 'Pending' && (
-                            <TouchableOpacity style={[styles.buttonfull, { width: '90%', marginLeft: '5%' }]} onPress={() => cancelorder()}>
-                                <Text style={styles.buttontext}>Cancel Order</Text>
-                            </TouchableOpacity>
-                        )}
-                    </View>
-                ) :
-                    (
-                    <TouchableOpacity style={[styles.buttonfull, { width: '90%', marginLeft: '5%' }]} onPress={() => placeorder()}>
-                        <Text style={styles.buttontext}>Place Order</Text>
-                    </TouchableOpacity>
-                )}
+
             </KeyboardAvoidingView>
         </SafeAreaView>
     );
