@@ -43,6 +43,11 @@ const styles = StyleSheet.create({
         height: 80,
         resizeMode: 'contain'
     },
+    imagebad: {
+        width: width/4,
+        height: 80,
+        resizeMode: 'contain'
+    },
     inputcontainerstyle: {
         margin: 0, paddingHorizontal: 0, paddingBottom: 0, marginBottom: 0, height: 50
     },

@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {Image, ImageBackground, SafeAreaView, Text, KeyboardAvoidingView, Platform, View, ScrollView, TouchableOpacity, Dimensions, FlatList, ActivityIndicator} from 'react-native';
-import { Card, AirbnbRating, Input } from 'react-native-elements';
+import { Card, AirbnbRating, Input, Button, BottomSheet, ListItem, Icon } from 'react-native-elements';
 import styles from '../styles/SearchScreenStyle';
 import { Images } from '../utils/Images';
 import { colors } from '../utils/Variables';
@@ -22,6 +22,15 @@ const SearchScreen = (props) => {
   const [products, setproducts] = useState();
   const [loader, setloader] = useState(true);
   const [count, setcount] = React.useState(0);
+  const [isVisible, setIsVisible] = useState(false);
+  const list = [
+    {
+      title: 'Cancel',
+      containerStyle: { backgroundColor: 'red' },
+      titleStyle: { color: 'white' },
+      onPress: () => setIsVisible(false),
+    },
+  ];
   const apicall = async (text = "", cat = category) => {
     setsearch(text);
     var cate = await api.getapi("featureproducts?brand_id="+props.category[cat].id+"&q="+text);
@@ -121,6 +130,8 @@ const SearchScreen = (props) => {
                         cart[ind].selectedQty++;
                         item.selectedQty = cart[ind].selectedQty;
                         Toast.showWithGravity('Cart updated successfully', Toast.LONG, Toast.TOP);
+                      } else if (c.id == item.id && item.quantity_in_stock <= cart[ind].selectedQty) {
+                        Toast.showWithGravity('You can not add more then '+item.quantity_in_stock+ ' quantity', Toast.LONG, Toast.TOP);
                       }
                     });
                     props.updateCart(cart);
@@ -150,29 +161,54 @@ const SearchScreen = (props) => {
 
   return (
     <SafeAreaView style={styles.mainContainer}>
-      <View style={{flex:1, height: 110, marginBottom: 0}}>
-        <Carousel
-          ref={_carousel}
-          data={props.category}
-          renderItem={_renderItem}
-          currentIndex={ category}
-          sliderWidth={width}
-          itemWidth={width}
-          onSnapToItem={(index) => {
-            console.log(index);
-            setcategory(index);
-            apicall(search, index);
-            setActiveIndex(index);
-          }}
-        />
-      </View>
+      <BottomSheet isVisible={isVisible}>
+        {props.category.map((l, i) => (
+          <ListItem key={i} containerStyle={l.containerStyle} onPress={() => {
+              setcategory(i);
+              apicall("", i);
+              setIsVisible(false)
+           }}>
+            <ListItem.Content>
+              <ListItem.Title style={l.titleStyle}>{l.name}</ListItem.Title>
+            </ListItem.Content>
+          </ListItem>
+        ))}
+        {list.map((l, i) => (
+          <ListItem key={i} containerStyle={l.containerStyle} onPress={l.onPress}>
+            <ListItem.Content>
+              <ListItem.Title style={l.titleStyle}>{l.title}</ListItem.Title>
+            </ListItem.Content>
+          </ListItem>
+        ))}
+      </BottomSheet>
       {loader ?
         <SafeAreaView style={styles.mainContainer}>
           <ActivityIndicator size={"large"} color={colors.dark} />
         </SafeAreaView >
         :
-        <View style={{height: height-270}}>
-          <View style={{paddingHorizontal: 0, width: width}}>
+        <View style={{height: height-100, marginTop: Platform.OS == 'ios' ? 17 : 0 }}>
+          <TouchableOpacity style={{ flex: 1, height: 110, marginBottom: 0 }}
+                          onPress={()=>{setIsVisible(true)}}
+            >
+            <Image source={{uri: props.category[category].image}} style={{height: 110, width: width}}></Image>
+            {/* <Carousel
+              ref={_carousel}
+              data={props.category}
+              renderItem={_renderItem}
+              currentIndex={ category}
+              sliderWidth={width}
+              itemWidth={width}
+              onSnapToItem={(index) => {
+                console.log(index);
+                setcategory(index);
+                apicall(search, index);
+                setActiveIndex(index);
+              }}
+            /> */}
+          </TouchableOpacity>
+
+          <View style={{ paddingHorizontal: 0, width: width, flexDirection: 'row' }}>
+            <View style={{width: '100%'}}>
               <Input
                   placeholder='Search'
                   containerStyle={styles.inputcontainerstyle}
@@ -181,6 +217,24 @@ const SearchScreen = (props) => {
                   onChangeText={text=> apicall(text)}
                   leftIcon={{ type: 'feather', name: 'search' }}
               />
+            </View>
+            <View style={{width: '0%'}}>
+              <Button
+                icon={
+                  <Icon
+                    name="chevron-down"
+                    type="entypo"
+                    size={15}
+                    color="blue"
+                  />
+                }
+                iconRight
+                title={props.category[category].name}
+                type="outline"
+                buttonStyle={{height: 50}}
+                onPress={()=>{setIsVisible(true)}}
+              />
+            </View>
           </View>
           {products.length == 0 ? 
             <Text style={{ width: width, color: colors.dark, fontSize: 15, padding: 12, textAlign: 'center' }}>

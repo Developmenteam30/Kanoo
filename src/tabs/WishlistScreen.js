@@ -40,7 +40,7 @@ const WishlistScreen = (props) => {
                 <TouchableOpacity onPress={() => {
                   props.navigation.navigate('ProductDetailScreen', {product: item.product})
                 }}>
-                  <Image source={{ uri: item.image }} style={styles.imageb} />
+                  <Image source={{ uri: item.image }} style={styles.imagebad} />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => {
                   navigation.navigate('ProductDetailScreen', {product: item.product})

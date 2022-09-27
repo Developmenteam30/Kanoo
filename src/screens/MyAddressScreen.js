@@ -22,6 +22,19 @@ const MyAddressScreen = (props) => {
       // console.log(cate);
     }
   };
+  const getname = (name) => {
+    var s = name.split("*");
+    var n = s[0].split(" ");
+    return (n.length > 0 ? n[0] : "") + ' '+(n.length > 1 ? n[1] : "");
+  }
+  const getcname = (name) => {
+    var s = name.split("*");
+    return (s.length > 1 ? s[1] : "");
+  }
+  const getcaddname = (name) => {
+    var s = name.split("*");
+    return (s.length > 2 ? s[2] : "");
+  }
 
   useEffect(() => {
     apicall();
@@ -46,12 +59,13 @@ const MyAddressScreen = (props) => {
                 <View style={[styles.cartitem]}>
                     <View style={{ flexDirection: 'row' }}>
                         <View style={{width: '65%'}}>
-                            <Text style={{ width: '100%', fontSize: 16, fontWeight: '600', lineHeight: 24, textAlign: 'left', color: colors.dark, paddingTop: 12 }}>{item.company_name}</Text>
+                            <Text style={{ width: '100%', fontSize: 16, fontWeight: '600', lineHeight: 24, textAlign: 'left', color: colors.dark, paddingTop: 12 }}>{getname(item.company_name)}</Text>
                         </View>
                         {method == 'address' && (
                           <Icon name={"edit"} type={"feather"} size={15} color={colors.dark} style={{paddingTop: 15}}/>
                         )}
                     </View>
+                    <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, paddingTop: 12 }}>Company: {getcname(item.company_name)}</Text>
                     <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, paddingTop: 12 }}>{item.apartment+' '+item.city+' '+item.street+' '+item.city+' '+item.state+' '+item.country+' '+item.zip_code}</Text>
                 </View>
             </Card>

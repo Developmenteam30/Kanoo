@@ -15,21 +15,24 @@ const MyOrderScreen = (props) => {
     if (cate && cate.order) {
       setProducts(cate.order);
     } else {
-      console.log(cate);
+      //console.log(cate);
     }
   };
 
   useEffect(() => {
     apicall();
-    return ()=>{}
+    const willFocusSubscription = props.navigation.addListener('focus', () => {
+        apicall();
+    });
+    return willFocusSubscription;
   }, [])
     const renderItem = ({ item, index }) => {
       return (
         <TouchableOpacity onPress={() => {
           props.navigation.navigate('Ordersummery', {order: item})
           }}>
-            <Card>
-                <View style={[styles.cartitem]}>
+            <Card containerStyle={{backgroundColor: item.status == 'Canceled' ? 'pink' : null}}>
+            <View style={[styles.cartitem]}>
                     <View style={{ flexDirection: 'row' }}>
                         <View style={{width: '55%'}}>
                             <Text style={{ width: '100%', fontWeight: 'bold', fontSize: 17, lineHeight: 24, textAlign: 'left', color: colors.dark, paddingTop: 12 }}>Order Id: {item.id}</Text>

@@ -7,6 +7,7 @@ import { colors } from '../utils/Variables';
 import api from "../utils/Api";
 import { connect } from "react-redux";
 import LinearGradient from 'react-native-linear-gradient';
+import Toast from 'react-native-simple-toast';
 
 const Ordersummery = (props) => {
   const keyboardVerticalOffset = Platform.OS === 'ios' ? 40 : 0
@@ -34,7 +35,43 @@ const Ordersummery = (props) => {
             Alert.alert(cate.message);
         }
     };
-
+    const cancelorder = async () => {
+          Alert.alert(
+            "Cancel Order",
+            "Are you sure!",
+            [
+            {
+                text: "Cancel Now",
+                onPress: async () => {
+                    var orders = {
+                        'id': order.id,
+                        'status': 'Canceled',
+                    };
+                    var cate = await api.postapi(orders,"updateorder");
+                    if (cate && cate.success) {
+                        var o = order;
+                        o.status = 'Canceled';
+                        setorder(o);
+                        Toast.showWithGravity(cate.message, Toast.LONG, Toast.TOP);
+                        props.navigation.goBack();
+                    } else if (cate && cate.message) {
+                        Toast.showWithGravity(cate.message+'Something went wrong! Please try again later', Toast.LONG, Toast.TOP);
+                    }
+                },
+                style: "cancel",
+            },
+            {
+                text: "Dismiss",
+                onPress: () => { },
+                style: "cancel",
+            },
+            ],
+            {
+                cancelable: true,
+                onDismiss: () => { }
+            }
+        );
+    }
     useEffect(() => {
         if (props.route.params && props.route.params.address) {
             setaddress(props.route.params.address);
@@ -53,7 +90,7 @@ const Ordersummery = (props) => {
         }
         if (props.route.params && props.route.params.order) {
             setorder(props.route.params.order);
-            console.log(props.route.params.order);
+            // console.log(props.route.params.order);
             setsubtotal(parseFloat(props.route.params.order.sub_total_price).toFixed(2));
             settax(parseFloat(props.route.params.order.tax).toFixed(2));
             setqty(parseFloat(props.route.params.order.total_quantity).toFixed(2));
@@ -106,6 +143,20 @@ const Ordersummery = (props) => {
             </Card>
         );
     }
+  const getname = (name) => {
+    var s = name.split("*");
+    var n = s[0].split(" ");
+    return (n.length > 0 ? n[0] : "") + ' '+(n.length > 1 ? n[1] : "");
+  }
+  const getcname = (name) => {
+    var s = name.split("*");
+    return (s.length > 1 ? s[1] : "");
+  }
+  const getcaddname = (name) => {
+    var s = name.split("*");
+    return (s.length > 2 ? s[2] : "");
+  }
+
 
     return (
         <SafeAreaView style={[styles.mainContainer, {backgroundColor: colors.light}]}>
@@ -116,10 +167,11 @@ const Ordersummery = (props) => {
                             <Text style={{fontSize: 20, fontWeight: 'bold', color: colors.dark}}>Delivery address: </Text>
                             <View style={{ flexDirection: 'row' }}>
                                 <View style={{width: '65%'}}>
-                                    <Text style={{ width: '100%', fontSize: 15, fontWeight: '600', lineHeight: 18, textAlign: 'left', color: colors.dark, paddingTop: 12 }}>{address.company_name}</Text>
+                                    <Text style={{ width: '100%', fontSize: 15, fontWeight: '600', lineHeight: 18, textAlign: 'left', color: colors.dark, paddingTop: 12 }}>{getname(address.company_name)}</Text>
                                 </View>
                             </View>
-                            <Text style={{ width: '100%', lineHeight: 20, textAlign: 'left', color: colors.dark, paddingTop: 12 }}>{address.apartment+' '+address.city+' '+address.street+' '+address.city+' '+address.state+' '+address.country+' '+address.zip_code}</Text>
+                            <Text style={{ width: '100%', lineHeight: 15, textAlign: 'left', color: colors.dark, paddingTop: 12 }}>Company: {getcname(address.company_name)}</Text>
+                            <Text style={{ width: '100%', lineHeight: 20, textAlign: 'left', color: colors.dark, paddingTop: 0 }}>{address.apartment+' '+address.city+' '+address.street+' '+address.city+' '+address.state+' '+address.country+' '+address.zip_code}</Text>
                         </View>
                     </Card>
                     : null 
@@ -157,16 +209,16 @@ const Ordersummery = (props) => {
                 <Card containerStyle={{backgroundColor: colors.white}}>
                     <View style={[styles.cartitems]}>
                         <View style={{width: '20%'}}>
-                            <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, paddingTop: 2, fontWeight: '600' }}>Item #</Text>
+                            <Text adjustsFontSizeToFit={true} numberOfLines={1} style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, paddingTop: 2, fontWeight: '600' }}>Item #</Text>
                         </View>
-                        <View style={{width: '45%'}}>
-                            <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, fontWeight: '600', paddingTop: 2 }}>Description</Text>
-                        </View>
-                        <View style={{ flexDirection: 'row', width: '20%' }}>
-                            <Text style={{ width: '100%', lineHeight: 24, textAlign: 'right', color: colors.dark, fontWeight: '600', fontSize: 15 }}>Quantity</Text>
+                        <View style={{width: '50%'}}>
+                            <Text adjustsFontSizeToFit={true} numberOfLines={1} style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, fontWeight: '600', paddingTop: 2 }}>Description</Text>
                         </View>
                         <View style={{ flexDirection: 'row', width: '20%' }}>
-                            <Text style={{ width: '100%', lineHeight: 24, textAlign: 'right', color: colors.dark, fontWeight: '600', fontSize: 15 }}>Total</Text>
+                            <Text adjustsFontSizeToFit={true} numberOfLines={1} style={{lineHeight: 24, textAlign: 'right', color: colors.dark, fontWeight: '600', fontSize: 12 }}>Quantity</Text>
+                        </View>
+                        <View style={{ flexDirection: 'row', width: '15%' }}>
+                            <Text adjustsFontSizeToFit={true} numberOfLines={1} style={{lineHeight: 24, textAlign: 'right', color: colors.dark, fontWeight: '600', fontSize: 15 }}>Total</Text>
                         </View>
                     </View>
                 </Card>
@@ -202,7 +254,15 @@ const Ordersummery = (props) => {
                             <Text style={styles.headervalue}>AED {total}</Text>
                         </View>
                 </Card>
-                {order ? null :
+                {order ? (
+                    <View>
+                        {order.status == 'Pending' && (
+                            <TouchableOpacity style={[styles.buttonfull, { width: '90%', marginLeft: '5%' }]} onPress={() => cancelorder()}>
+                                <Text style={styles.buttontext}>Cancel Order</Text>
+                            </TouchableOpacity>
+                        )}
+                    </View>
+                ) :
                     (
                     <TouchableOpacity style={[styles.buttonfull, { width: '90%', marginLeft: '5%' }]} onPress={() => placeorder()}>
                         <Text style={styles.buttontext}>Place Order</Text>

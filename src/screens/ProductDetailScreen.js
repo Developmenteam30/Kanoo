@@ -216,11 +216,13 @@ const ProductDetailScreen = (props) => {
                         cart[ind].selectedQty++;
                         products.selectedQty = cart[ind].selectedQty;
                         setproducts(products);
+                        Toast.showWithGravity('Cart updated successfully', Toast.LONG, Toast.TOP);
+                      } else if (c.id == products.id && products.quantity_in_stock <= cart[ind].selectedQty) {
+                        Toast.showWithGravity('You can not add more then '+products.quantity_in_stock+ ' quantity', Toast.LONG, Toast.TOP);
                       }
                     });
                     props.updateCart(cart);
                     setcount(count + 1);
-                    Toast.showWithGravity('Cart updated successfully', Toast.LONG, Toast.TOP);
                   }}><Text style={styles.darkcolor}>+</Text></TouchableOpacity>
                 </View>
               ) : products.quantity_in_stock > 0 ? (
@@ -236,7 +238,7 @@ const ProductDetailScreen = (props) => {
                   <Text style={[styles.buttontext, { fontSize: 12 }]}>ADD TO CART</Text>
                 </TouchableOpacity>
               ) : ( 
-                <Text style={{width: "50%", color: colors.warning, paddingHorizontal: 10, paddingVertical: 10}}>Out of stock</Text>
+                <Text style={{width: "40%", color: colors.warning, paddingHorizontal: 10, paddingVertical: 10}}>Out of stock</Text>
               )}
               <TouchableOpacity style={[styles.buttonfull, { marginVertical: 0, padding: 8, width: '40%', marginLeft: 10 }]} onPress={() => {
                 setModalVisible(!modalVisible);

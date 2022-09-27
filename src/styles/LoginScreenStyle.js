@@ -10,6 +10,10 @@ const styles = StyleSheet.create({
         backgroundColor: colors.primary,
         padding: 15,
     },
+    callbutton: {
+        flexDirection: 'row', justifyContent: 'center',
+        backgroundColor: 'red'
+    },
     imagebs: {
         width: '20%',
         height: 60,

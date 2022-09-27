@@ -18,6 +18,8 @@ const MyAddressAddScreen = (props) => {
     const [id, setid] = useState(null);
     const [firstname, setfirstname] = useState(null);
     const [lastname, setlastname] = useState(null);
+    const [businessname, setbusinessname] = useState(null);
+    const [businessaddress, setbusinessaddress] = useState(null);
     const [apartment, setapartment] = useState(null);
     const [street, setstreet] = useState(null);
     const [city, setcity] = useState(null);
@@ -28,7 +30,7 @@ const MyAddressAddScreen = (props) => {
         var data = {
             first_name : firstname,
             last_name: lastname,
-            company_name: firstname+' '+lastname,
+            company_name: firstname+' '+lastname+'*'+businessname+'*'+businessaddress,
             apartment : apartment,
             street : street,
             city : city,
@@ -65,9 +67,12 @@ const MyAddressAddScreen = (props) => {
     useEffect(() => {
         if (props.route.params && props.route.params.address) {
             var address = props.route.params.address;
-            var n = address.company_name.split(" ");
+            var s = address.company_name.split("*");
+            var n = s[0].split(" ");
             setfirstname(n.length > 0 ? n[0] : "");
             setlastname(n.length > 1 ? n[1] : "");
+            setbusinessname(s.length > 1 ? s[1] : "");
+            setbusinessaddress(s.length > 2 ? s[2] : "");
             setapartment(address.apartment);
             setstreet(address.street);
             setcity(address.city);
@@ -131,6 +136,22 @@ const MyAddressAddScreen = (props) => {
                             inputContainerStyle={styles.inputstyle}
                             onChangeText={text => setlastname(text)}
                             value={lastname}
+                        />
+                        <Text style={styles.label}>Business Name</Text>
+                        <Input
+                            placeholder='Enter Business name'
+                            containerStyle={styles.inputcontainerstyle}
+                            inputContainerStyle={styles.inputstyle}
+                            onChangeText={text => setbusinessname(text)}
+                            value={businessname}
+                        />
+                        <Text style={styles.label}>Business Address</Text>
+                        <Input
+                            placeholder='Enter Business Address'
+                            containerStyle={styles.inputcontainerstyle}
+                            inputContainerStyle={styles.inputstyle}
+                            onChangeText={text => setbusinessaddress(text)}
+                            value={businessaddress}
                         />
                         <Text style={styles.label}>Apartment</Text>
                         <Input

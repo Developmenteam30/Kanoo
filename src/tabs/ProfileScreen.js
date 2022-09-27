@@ -123,7 +123,7 @@ const ProfileScreen = (props) => {
           <Text style={styles.listtitle}>Change Password</Text>
         </TouchableOpacity>
         <Divider width={0.3} color={colors.gray} />  
-        <TouchableOpacity key={0} style={styles.listitems} onPress={()=>setHelp(true)}>
+        <TouchableOpacity key={0} style={styles.listitems} onPress={()=>props.navigation.navigate('Contact')}>
           <Icon name={'ios-chatbox-ellipses-outline'} type="ionicon" style={styles.listicon} />
           <Text style={styles.listtitle}>Contact Us</Text>
         </TouchableOpacity>

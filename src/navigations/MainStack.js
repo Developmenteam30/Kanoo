@@ -21,6 +21,7 @@ import MyAddressAddScreen from '../screens/MyAddressAddScreen';
 import ProductDetailScreen from '../screens/ProductDetailScreen';
 import Ordersummery from '../screens/Ordersummery';
 import NotificationsScreen from '../screens/NotificationsScreen';
+import HelpScreen from '../screens/HelpScreen';
 
 import { colors } from '../utils/Variables';
 import { Header, Icon } from 'react-native-elements';
@@ -97,6 +98,11 @@ const MainStack = ({navigation}) => {
         name="SplashAFScreen"
         component={SplashAFScreen}
         options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name='Contact'
+        component={HelpScreen}
+        options={{ headerShown: true }}
       />
       <Stack.Screen
         name='LoginScreen'
