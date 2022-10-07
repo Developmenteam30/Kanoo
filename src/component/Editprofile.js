@@ -43,14 +43,14 @@ const Editprofile = (props) => {
     }
   return (
     <SafeAreaView style={[styles.mainContainer, {backgroundColor: "rgba(0,0,0,0.5)"}]}>
-        <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={keyboardVerticalOffset}>
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={keyboardVerticalOffset}>
               <ScrollView style={[styles.Modelscrollwidth, {padding: 15, backgroundColor: colors.light, marginTop: 180}]} showsVerticalScrollIndicator={false}>
                 <Text style={[styles.header, {width: '100%', textAlign: 'center'}]}>Edit Details</Text>
                 <Divider width={1} color={colors.primary} />  
                 <View style={styles.form}>
                     <Text style={styles.label}>Full name</Text>
                     <Input
-                        placeholder='enter full Name'
+                        placeholder='Enter Full Name'
                         containerStyle={styles.inputcontainerstyle}
                         inputContainerStyle={styles.inputstyle}
                         onChangeText={text => setname(text)}
@@ -58,7 +58,7 @@ const Editprofile = (props) => {
                     />
                     <Text style={styles.label}>Phone</Text>
                     <Input
-                        placeholder='enter phone'
+                        placeholder='Enter Phone'
                         containerStyle={styles.inputcontainerstyle}
                         inputContainerStyle={styles.inputstyle}
                         onChangeText={text => setphone_number(text)}
@@ -66,7 +66,7 @@ const Editprofile = (props) => {
                     />
                     <Text style={styles.label}>Email</Text>
                     <Input
-                        placeholder='enter email'
+                        placeholder='Enter Email'
                         containerStyle={styles.inputcontainerstyle}
                         inputContainerStyle={styles.inputstyle}
                         onChangeText={text => setemail(text)}

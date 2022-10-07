@@ -165,16 +165,16 @@ const Ordersummery = (props) => {
         <Card containerStyle={{backgroundColor: colors.white}}>
             <View style={[styles.cartitems]}>
                 <View style={{width: '20%', borderRightWidth : 0.3, borderRightColor: 'gray', padding:5}}>
-                    <Text adjustsFontSizeToFit={true} numberOfLines={1} style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, paddingTop: 2, fontWeight: '600' }}>Item #</Text>
+                    <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, paddingTop: 2, fontWeight: '600' }}>Item #</Text>
                 </View>
                 <View style={{width: '45%', borderRightWidth : 0.3, borderRightColor: 'gray', padding:5}}>
-                    <Text adjustsFontSizeToFit={true} numberOfLines={1} style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, fontWeight: '600', paddingTop: 2 }}>Description</Text>
+                    <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, fontWeight: '600', paddingTop: 2 }}>Description</Text>
                 </View>
                 <View style={{ flexDirection: 'row', width: '20%', borderRightWidth : 0.3, borderRightColor: 'gray', padding:5 }}>
-                    <Text adjustsFontSizeToFit={true} numberOfLines={1} style={{ width: '100%', lineHeight: 24, textAlign: 'right', color: colors.dark, fontWeight: '600', fontSize: 12 }}>Quantity</Text>
+                    <Text style={{ width: '100%', lineHeight: 24, textAlign: 'right', color: colors.dark, fontWeight: '600'}}>Qty</Text>
                 </View>
                 <View style={{ flexDirection: 'row', width: '20%', padding:5 }}>
-                    <Text adjustsFontSizeToFit={true} numberOfLines={1} style={{width: '100%', lineHeight: 24, textAlign: 'right', color: colors.dark, fontWeight: '600', fontSize: 12 }}>Total</Text>
+                    <Text style={{width: '100%', lineHeight: 24, textAlign: 'right', color: colors.dark, fontWeight: '600'}}>Total</Text>
                 </View>
             </View>
         </Card>

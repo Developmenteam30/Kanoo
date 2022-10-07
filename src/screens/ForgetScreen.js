@@ -22,7 +22,7 @@ const ForgetScreen = ({navigation}) => {
                     <View style={styles.form}>
                         <Text style={styles.label}>Email</Text>
                         <Input
-                            placeholder='enter email'
+                            placeholder='Enter Email'
                             containerStyle={styles.inputcontainerstyle}
                             inputContainerStyle={styles.inputstyle}
                         />

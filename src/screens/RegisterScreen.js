@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Image, ActivityIndicator, SafeAreaView, Text, KeyboardAvoidingView, Platform, View, ScrollView, TouchableOpacity} from 'react-native';
+import {Image,Alert, ActivityIndicator, SafeAreaView, Text, KeyboardAvoidingView, Platform, View, ScrollView, TouchableOpacity} from 'react-native';
 import { Divider, Input } from 'react-native-elements';
 import styles from '../styles/LoginScreenStyle';
 import { Images } from '../utils/Images';
@@ -36,6 +36,9 @@ const RegisterScreen = (props) => {
             } else if (cate && cate.error_message) {
                 setloader(false);
                 Alert.alert(cate.error_message);
+            } else if (cate && cate.message) {
+                setloader(false);
+                Alert.alert(cate.message);
             } else {
                 setloader(false);
                 Alert.alert('Something went wrong! Try later.');
@@ -47,14 +50,14 @@ const RegisterScreen = (props) => {
     }
     return (
     <SafeAreaView style={[styles.mainContainer, {backgroundColor: colors.white}]}>
-        <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={keyboardVerticalOffset}>
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={keyboardVerticalOffset}>
             <ScrollView style={styles.scrollwidth} showsVerticalScrollIndicator={false}>
                 <Text style={styles.header}>Register</Text>
                 <Divider width={1} color={colors.primary} />  
                 <View style={styles.form}>
                     <Text style={styles.label}>First name</Text>
                     <Input
-                        placeholder='enter first Name'
+                        placeholder='Enter First Name'
                         containerStyle={styles.inputcontainerstyle}
                         inputContainerStyle={styles.inputstyle}
                         onChangeText={text => setname(text)}
@@ -62,7 +65,7 @@ const RegisterScreen = (props) => {
                     />
                     <Text style={styles.label}>Last name</Text>
                     <Input
-                        placeholder='enter last name'
+                        placeholder='Enter Last Name'
                         containerStyle={styles.inputcontainerstyle}
                         inputContainerStyle={styles.inputstyle}
                         onChangeText={text => setlname(text)}
@@ -70,7 +73,7 @@ const RegisterScreen = (props) => {
                     />
                     <Text style={styles.label}>Phone</Text>
                     <Input
-                        placeholder='enter phone'
+                        placeholder='Enter Phone'
                         containerStyle={styles.inputcontainerstyle}
                         inputContainerStyle={styles.inputstyle}
                         onChangeText={text => setphone_number(text)}
@@ -78,7 +81,7 @@ const RegisterScreen = (props) => {
                     />
                     <Text style={styles.label}>Email</Text>
                     <Input
-                        placeholder='enter email'
+                        placeholder='Enter Email'
                         containerStyle={styles.inputcontainerstyle}
                         inputContainerStyle={styles.inputstyle}
                         onChangeText={text => setEmail(text)}
@@ -86,7 +89,7 @@ const RegisterScreen = (props) => {
                     />
                     <Text style={styles.label}>Password</Text>
                     <Input
-                        placeholder='enter password'
+                        placeholder='Enter Password'
                         containerStyle={styles.inputcontainerstyle}
                         inputContainerStyle={styles.inputstyle}
                         rightIcon={{ type: 'antdesign', name: 'eyeo' }}
@@ -96,7 +99,7 @@ const RegisterScreen = (props) => {
                     />
                     <Text style={styles.label}>Confirm Password</Text>
                     <Input
-                        placeholder='enter password'
+                        placeholder='Enter Password'
                         containerStyle={styles.inputcontainerstyle}
                         inputContainerStyle={styles.inputstyle}
                         rightIcon={{ type: 'antdesign', name: 'eyeo' }}

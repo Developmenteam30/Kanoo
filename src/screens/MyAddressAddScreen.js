@@ -118,7 +118,7 @@ const MyAddressAddScreen = (props) => {
                     </ListItem>
                 ))}
             </BottomSheet>
-            <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={keyboardVerticalOffset}>
+            <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={keyboardVerticalOffset}>
               <ScrollView style={[styles.Modelscrollwidth, {padding: 15, backgroundColor: colors.light}]} showsVerticalScrollIndicator={false}>
                     <View style={styles.form}>
                         <Text style={styles.label}>First name</Text>
@@ -129,9 +129,9 @@ const MyAddressAddScreen = (props) => {
                             onChangeText={text => setfirstname(text)}
                             value={firstname}
                         />
-                        <Text style={styles.label}>Last name</Text>
+                        <Text style={styles.label}>Last Name</Text>
                         <Input
-                            placeholder='Enter Last name'
+                            placeholder='Enter Last Name'
                             containerStyle={styles.inputcontainerstyle}
                             inputContainerStyle={styles.inputstyle}
                             onChangeText={text => setlastname(text)}
@@ -139,7 +139,7 @@ const MyAddressAddScreen = (props) => {
                         />
                         <Text style={styles.label}>Business Name</Text>
                         <Input
-                            placeholder='Enter Business name'
+                            placeholder='Enter Business Name'
                             containerStyle={styles.inputcontainerstyle}
                             inputContainerStyle={styles.inputstyle}
                             onChangeText={text => setbusinessname(text)}

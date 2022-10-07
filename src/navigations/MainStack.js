@@ -147,7 +147,7 @@ const MainStack = ({navigation}) => {
       <Stack.Screen
         name='Ordersummery'
         component={Ordersummery}
-        options={{ title: 'Order Summery', headerStyle: {
+        options={{ title: 'Order Summary', headerStyle: {
             backgroundColor: colors.primary,
           },
           headerTintColor: colors.light

@@ -18,7 +18,9 @@ const MyOrderScreen = (props) => {
       //console.log(cate);
     }
   };
-
+  const setdec = (item) => {
+    return parseFloat(item).toFixed(2);
+  }
   useEffect(() => {
     apicall();
     const willFocusSubscription = props.navigation.addListener('focus', () => {
@@ -37,7 +39,7 @@ const MyOrderScreen = (props) => {
                         <View style={{width: '55%'}}>
                             <Text style={{ width: '100%', fontWeight: 'bold', fontSize: 17, lineHeight: 24, textAlign: 'left', color: colors.dark, paddingTop: 12 }}>Order Id: {item.id}</Text>
                             <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, paddingTop: 12 }}>Total Amount</Text>
-                            <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, fontWeight: '600', fontSize: 15 }}>AED {item.total_price}</Text>
+                            <Text style={{ width: '100%', lineHeight: 24, textAlign: 'left', color: colors.dark, fontWeight: '600', fontSize: 15 }}>AED {setdec(item.total_price)}</Text>
                         </View>
                         <View style={{width: '45%'}}>
                             <Text style={{ width: '100%', lineHeight: 18, textAlign: 'right', color: colors.dark, paddingTop: 12 }}>{api.settimeformat(item.created_at)}</Text>

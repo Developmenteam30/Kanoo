@@ -43,7 +43,7 @@ const Bulkorder = (props) => {
     }
   return (
     <SafeAreaView style={[styles.mainContainer, {backgroundColor: "rgba(0,0,0,0.5)"}]}>
-        <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={keyboardVerticalOffset}>
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={keyboardVerticalOffset}>
               <ScrollView style={[styles.Modelscrollwidth, {padding: 15, backgroundColor: colors.light, marginTop: 180}]} showsVerticalScrollIndicator={false}>
                 <Text style={[styles.header, {width: '100%', textAlign: 'center'}]}>Send bulk order request</Text>
                 <Divider width={1} color={colors.primary} />  

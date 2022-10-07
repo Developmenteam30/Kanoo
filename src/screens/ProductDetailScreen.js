@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Image, Alert, SafeAreaView, Text, Modal, Platform, View, ScrollView, TouchableOpacity, Dimensions, FlatList} from 'react-native';
+import {Image, Alert, SafeAreaView, Text, Modal, Platform, View, ScrollView, TouchableOpacity, Dimensions, FlatList, TextInput} from 'react-native';
 import { Card, AirbnbRating, Divider, Icon, Tab, Input, Button } from 'react-native-elements';
 import styles from '../styles/SearchScreenStyle';
 import { Images } from '../utils/Images';
@@ -24,6 +24,7 @@ const ProductDetailScreen = (props) => {
   const [products, setproducts] = useState(null);
   const [selected, setselected] = useState(null);
   const [wishlist, setwishlist] = useState(0);
+  const [qty, setqty] = useState(0);
   const submitreview = async () => {
     if (rating && review) {
       var order = {
@@ -47,8 +48,11 @@ const ProductDetailScreen = (props) => {
   const apicall = async (id) => {
     var cate = await api.getapi("productshow?q="+id);
     if (cate) {
+      var i = getselectedqty(id);
       setrewloading(false);
       if (cate.product) {
+        cate.product.selectedQty = i;
+        setqty(i ? i.toString() : null);
         setproducts(cate.product);
         if (cate.product.media && cate.product.media.length > 0) {
           setselected(cate.product.media[0]);
@@ -119,6 +123,28 @@ const ProductDetailScreen = (props) => {
   };
   const close = () => {
     setModalVisible(false);
+  }
+  const setselectedqty = (id, qtys = null) => {
+    var cs = props.cart;
+    var i = 0;
+    if (qtys) {
+      if (qtys <= products.quantity_in_stock) {
+        props.cart.forEach((c) => {
+          if (c.id == id) {
+            setqty(qtys.toString());
+            cs[i].selectedQty = qtys;
+          }
+          i++;
+        });
+        props.updateCart(props.cart)
+        Toast.showWithGravity('Cart updated successfully', Toast.LONG, Toast.TOP);
+      } else {
+        Toast.showWithGravity('Can not add more then '+products.quantity_in_stock, Toast.LONG, Toast.TOP);
+      }
+    } else {
+      setqty(qtys);
+    }
+    setcount(count + 1);
   }
 
   const renderItem = ({ item, index }) => {
@@ -204,17 +230,29 @@ const ProductDetailScreen = (props) => {
                       cart.splice(i, 1);
                       products.selectedQty = null;
                     }
+                    setqty(products.selectedQty ? products.selectedQty.toString() : null);
                     props.updateCart(cart);
                     setcount(count + 1);
                     Toast.showWithGravity('Cart updated successfully', Toast.LONG, Toast.TOP);
                   }}><Text style={styles.darkcolor}>-</Text></TouchableOpacity>
-                  <TouchableOpacity style={styles.navbutton}><Text style={styles.darkcolor}>{getselectedqty(products.id)}</Text></TouchableOpacity>
+                <TouchableOpacity style={[styles.navbutton, { padding: 0 }]}>
+                    <TextInput
+                      placeholder='Qty'
+                      style={[styles.inputcontainerstyles, {color: 'black'}]}
+                      inputContainerStyle={styles.inputstyles}
+                      value={qty}
+                      keyboardType="numeric"
+                      onChangeText={text=> setselectedqty(products.id,text)}
+                    />
+                    {/* <Text style={styles.darkcolor}>{getselectedqty(products.id)}</Text> */}
+                  </TouchableOpacity>
                   <TouchableOpacity style={styles.navbutton} onPress={() => {
                     var cart = props.cart;
                     cart.forEach((c, ind) => {
                       if (c.id == products.id && products.quantity_in_stock > cart[ind].selectedQty) {
                         cart[ind].selectedQty++;
                         products.selectedQty = cart[ind].selectedQty;
+                        setqty(cart[ind].selectedQty.toString());
                         setproducts(products);
                         Toast.showWithGravity('Cart updated successfully', Toast.LONG, Toast.TOP);
                       } else if (c.id == products.id && products.quantity_in_stock <= cart[ind].selectedQty) {
@@ -232,6 +270,7 @@ const ProductDetailScreen = (props) => {
                   setproducts(products);
                   car.push(products);
                   props.updateCart(car);
+                  setqty('1');
                   setcount(count + 1);
                   Toast.showWithGravity('Successfully added to cart', Toast.LONG, Toast.TOP);
                 }}>
@@ -328,7 +367,7 @@ const ProductDetailScreen = (props) => {
                     </View>
                   </Card>
                   :
-                    <Text style={{ width: '100%', lineHeight: 15, textAlign: 'left', color: colors.dark, fontWeight: '500', fontSize: 17 }}>
+                    <Text style={{ width: '100%', textAlign: 'center', marginTop: 20, lineHeight: 15, textAlign: 'left', color: colors.dark, fontWeight: '500', fontSize: 17 }}>
                       Login to give feedback</Text>
                 }
 

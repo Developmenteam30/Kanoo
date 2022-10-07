@@ -41,9 +41,18 @@ const HomeScreen = (props) => {
         </TouchableOpacity>
       );
   }
+  const usercheck = async () => {
+      var user = await api.getdata('@user');
+      var token = await api.getdata('@token');
+      if (token && user) {
+          props.updateUser(user);
+          global.auth = token;
+      }
+  }
 
   useEffect(() => {
     apicall();
+    usercheck();
     return ()=>{}
   }, [])
   return (

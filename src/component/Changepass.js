@@ -9,7 +9,7 @@ const Changepass = (props) => {
   const keyboardVerticalOffset = Platform.OS === 'ios' ? 40 : 0
   return (
     <SafeAreaView style={[styles.mainContainer, {backgroundColor: "rgba(0,0,0,0.5)"}]}>
-        <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={keyboardVerticalOffset}>
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={keyboardVerticalOffset}>
               <ScrollView style={[styles.Modelscrollwidth, {padding: 15, backgroundColor: colors.light, marginTop: 180}]} showsVerticalScrollIndicator={false}>
                     <Text style={[styles.header, {width: '100%', textAlign: 'center'}]}>Change Password</Text>
                     <Divider width={1} color={colors.primary} />  

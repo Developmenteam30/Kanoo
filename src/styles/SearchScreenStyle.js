@@ -54,6 +54,12 @@ const styles = StyleSheet.create({
     inputstyle: {
         borderWidth: 1, paddingHorizontal: 10, backgroundColor: colors.light
     },
+    inputcontainerstyles: {
+        margin: 0, paddingHorizontal: 0, textAlign: 'center', paddingBottom: 0, marginBottom: 0, height: 28, width: 40
+    },
+    inputstyles: {
+        borderWidth: 1, paddingHorizontal: 0, alignItems: 'center', backgroundColor: colors.light, height: 35
+    },
     buttonfull: {
         width: '100%',
         backgroundColor: colors.dark,

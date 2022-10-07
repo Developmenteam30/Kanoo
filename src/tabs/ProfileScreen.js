@@ -90,7 +90,7 @@ const ProfileScreen = (props) => {
           <Avatar
               size={74}
               rounded
-              source={{ uri: 'https://i1.sndcdn.com/avatars-TlbXx1BArSO2iBM1-r5ax8A-t500x500.jpg' }}
+              source={{ uri: 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name='+props.user.name }}
               key={1}
           />
           <View style={{padding: 10, width: '62%'}}>

@@ -60,7 +60,7 @@ const LoginScreen = (props) => {
                     <View style={styles.form}>
                         <Text style={styles.label}>Email</Text>
                         <Input
-                            placeholder='enter email'
+                            placeholder='Enter Email'
                             onChangeText={text => setEmail(text)}
                             value={email}
                             containerStyle={styles.inputcontainerstyle}
@@ -68,7 +68,7 @@ const LoginScreen = (props) => {
                         />
                         <Text style={styles.label}>Password</Text>
                         <Input
-                            placeholder='enter password'
+                            placeholder='Enter Password'
                             onChangeText={text => setPassword(text)}
                             value={password}
                             secureTextEntry={true}

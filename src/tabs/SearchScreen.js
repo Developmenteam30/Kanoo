@@ -64,6 +64,17 @@ const SearchScreen = (props) => {
     });
     return i;
   }
+  const setselectedqty = (id, qty) => {
+    var cs = props.cart;
+    var i = 0;
+    props.cart.forEach((c) => {
+      if (c.id == id) {
+        cs[i].selectedQty = qty;
+      }
+      i++;
+    });
+    return i;
+  }
   const checkincart = (id) => {
     var i = 0;
     props.cart.forEach((c) => {
@@ -122,7 +133,9 @@ const SearchScreen = (props) => {
                     setcount(count + 1);
                     Toast.showWithGravity('Cart updated successfully', Toast.LONG, Toast.TOP);
                   }}><Text style={styles.darkcolor}>-</Text></TouchableOpacity>
-                  <TouchableOpacity style={styles.navbutton}><Text style={styles.darkcolor}>{getselectedqty(item.id)}</Text></TouchableOpacity>
+                  <TouchableOpacity style={[styles.navbutton, {padding: 8}]}>
+                    <Text style={styles.darkcolor}>{getselectedqty(item.id)}</Text>
+                  </TouchableOpacity>
                   <TouchableOpacity style={styles.navbutton} onPress={() => {
                     var cart = props.cart;
                     cart.forEach((c, ind) => {
@@ -190,7 +203,7 @@ const SearchScreen = (props) => {
           <TouchableOpacity style={{ flex: 1, height: 110, marginBottom: 0 }}
                           onPress={()=>{setIsVisible(true)}}
             >
-            <Image source={{uri: props.category[category].image}} style={{height: 110, width: width}}></Image>
+            <Image source={{uri: props.category[category].image}} style={{height: 110, width: width, resizeMode: 'contain'}}></Image>
             {/* <Carousel
               ref={_carousel}
               data={props.category}
@@ -237,7 +250,7 @@ const SearchScreen = (props) => {
             </View>
           </View>
           {products.length == 0 ? 
-            <Text style={{ width: width, color: colors.dark, fontSize: 15, padding: 12, textAlign: 'center' }}>
+            <Text style={{ width: width, color: colors.dark, fontSize: 15, padding: 12, textAlign: 'center', height: height-270 }}>
               No product found!
             </Text>
             :

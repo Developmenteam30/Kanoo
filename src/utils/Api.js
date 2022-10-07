@@ -124,6 +124,7 @@ class Api {
         body: JSON.stringify(data),
       });
       const responseJson = await response.json();
+      console.log(responseJson);
       if (responseJson) {
         return responseJson;
       } else {
