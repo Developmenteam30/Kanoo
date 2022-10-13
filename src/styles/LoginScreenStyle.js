@@ -81,6 +81,13 @@ const styles = StyleSheet.create({
         width: '100%',
         textAlign: 'center'
     },
+    bottomtexts: {
+        color: colors.dark,
+        fontSize: 15,
+        // right:20,
+        // width: '100%',
+        // textAlign: 'left'
+    },
     scrollwidth: {
         width: width - 50,
         paddingVertical: 30
